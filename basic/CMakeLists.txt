@@ -1,62 +1,51 @@
-cmake_minimum_required(VERSION 2.8)
+﻿cmake_minimum_required(VERSION 2.8)
 
-set(CMAKE_SYSTEM_NAME "Generic")
-set(CMAKE_C_COMPILER "arm-vita-eabi-gcc")
-set(CMAKE_CXX_COMPILER "arm-vita-eabi-g++")
+if(NOT DEFINED CMAKE_TOOLCHAIN_FILE)
+  if(DEFINED ENV{VITASDK})
+    set(CMAKE_TOOLCHAIN_FILE "$ENV{VITASDK}/share/vita.toolchain.cmake" CACHE PATH "toolchain file")
+  else()
+    message(FATAL_ERROR "Please define VITASDK to point to your SDK path!")
+  endif()
+endif()
 
-project(HENkaku)
+set(SHORT_NAME yamt_basic)
+project(${SHORT_NAME})
+include("${VITASDK}/share/vita.cmake" REQUIRED)
 
-set(CMAKE_C_FLAGS "-Wl,-q -Wall -O3 -std=gnu99")
-set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} -std=c++11 -fno-rtti -fno-exceptions")
+set(VITA_APP_NAME "YAMT -basic-")
+set(VITA_TITLEID  "SKGYAMT01")
+
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=gnu99 -fno-builtin-printf")
+if (DEFINED SAFETY)
+  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra -Werror")
+endif()
+set(IGNORE_WARNING "${SAFETY}")
+
+include_directories(${PROJECT_BINARY_DIR})
 
 include_directories(
+  src
 )
 
-link_directories(
-	${CMAKE_CURRENT_BINARY_DIR}
-	${CMAKE_BINARY_DIR}/365_stubs
+add_executable(${SHORT_NAME}
+  src/main.c
+  src/debug_screen.c
+  src/debug_screen_font.c
 )
 
-IF(NEWFW)
-	add_definitions(-DFW365)
-ENDIF(NEWFW)
-
-add_executable(yamt.elf
-	tai_compat.c
-	main.c
+target_link_libraries(${SHORT_NAME}
+  SceDisplay_stub
+  SceShellSvc_stub
+  SceProcessmgr_stub
+  SceSysmodule_stub
+  SceVshBridge_stub
 )
 
-IF(NEWFW)
-target_link_libraries(yamt.elf
-	SceThreadmgrForDriver_stub
-	SceSysconForDriver_stub
-	SceIofilemgrForDriver_stub
-	SceSdifForDriver_stub
-	SceSysclibForDriver_stub
-	SceCpuForDriver_stub
-	SceModulemgrForKernel_367_stub
-	ScePervasiveForDriver_stub
-)
-ELSE(NEWFW)
-target_link_libraries(yamt.elf
-	SceThreadmgrForDriver_stub
-	SceSysconForDriver_stub
-	SceIofilemgrForDriver_stub
-	SceSdifForDriver_stub
-	SceSysclibForDriver_stub
-	SceCpuForDriver_stub
-	SceModulemgrForKernel_stub
-	ScePervasiveForDriver_stub
-)
-ENDIF(NEWFW)
+vita_create_self(${SHORT_NAME}.self ${SHORT_NAME} UNSAFE)
 
-set_target_properties(yamt.elf
-	PROPERTIES LINK_FLAGS "-nostdlib"
-	COMPILE_FLAGS "-D__VITA_KERNEL__"
+vita_create_vpk(${SHORT_NAME}.vpk ${VITA_TITLEID} ${SHORT_NAME}.self
+  VERSION ${VITA_VERSION}
+  NAME ${VITA_APP_NAME}
+  FILE ${CMAKE_BINARY_DIR}/plugin/yamt_360.skprx yamt_360.skprx
+  FILE ${CMAKE_BINARY_DIR}/plugin/yamt_365.skprx yamt_365.skprx
 )
-
-add_custom_target(yamt.skprx ALL
-	COMMAND vita-elf-create -e ${CMAKE_SOURCE_DIR}/yamt.yml yamt.elf yamt.velf
-	COMMAND vita-make-fself -c yamt.velf yamt.skprx
-)
-add_dependencies(yamt.skprx yamt.elf)
