@@ -10,20 +10,6 @@
 
 #define CONFIG_PATH "ur0:tai/yamt.cfg"
 
-#define LOG(...) \
-	do { \
-		char buffer[256]; \
-		sceClibSnprintf(buffer, sizeof(buffer), ##__VA_ARGS__); \
-		logg(buffer, sceClibStrnlen(buffer, sizeof(buffer)), "ur0:temp/xmldmp.raw", 2); \
-} while (0)
-	
-#define LOG_START(...) \
-	do { \
-		char buffer[256]; \
-		sceClibSnprintf(buffer, sizeof(buffer), ##__VA_ARGS__); \
-		logg(buffer, sceClibStrnlen(buffer, sizeof(buffer)), "ur0:temp/xmldmp.raw", 1); \
-} while (0)
-
 typedef struct cfg_entry {
   size_t t_off;
   uint8_t mid; // mountpoint id / 0x100
@@ -45,24 +31,6 @@ extern unsigned char _binary_peripherals_settings_xml_size;
 static cfg_struct cfg;
 
 static SceUID g_hooks[6];
-
-static int logg(void *buffer, int length, const char* logloc, int create)
-{
-	int fd;
-	if (create == 0) {
-		fd = sceIoOpen(logloc, SCE_O_WRONLY | SCE_O_APPEND, 6);
-	} else if (create == 1) {
-		fd = sceIoOpen(logloc, SCE_O_WRONLY | SCE_O_TRUNC | SCE_O_CREAT, 6);
-	} else if (create == 2) {
-		fd = sceIoOpen(logloc, SCE_O_WRONLY | SCE_O_APPEND | SCE_O_CREAT, 6);
-	}
-	if (fd < 0)
-		return 0;
-
-	sceIoWrite(fd, buffer, length);
-	sceIoClose(fd);
-	return 1;
-}
 
 static void set_slots(void) {
 	cfg.entry[0].t_off = 0x808; // XMCUX
@@ -308,7 +276,6 @@ static int sceKernelStopUnloadModule_SceSettings_patched(SceUID modid, SceSize a
 
 void _start() __attribute__ ((weak, alias ("module_start")));
 int module_start(SceSize argc, const void *args) {
-	LOG_START("started");
   sceClibMemset(&cfg, 0, sizeof(cfg));
   load_config_user();
   g_hooks[0] = taiHookFunctionImport(&g_sceKernelLoadStartModule_SceSettings_hook, 
