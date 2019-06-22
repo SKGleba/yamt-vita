@@ -15,28 +15,6 @@
 
 #define printf psvDebugScreenPrintf
 
-int fcp(const char *from, const char *to) {
-	long psz;
-	FILE *fp = fopen(from,"rb");
-
-	fseek(fp, 0, SEEK_END);
-	psz = ftell(fp);
-	rewind(fp);
-
-	char* pbf = (char*) malloc(sizeof(char) * psz);
-	fread(pbf, sizeof(char), (size_t)psz, fp);
-
-	FILE *pFile = fopen(to, "wb");
-	
-	for (int i = 0; i < psz; ++i) {
-			fputc(pbf[i], pFile);
-	}
-   
-	fclose(fp);
-	fclose(pFile);
-	return 1;
-}
-
 int fap(const char *from, const char *to) {
 	long psz;
 	FILE *fp = fopen(from,"rb");
@@ -57,6 +35,13 @@ int fap(const char *from, const char *to) {
 	fclose(fp);
 	fclose(pFile);
 	return 1;
+}
+
+int fcp(const char *from, const char *to) {
+	SceUID fd = sceIoOpen(to, SCE_O_WRONLY | SCE_O_TRUNC | SCE_O_CREAT, 6);
+	sceIoClose(fd);
+	int ret = fap(from, to);
+	return ret;
 }
 
 int ex(const char *fname) {
@@ -80,6 +65,13 @@ int main(int argc, char *argv[]) {
 	SceKernelFwInfo data;
 	data.size = sizeof(SceKernelFwInfo);
 	_vshSblGetSystemSwVersion(&data);
+	
+	if (ex("ur0:tai/boot_config.txt") == 0) {
+		printf("Could not find boot_config.txt in ur0:tai/ !\n");
+		sceKernelDelayThread(3 * 1000 * 1000);
+		sceKernelExitProcess(0);
+		sceKernelDelayThread(3 * 1000 * 1000);
+	}
 
 	if (ex("ur0:tai/yamt.skprx") == 0) {
 		printf("Could not find yamt.skprx in ur0:tai/ !\n");
@@ -91,7 +83,7 @@ int main(int argc, char *argv[]) {
 		sceIoWrite(fd, (void *)"# YAMT\n- load\tur0:tai/yamt.skprx\n\n", strlen("# YAMT\n- load\tur0:tai/yamt.skprx\n\n"));
 		sceIoClose(fd);
 		fap("ur0:tai/boot_config.txt", "ur0:tai/boot_config_temp.txt");
-		sceIoRename("ur0:tai/boot_config.txt", "ur0:tai/yamt_old_cfg.txt");
+		if (ex("ur0:tai/yamt_old_cfg.txt") == 0) sceIoRename("ur0:tai/boot_config.txt", "ur0:tai/yamt_old_cfg.txt");
 		sceIoRename("ur0:tai/boot_config_temp.txt", "ur0:tai/boot_config.txt");
 		printf("ok!\n");
 	} else {
@@ -107,7 +99,34 @@ int main(int argc, char *argv[]) {
 		}
 	}
 	
+	if (ex("ur0:tai/yamt.suprx") == 0) {
+		printf("Could not find yamt.suprx in ur0:tai/ !\n");
+		printf("copying... ");
+		fcp("app0:yamt.suprx", "ur0:tai/yamt.suprx");
+		printf("ok!\n");
+		if (ex("ux0:tai/config.txt") == 1 && ex("ux0:tai/config_preyamt.txt") == 0) sceIoRename("ux0:tai/config.txt", "ux0:tai/config_preyamt.txt");
+		printf("adding entry to ur0:tai/config.txt... ");
+		SceUID fd = sceIoOpen("ur0:tai/config_temp.txt", SCE_O_WRONLY | SCE_O_TRUNC | SCE_O_CREAT, 6);
+		sceIoWrite(fd, (void *)"\n# YAMT\n*NPXS10015\nur0:tai/yamt.suprx\n", strlen("\n# YAMT\n*NPXS10015\nur0:tai/yamt.suprx\n"));
+		sceIoClose(fd);
+		fcp("ur0:tai/config.txt", "ur0:tai/config_preyamt.txt");
+		fap("ur0:tai/config_temp.txt", "ur0:tai/config.txt");
+		sceIoRemove("ur0:tai/config_temp.txt");
+		printf("ok!\n");
+	} else {
+		printf("Found yamt.suprx in ur0:tai/ !\n");
+		printf("removing... ");
+		sceIoRemove("ur0:tai/yamt.suprx");
+		printf("ok!\n");
+		if (ex("ur0:tai/config_preyamt.txt") == 1) {
+			printf("restoring old config.txt... ");
+			sceIoRemove("ur0:tai/config.txt");
+			sceIoRename("ur0:tai/config_preyamt.txt", "ur0:tai/config.txt");
+			printf("ok!\n");
+		}
+	}
+	
 	printf("done!\n");
-
-	return 0;
+	sceKernelDelayThread(4 * 1000 * 1000);
+	sceKernelExitProcess(0);
 }

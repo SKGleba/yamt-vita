@@ -1,0 +1,900 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+
+<system_settings version="1.0" plugin="peripherals_settings_plugin">
+
+  <!-- 周辺機器 -->
+  <setting_list id="peripherals_settings" title="msg_accessories">
+  
+    <setting_list id="id_yamt"
+                  title="Storage Devices"
+                  icon="tex_spanner">
+	  <toggle_switch id="enable_yamt"
+                   key="/CONFIG/YAMT/enable_driver"
+                   title="Use YAMT"
+				   description="Enables the YAMT driver"
+                   icon="tex_spanner"/>
+	  <toggle_switch id="enable_gcsd"
+                   key="/CONFIG/YAMT/enable_gcsd"
+                   title="Use YAMT GC-SD patches"
+				   description="Adds support for devices such as SD2Vita"
+                   icon="tex_spanner"/>
+      <toggle_switch id="adv_00_pmode" 
+					key="/CONFIG/YAMT/uxpmode"
+					title="Patch external ux0"
+					description="Uncheck this if there is no memory card inserted"
+            		icon="tex_spanner"/>
+      <list id="id_yamt_ux" 
+            key="/CONFIG/YAMT/uxm"
+            title="ux0:">
+        <list_item id="id_yamt_ux_off" title="Default" value="0"/>
+        <list_item id="id_yamt_ux_gsd" title="SD2Vita" value="1"/>
+		<list_item id="id_yamt_ux_xmc" title="Memory Card" value="2"/>
+		<list_item id="id_yamt_ux_imc" title="Internal Storage" value="3"/>
+      </list>
+	  <list id="id_yamt_uma" 
+            key="/CONFIG/YAMT/umm"
+            title="uma0:">
+        <list_item id="id_yamt_umm_off" title="Default" value="0"/>
+        <list_item id="id_yamt_umm_gsd" title="SD2Vita" value="1"/>
+		<list_item id="id_yamt_umm_xmc" title="Memory Card" value="2"/>
+		<list_item id="id_yamt_umm_imc" title="Internal Storage" value="3"/>
+      </list>
+	  <setting_list id="id_adv_yamt"
+                    title="Advanced"
+					rotate="full">
+		<setting_list id="id_adv_yamt_uxlist"
+                      title="ux0:"
+					  style="edit">
+		  <list id="adv_00a" 
+				key="/CONFIG/YAMT/adv_dev_000"
+				title="Device:">
+			<list_item id="adv_00a_i" title="NOT SET" value="255"/>
+			<list_item id="adv_00a_0" title="int" value="0"/>
+			<list_item id="adv_00a_1" title="ext" value="1"/>
+			<list_item id="adv_00a_2" title="gcd" value="2"/>
+			<list_item id="adv_00a_3" title="mcd" value="3"/>
+			<list_item id="adv_00a_4" title="xmc" value="4"/>
+			<list_item id="adv_00a_5" title="uma" value="5"/>
+		  </list>
+		  <list id="adv_00b" 
+				key="/CONFIG/YAMT/adv_dev_002"
+				title="Partition type:">
+			<list_item id="adv_00b_i" title="NOT SET" value="255"/>
+			<list_item id="adv_00b_0" title="ina" value="0"/>
+			<list_item id="adv_00b_1" title="act" value="1"/>
+			<list_item id="adv_00b_2" title="ign" value="2"/>
+		  </list>
+		  <list id="adv_00c" 
+				key="/CONFIG/YAMT/adv_dev_003"
+				title="Partition:">
+			<list_item id="adv_00c_i" title="NOT SET" value="255"/>
+			<list_item id="adv_00c_00" title="a" value="0"/>
+			<list_item id="adv_00c_01" title="unused" value="1"/>
+			<list_item id="adv_00c_02" title="idstor" value="2"/>
+			<list_item id="adv_00c_03" title="sloader" value="3"/>
+			<list_item id="adv_00c_04" title="os" value="4"/>
+			<list_item id="adv_00c_05" title="vsh" value="5"/>
+			<list_item id="adv_00c_06" title="vshdata" value="6"/>
+			<list_item id="adv_00c_07" title="vtrm" value="7"/>
+			<list_item id="adv_00c_08" title="user" value="8"/>
+			<list_item id="adv_00c_09" title="userext" value="9"/>
+			<list_item id="adv_00c_10" title="gamero" value="10"/>
+			<list_item id="adv_00c_11" title="gamerw" value="11"/>
+			<list_item id="adv_00c_12" title="updater" value="12"/>
+			<list_item id="adv_00c_13" title="sysdata" value="13"/>
+			<list_item id="adv_00c_14" title="mediaid" value="14"/>
+			<list_item id="adv_00c_15" title="pidata" value="15"/>
+			<list_item id="adv_00c_16" title="entire" value="16"/>
+		  </list>
+		  <list id="adv_00_rchk" 
+				key="/CONFIG/YAMT/adv_rchk_00"
+				title="Check if ...">
+			<list_item id="adv_00_rchk_i" title="NO CHECK" value="0"/>
+			<list_item id="adv_00_rchk_0" title="SD2Vita is present" value="1"/>
+			<list_item id="adv_00_rchk_1" title="Memory Card is present" value="2"/>
+			<list_item id="adv_00_rchk_2" title="Connected to a power source" value="3"/>
+		  </list>
+		  <list id="adv_00_rcret" 
+				key="/CONFIG/YAMT/adv_rcret_00"
+				title="The check must ...">
+			<list_item id="adv_00_rcret_0" title="Succeed" value="1"/>
+			<list_item id="adv_00_rcret_1" title="Fail" value="0"/>
+		  </list>
+	    </setting_list>
+		<setting_list id="id_adv_yamt_umalist"
+                      title="uma0:"
+					  style="edit">
+		  <list id="adv_01a" 
+				key="/CONFIG/YAMT/adv_dev_010"
+				title="Device:">
+			<list_item id="adv_01a_i" title="NOT SET" value="255"/>
+			<list_item id="adv_01a_0" title="int" value="0"/>
+			<list_item id="adv_01a_1" title="ext" value="1"/>
+			<list_item id="adv_01a_2" title="gcd" value="2"/>
+			<list_item id="adv_01a_3" title="mcd" value="3"/>
+			<list_item id="adv_01a_4" title="xmc" value="4"/>
+			<list_item id="adv_01a_5" title="uma" value="5"/>
+		  </list>
+		  <list id="adv_01b" 
+				key="/CONFIG/YAMT/adv_dev_012"
+				title="Partition type:">
+			<list_item id="adv_01b_i" title="NOT SET" value="255"/>
+			<list_item id="adv_01b_0" title="ina" value="0"/>
+			<list_item id="adv_01b_1" title="act" value="1"/>
+			<list_item id="adv_01b_2" title="ign" value="2"/>
+		  </list>
+		  <list id="adv_01c" 
+				key="/CONFIG/YAMT/adv_dev_013"
+				title="Partition:">
+			<list_item id="adv_01c_i" title="NOT SET" value="255"/>
+			<list_item id="adv_01c_00" title="a" value="0"/>
+			<list_item id="adv_01c_01" title="unused" value="1"/>
+			<list_item id="adv_01c_02" title="idstor" value="2"/>
+			<list_item id="adv_01c_03" title="sloader" value="3"/>
+			<list_item id="adv_01c_04" title="os" value="4"/>
+			<list_item id="adv_01c_05" title="vsh" value="5"/>
+			<list_item id="adv_01c_06" title="vshdata" value="6"/>
+			<list_item id="adv_01c_07" title="vtrm" value="7"/>
+			<list_item id="adv_01c_08" title="user" value="8"/>
+			<list_item id="adv_01c_09" title="userext" value="9"/>
+			<list_item id="adv_01c_10" title="gamero" value="10"/>
+			<list_item id="adv_01c_11" title="gamerw" value="11"/>
+			<list_item id="adv_01c_12" title="updater" value="12"/>
+			<list_item id="adv_01c_13" title="sysdata" value="13"/>
+			<list_item id="adv_01c_14" title="mediaid" value="14"/>
+			<list_item id="adv_01c_15" title="pidata" value="15"/>
+			<list_item id="adv_01c_16" title="entire" value="16"/>
+		  </list>
+		  <list id="adv_01_rchk" 
+				key="/CONFIG/YAMT/adv_rchk_01"
+				title="Check if ...">
+			<list_item id="adv_01_rchk_i" title="NO CHECK" value="0"/>
+			<list_item id="adv_01_rchk_0" title="SD2Vita is present" value="1"/>
+			<list_item id="adv_01_rchk_1" title="Memory Card is present" value="2"/>
+			<list_item id="adv_01_rchk_2" title="Connected to a power source" value="3"/>
+		  </list>
+		  <list id="adv_01_rcret" 
+				key="/CONFIG/YAMT/adv_rcret_01"
+				title="The check must ...">
+			<list_item id="adv_01_rcret_0" title="Succeed" value="1"/>
+			<list_item id="adv_01_rcret_1" title="Fail" value="0"/>
+		  </list>
+	    </setting_list>
+		<setting_list id="id_adv_yamt_sdlist"
+                      title="sd0:"
+					  style="edit">
+		  <list id="adv_02a" 
+				key="/CONFIG/YAMT/adv_dev_020"
+				title="Device:">
+			<list_item id="adv_02a_i" title="NOT SET" value="255"/>
+			<list_item id="adv_02a_0" title="int" value="0"/>
+			<list_item id="adv_02a_1" title="ext" value="1"/>
+			<list_item id="adv_02a_2" title="gcd" value="2"/>
+			<list_item id="adv_02a_3" title="mcd" value="3"/>
+			<list_item id="adv_02a_4" title="xmc" value="4"/>
+			<list_item id="adv_02a_5" title="uma" value="5"/>
+		  </list>
+		  <list id="adv_02b" 
+				key="/CONFIG/YAMT/adv_dev_022"
+				title="Partition type:">
+			<list_item id="adv_02b_i" title="NOT SET" value="255"/>
+			<list_item id="adv_02b_0" title="ina" value="0"/>
+			<list_item id="adv_02b_1" title="act" value="1"/>
+			<list_item id="adv_02b_2" title="ign" value="2"/>
+		  </list>
+		  <list id="adv_02c" 
+				key="/CONFIG/YAMT/adv_dev_023"
+				title="Partition:">
+			<list_item id="adv_02c_i" title="NOT SET" value="255"/>
+			<list_item id="adv_02c_00" title="a" value="0"/>
+			<list_item id="adv_02c_01" title="unused" value="1"/>
+			<list_item id="adv_02c_02" title="idstor" value="2"/>
+			<list_item id="adv_02c_03" title="sloader" value="3"/>
+			<list_item id="adv_02c_04" title="os" value="4"/>
+			<list_item id="adv_02c_05" title="vsh" value="5"/>
+			<list_item id="adv_02c_06" title="vshdata" value="6"/>
+			<list_item id="adv_02c_07" title="vtrm" value="7"/>
+			<list_item id="adv_02c_08" title="user" value="8"/>
+			<list_item id="adv_02c_09" title="userext" value="9"/>
+			<list_item id="adv_02c_10" title="gamero" value="10"/>
+			<list_item id="adv_02c_11" title="gamerw" value="11"/>
+			<list_item id="adv_02c_12" title="updater" value="12"/>
+			<list_item id="adv_02c_13" title="sysdata" value="13"/>
+			<list_item id="adv_02c_14" title="mediaid" value="14"/>
+			<list_item id="adv_02c_15" title="pidata" value="15"/>
+			<list_item id="adv_02c_16" title="entire" value="16"/>
+		  </list>
+		  <list id="adv_02_rchk" 
+				key="/CONFIG/YAMT/adv_rchk_02"
+				title="Check if ...">
+			<list_item id="adv_02_rchk_i" title="NO CHECK" value="0"/>
+			<list_item id="adv_02_rchk_0" title="SD2Vita is present" value="1"/>
+			<list_item id="adv_02_rchk_1" title="Memory Card is present" value="2"/>
+			<list_item id="adv_02_rchk_2" title="Connected to a power source" value="3"/>
+		  </list>
+		  <list id="adv_02_rcret" 
+				key="/CONFIG/YAMT/adv_rcret_02"
+				title="The check must ...">
+			<list_item id="adv_02_rcret_0" title="Succeed" value="1"/>
+			<list_item id="adv_02_rcret_1" title="Fail" value="0"/>
+		  </list>
+	    </setting_list>
+		<setting_list id="id_adv_yamt_oslist"
+                      title="os0:"
+					  style="edit">
+		  <list id="adv_03a" 
+				key="/CONFIG/YAMT/adv_dev_030"
+				title="Device:">
+			<list_item id="adv_03a_i" title="NOT SET" value="255"/>
+			<list_item id="adv_03a_0" title="int" value="0"/>
+			<list_item id="adv_03a_1" title="ext" value="1"/>
+			<list_item id="adv_03a_2" title="gcd" value="2"/>
+			<list_item id="adv_03a_3" title="mcd" value="3"/>
+			<list_item id="adv_03a_4" title="xmc" value="4"/>
+			<list_item id="adv_03a_5" title="uma" value="5"/>
+		  </list>
+		  <list id="adv_03b" 
+				key="/CONFIG/YAMT/adv_dev_032"
+				title="Partition type:">
+			<list_item id="adv_03b_i" title="NOT SET" value="255"/>
+			<list_item id="adv_03b_0" title="ina" value="0"/>
+			<list_item id="adv_03b_1" title="act" value="1"/>
+			<list_item id="adv_03b_2" title="ign" value="2"/>
+		  </list>
+		  <list id="adv_03c" 
+				key="/CONFIG/YAMT/adv_dev_033"
+				title="Partition:">
+			<list_item id="adv_03c_i" title="NOT SET" value="255"/>
+			<list_item id="adv_03c_00" title="a" value="0"/>
+			<list_item id="adv_03c_01" title="unused" value="1"/>
+			<list_item id="adv_03c_02" title="idstor" value="2"/>
+			<list_item id="adv_03c_03" title="sloader" value="3"/>
+			<list_item id="adv_03c_04" title="os" value="4"/>
+			<list_item id="adv_03c_05" title="vsh" value="5"/>
+			<list_item id="adv_03c_06" title="vshdata" value="6"/>
+			<list_item id="adv_03c_07" title="vtrm" value="7"/>
+			<list_item id="adv_03c_08" title="user" value="8"/>
+			<list_item id="adv_03c_09" title="userext" value="9"/>
+			<list_item id="adv_03c_10" title="gamero" value="10"/>
+			<list_item id="adv_03c_11" title="gamerw" value="11"/>
+			<list_item id="adv_03c_12" title="updater" value="12"/>
+			<list_item id="adv_03c_13" title="sysdata" value="13"/>
+			<list_item id="adv_03c_14" title="mediaid" value="14"/>
+			<list_item id="adv_03c_15" title="pidata" value="15"/>
+			<list_item id="adv_03c_16" title="entire" value="16"/>
+		  </list>
+		  <list id="adv_03_rchk" 
+				key="/CONFIG/YAMT/adv_rchk_03"
+				title="Check if ...">
+			<list_item id="adv_03_rchk_i" title="NO CHECK" value="0"/>
+			<list_item id="adv_03_rchk_0" title="SD2Vita is present" value="1"/>
+			<list_item id="adv_03_rchk_1" title="Memory Card is present" value="2"/>
+			<list_item id="adv_03_rchk_2" title="Connected to a power source" value="3"/>
+		  </list>
+		  <list id="adv_03_rcret" 
+				key="/CONFIG/YAMT/adv_rcret_03"
+				title="The check must ...">
+			<list_item id="adv_03_rcret_0" title="Succeed" value="1"/>
+			<list_item id="adv_03_rcret_1" title="Fail" value="0"/>
+		  </list>
+	    </setting_list>
+		<setting_list id="id_adv_yamt_vslist"
+                      title="vs0:"
+					  style="edit">
+		  <list id="adv_04a" 
+				key="/CONFIG/YAMT/adv_dev_040"
+				title="Device:">
+			<list_item id="adv_04a_i" title="NOT SET" value="255"/>
+			<list_item id="adv_04a_0" title="int" value="0"/>
+			<list_item id="adv_04a_1" title="ext" value="1"/>
+			<list_item id="adv_04a_2" title="gcd" value="2"/>
+			<list_item id="adv_04a_3" title="mcd" value="3"/>
+			<list_item id="adv_04a_4" title="xmc" value="4"/>
+			<list_item id="adv_04a_5" title="uma" value="5"/>
+		  </list>
+		  <list id="adv_04b" 
+				key="/CONFIG/YAMT/adv_dev_042"
+				title="Partition type:">
+			<list_item id="adv_04b_i" title="NOT SET" value="255"/>
+			<list_item id="adv_04b_0" title="ina" value="0"/>
+			<list_item id="adv_04b_1" title="act" value="1"/>
+			<list_item id="adv_04b_2" title="ign" value="2"/>
+		  </list>
+		  <list id="adv_04c" 
+				key="/CONFIG/YAMT/adv_dev_043"
+				title="Partition:">
+			<list_item id="adv_04c_i" title="NOT SET" value="255"/>
+			<list_item id="adv_04c_00" title="a" value="0"/>
+			<list_item id="adv_04c_01" title="unused" value="1"/>
+			<list_item id="adv_04c_02" title="idstor" value="2"/>
+			<list_item id="adv_04c_03" title="sloader" value="3"/>
+			<list_item id="adv_04c_04" title="os" value="4"/>
+			<list_item id="adv_04c_05" title="vsh" value="5"/>
+			<list_item id="adv_04c_06" title="vshdata" value="6"/>
+			<list_item id="adv_04c_07" title="vtrm" value="7"/>
+			<list_item id="adv_04c_08" title="user" value="8"/>
+			<list_item id="adv_04c_09" title="userext" value="9"/>
+			<list_item id="adv_04c_10" title="gamero" value="10"/>
+			<list_item id="adv_04c_11" title="gamerw" value="11"/>
+			<list_item id="adv_04c_12" title="updater" value="12"/>
+			<list_item id="adv_04c_13" title="sysdata" value="13"/>
+			<list_item id="adv_04c_14" title="mediaid" value="14"/>
+			<list_item id="adv_04c_15" title="pidata" value="15"/>
+			<list_item id="adv_04c_16" title="entire" value="16"/>
+		  </list>
+		  <list id="adv_04_rchk" 
+				key="/CONFIG/YAMT/adv_rchk_04"
+				title="Check if ...">
+			<list_item id="adv_04_rchk_i" title="NO CHECK" value="0"/>
+			<list_item id="adv_04_rchk_0" title="SD2Vita is present" value="1"/>
+			<list_item id="adv_04_rchk_1" title="Memory Card is present" value="2"/>
+			<list_item id="adv_04_rchk_2" title="Connected to a power source" value="3"/>
+		  </list>
+		  <list id="adv_04_rcret" 
+				key="/CONFIG/YAMT/adv_rcret_04"
+				title="The check must ...">
+			<list_item id="adv_04_rcret_0" title="Succeed" value="1"/>
+			<list_item id="adv_04_rcret_1" title="Fail" value="0"/>
+		  </list>
+	    </setting_list>
+		<setting_list id="id_adv_yamt_vdlist"
+                      title="vd0:"
+					  style="edit">
+		  <list id="adv_05a" 
+				key="/CONFIG/YAMT/adv_dev_050"
+				title="Device:">
+			<list_item id="adv_05a_i" title="NOT SET" value="255"/>
+			<list_item id="adv_05a_0" title="int" value="0"/>
+			<list_item id="adv_05a_1" title="ext" value="1"/>
+			<list_item id="adv_05a_2" title="gcd" value="2"/>
+			<list_item id="adv_05a_3" title="mcd" value="3"/>
+			<list_item id="adv_05a_4" title="xmc" value="4"/>
+			<list_item id="adv_05a_5" title="uma" value="5"/>
+		  </list>
+		  <list id="adv_05b" 
+				key="/CONFIG/YAMT/adv_dev_052"
+				title="Partition type:">
+			<list_item id="adv_05b_i" title="NOT SET" value="255"/>
+			<list_item id="adv_05b_0" title="ina" value="0"/>
+			<list_item id="adv_05b_1" title="act" value="1"/>
+			<list_item id="adv_05b_2" title="ign" value="2"/>
+		  </list>
+		  <list id="adv_05c" 
+				key="/CONFIG/YAMT/adv_dev_053"
+				title="Partition:">
+			<list_item id="adv_05c_i" title="NOT SET" value="255"/>
+			<list_item id="adv_05c_00" title="a" value="0"/>
+			<list_item id="adv_05c_01" title="unused" value="1"/>
+			<list_item id="adv_05c_02" title="idstor" value="2"/>
+			<list_item id="adv_05c_03" title="sloader" value="3"/>
+			<list_item id="adv_05c_04" title="os" value="4"/>
+			<list_item id="adv_05c_05" title="vsh" value="5"/>
+			<list_item id="adv_05c_06" title="vshdata" value="6"/>
+			<list_item id="adv_05c_07" title="vtrm" value="7"/>
+			<list_item id="adv_05c_08" title="user" value="8"/>
+			<list_item id="adv_05c_09" title="userext" value="9"/>
+			<list_item id="adv_05c_10" title="gamero" value="10"/>
+			<list_item id="adv_05c_11" title="gamerw" value="11"/>
+			<list_item id="adv_05c_12" title="updater" value="12"/>
+			<list_item id="adv_05c_13" title="sysdata" value="13"/>
+			<list_item id="adv_05c_14" title="mediaid" value="14"/>
+			<list_item id="adv_05c_15" title="pidata" value="15"/>
+			<list_item id="adv_05c_16" title="entire" value="16"/>
+		  </list>
+		  <list id="adv_05_rchk" 
+				key="/CONFIG/YAMT/adv_rchk_05"
+				title="Check if ...">
+			<list_item id="adv_05_rchk_i" title="NO CHECK" value="0"/>
+			<list_item id="adv_05_rchk_0" title="SD2Vita is present" value="1"/>
+			<list_item id="adv_05_rchk_1" title="Memory Card is present" value="2"/>
+			<list_item id="adv_05_rchk_2" title="Connected to a power source" value="3"/>
+		  </list>
+		  <list id="adv_05_rcret" 
+				key="/CONFIG/YAMT/adv_rcret_05"
+				title="The check must ...">
+			<list_item id="adv_05_rcret_0" title="Succeed" value="1"/>
+			<list_item id="adv_05_rcret_1" title="Fail" value="0"/>
+		  </list>
+	    </setting_list>
+		<setting_list id="id_adv_yamt_tmlist"
+                      title="tm0:"
+					  style="edit">
+		  <list id="adv_06a" 
+				key="/CONFIG/YAMT/adv_dev_060"
+				title="Device:">
+			<list_item id="adv_06a_i" title="NOT SET" value="255"/>
+			<list_item id="adv_06a_0" title="int" value="0"/>
+			<list_item id="adv_06a_1" title="ext" value="1"/>
+			<list_item id="adv_06a_2" title="gcd" value="2"/>
+			<list_item id="adv_06a_3" title="mcd" value="3"/>
+			<list_item id="adv_06a_4" title="xmc" value="4"/>
+			<list_item id="adv_06a_5" title="uma" value="5"/>
+		  </list>
+		  <list id="adv_06b" 
+				key="/CONFIG/YAMT/adv_dev_062"
+				title="Partition type:">
+			<list_item id="adv_06b_i" title="NOT SET" value="255"/>
+			<list_item id="adv_06b_0" title="ina" value="0"/>
+			<list_item id="adv_06b_1" title="act" value="1"/>
+			<list_item id="adv_06b_2" title="ign" value="2"/>
+		  </list>
+		  <list id="adv_06c" 
+				key="/CONFIG/YAMT/adv_dev_063"
+				title="Partition:">
+			<list_item id="adv_06c_i" title="NOT SET" value="255"/>
+			<list_item id="adv_06c_00" title="a" value="0"/>
+			<list_item id="adv_06c_01" title="unused" value="1"/>
+			<list_item id="adv_06c_02" title="idstor" value="2"/>
+			<list_item id="adv_06c_03" title="sloader" value="3"/>
+			<list_item id="adv_06c_04" title="os" value="4"/>
+			<list_item id="adv_06c_05" title="vsh" value="5"/>
+			<list_item id="adv_06c_06" title="vshdata" value="6"/>
+			<list_item id="adv_06c_07" title="vtrm" value="7"/>
+			<list_item id="adv_06c_08" title="user" value="8"/>
+			<list_item id="adv_06c_09" title="userext" value="9"/>
+			<list_item id="adv_06c_10" title="gamero" value="10"/>
+			<list_item id="adv_06c_11" title="gamerw" value="11"/>
+			<list_item id="adv_06c_12" title="updater" value="12"/>
+			<list_item id="adv_06c_13" title="sysdata" value="13"/>
+			<list_item id="adv_06c_14" title="mediaid" value="14"/>
+			<list_item id="adv_06c_15" title="pidata" value="15"/>
+			<list_item id="adv_06c_16" title="entire" value="16"/>
+		  </list>
+		  <list id="adv_06_rchk" 
+				key="/CONFIG/YAMT/adv_rchk_06"
+				title="Check if ...">
+			<list_item id="adv_06_rchk_i" title="NO CHECK" value="0"/>
+			<list_item id="adv_06_rchk_0" title="SD2Vita is present" value="1"/>
+			<list_item id="adv_06_rchk_1" title="Memory Card is present" value="2"/>
+			<list_item id="adv_06_rchk_2" title="Connected to a power source" value="3"/>
+		  </list>
+		  <list id="adv_06_rcret" 
+				key="/CONFIG/YAMT/adv_rcret_06"
+				title="The check must ...">
+			<list_item id="adv_06_rcret_0" title="Succeed" value="1"/>
+			<list_item id="adv_06_rcret_1" title="Fail" value="0"/>
+		  </list>
+	    </setting_list>
+		<setting_list id="id_adv_yamt_urlist"
+                      title="ur0:"
+					  style="edit">
+		  <list id="adv_07a" 
+				key="/CONFIG/YAMT/adv_dev_070"
+				title="Device:">
+			<list_item id="adv_07a_i" title="NOT SET" value="255"/>
+			<list_item id="adv_07a_0" title="int" value="0"/>
+			<list_item id="adv_07a_1" title="ext" value="1"/>
+			<list_item id="adv_07a_2" title="gcd" value="2"/>
+			<list_item id="adv_07a_3" title="mcd" value="3"/>
+			<list_item id="adv_07a_4" title="xmc" value="4"/>
+			<list_item id="adv_07a_5" title="uma" value="5"/>
+		  </list>
+		  <list id="adv_07b" 
+				key="/CONFIG/YAMT/adv_dev_072"
+				title="Partition type:">
+			<list_item id="adv_07b_i" title="NOT SET" value="255"/>
+			<list_item id="adv_07b_0" title="ina" value="0"/>
+			<list_item id="adv_07b_1" title="act" value="1"/>
+			<list_item id="adv_07b_2" title="ign" value="2"/>
+		  </list>
+		  <list id="adv_07c" 
+				key="/CONFIG/YAMT/adv_dev_073"
+				title="Partition:">
+			<list_item id="adv_07c_i" title="NOT SET" value="255"/>
+			<list_item id="adv_07c_00" title="a" value="0"/>
+			<list_item id="adv_07c_01" title="unused" value="1"/>
+			<list_item id="adv_07c_02" title="idstor" value="2"/>
+			<list_item id="adv_07c_03" title="sloader" value="3"/>
+			<list_item id="adv_07c_04" title="os" value="4"/>
+			<list_item id="adv_07c_05" title="vsh" value="5"/>
+			<list_item id="adv_07c_06" title="vshdata" value="6"/>
+			<list_item id="adv_07c_07" title="vtrm" value="7"/>
+			<list_item id="adv_07c_08" title="user" value="8"/>
+			<list_item id="adv_07c_09" title="userext" value="9"/>
+			<list_item id="adv_07c_10" title="gamero" value="10"/>
+			<list_item id="adv_07c_11" title="gamerw" value="11"/>
+			<list_item id="adv_07c_12" title="updater" value="12"/>
+			<list_item id="adv_07c_13" title="sysdata" value="13"/>
+			<list_item id="adv_07c_14" title="mediaid" value="14"/>
+			<list_item id="adv_07c_15" title="pidata" value="15"/>
+			<list_item id="adv_07c_16" title="entire" value="16"/>
+		  </list>
+		  <list id="adv_07_rchk" 
+				key="/CONFIG/YAMT/adv_rchk_07"
+				title="Check if ...">
+			<list_item id="adv_07_rchk_i" title="NO CHECK" value="0"/>
+			<list_item id="adv_07_rchk_0" title="SD2Vita is present" value="1"/>
+			<list_item id="adv_07_rchk_1" title="Memory Card is present" value="2"/>
+			<list_item id="adv_07_rchk_2" title="Connected to a power source" value="3"/>
+		  </list>
+		  <list id="adv_07_rcret" 
+				key="/CONFIG/YAMT/adv_rcret_07"
+				title="The check must ...">
+			<list_item id="adv_07_rcret_0" title="Succeed" value="1"/>
+			<list_item id="adv_07_rcret_1" title="Fail" value="0"/>
+		  </list>
+	    </setting_list>
+		<setting_list id="id_adv_yamt_udlist"
+                      title="ud0:"
+					  style="edit">
+		  <list id="adv_08a" 
+				key="/CONFIG/YAMT/adv_dev_080"
+				title="Device:">
+			<list_item id="adv_08a_i" title="NOT SET" value="255"/>
+			<list_item id="adv_08a_0" title="int" value="0"/>
+			<list_item id="adv_08a_1" title="ext" value="1"/>
+			<list_item id="adv_08a_2" title="gcd" value="2"/>
+			<list_item id="adv_08a_3" title="mcd" value="3"/>
+			<list_item id="adv_08a_4" title="xmc" value="4"/>
+			<list_item id="adv_08a_5" title="uma" value="5"/>
+		  </list>
+		  <list id="adv_08b" 
+				key="/CONFIG/YAMT/adv_dev_082"
+				title="Partition type:">
+			<list_item id="adv_08b_i" title="NOT SET" value="255"/>
+			<list_item id="adv_08b_0" title="ina" value="0"/>
+			<list_item id="adv_08b_1" title="act" value="1"/>
+			<list_item id="adv_08b_2" title="ign" value="2"/>
+		  </list>
+		  <list id="adv_08c" 
+				key="/CONFIG/YAMT/adv_dev_083"
+				title="Partition:">
+			<list_item id="adv_08c_i" title="NOT SET" value="255"/>
+			<list_item id="adv_08c_00" title="a" value="0"/>
+			<list_item id="adv_08c_01" title="unused" value="1"/>
+			<list_item id="adv_08c_02" title="idstor" value="2"/>
+			<list_item id="adv_08c_03" title="sloader" value="3"/>
+			<list_item id="adv_08c_04" title="os" value="4"/>
+			<list_item id="adv_08c_05" title="vsh" value="5"/>
+			<list_item id="adv_08c_06" title="vshdata" value="6"/>
+			<list_item id="adv_08c_07" title="vtrm" value="7"/>
+			<list_item id="adv_08c_08" title="user" value="8"/>
+			<list_item id="adv_08c_09" title="userext" value="9"/>
+			<list_item id="adv_08c_10" title="gamero" value="10"/>
+			<list_item id="adv_08c_11" title="gamerw" value="11"/>
+			<list_item id="adv_08c_12" title="updater" value="12"/>
+			<list_item id="adv_08c_13" title="sysdata" value="13"/>
+			<list_item id="adv_08c_14" title="mediaid" value="14"/>
+			<list_item id="adv_08c_15" title="pidata" value="15"/>
+			<list_item id="adv_08c_16" title="entire" value="16"/>
+		  </list>
+		  <list id="adv_08_rchk" 
+				key="/CONFIG/YAMT/adv_rchk_08"
+				title="Check if ...">
+			<list_item id="adv_08_rchk_i" title="NO CHECK" value="0"/>
+			<list_item id="adv_08_rchk_0" title="SD2Vita is present" value="1"/>
+			<list_item id="adv_08_rchk_1" title="Memory Card is present" value="2"/>
+			<list_item id="adv_08_rchk_2" title="Connected to a power source" value="3"/>
+		  </list>
+		  <list id="adv_08_rcret" 
+				key="/CONFIG/YAMT/adv_rcret_08"
+				title="The check must ...">
+			<list_item id="adv_08_rcret_0" title="Succeed" value="1"/>
+			<list_item id="adv_08_rcret_1" title="Fail" value="0"/>
+		  </list>
+	    </setting_list>
+		<setting_list id="id_adv_yamt_grolist"
+                      title="gro0:"
+					  style="edit">
+		  <list id="adv_09a" 
+				key="/CONFIG/YAMT/adv_dev_090"
+				title="Device:">
+			<list_item id="adv_09a_i" title="NOT SET" value="255"/>
+			<list_item id="adv_09a_0" title="int" value="0"/>
+			<list_item id="adv_09a_1" title="ext" value="1"/>
+			<list_item id="adv_09a_2" title="gcd" value="2"/>
+			<list_item id="adv_09a_3" title="mcd" value="3"/>
+			<list_item id="adv_09a_4" title="xmc" value="4"/>
+			<list_item id="adv_09a_5" title="uma" value="5"/>
+		  </list>
+		  <list id="adv_09b" 
+				key="/CONFIG/YAMT/adv_dev_092"
+				title="Partition type:">
+			<list_item id="adv_09b_i" title="NOT SET" value="255"/>
+			<list_item id="adv_09b_0" title="ina" value="0"/>
+			<list_item id="adv_09b_1" title="act" value="1"/>
+			<list_item id="adv_09b_2" title="ign" value="2"/>
+		  </list>
+		  <list id="adv_09c" 
+				key="/CONFIG/YAMT/adv_dev_093"
+				title="Partition:">
+			<list_item id="adv_09c_i" title="NOT SET" value="255"/>
+			<list_item id="adv_09c_00" title="a" value="0"/>
+			<list_item id="adv_09c_01" title="unused" value="1"/>
+			<list_item id="adv_09c_02" title="idstor" value="2"/>
+			<list_item id="adv_09c_03" title="sloader" value="3"/>
+			<list_item id="adv_09c_04" title="os" value="4"/>
+			<list_item id="adv_09c_05" title="vsh" value="5"/>
+			<list_item id="adv_09c_06" title="vshdata" value="6"/>
+			<list_item id="adv_09c_07" title="vtrm" value="7"/>
+			<list_item id="adv_09c_08" title="user" value="8"/>
+			<list_item id="adv_09c_09" title="userext" value="9"/>
+			<list_item id="adv_09c_10" title="gamero" value="10"/>
+			<list_item id="adv_09c_11" title="gamerw" value="11"/>
+			<list_item id="adv_09c_12" title="updater" value="12"/>
+			<list_item id="adv_09c_13" title="sysdata" value="13"/>
+			<list_item id="adv_09c_14" title="mediaid" value="14"/>
+			<list_item id="adv_09c_15" title="pidata" value="15"/>
+			<list_item id="adv_09c_16" title="entire" value="16"/>
+		  </list>
+		  <list id="adv_09_rchk" 
+				key="/CONFIG/YAMT/adv_rchk_09"
+				title="Check if ...">
+			<list_item id="adv_09_rchk_i" title="NO CHECK" value="0"/>
+			<list_item id="adv_09_rchk_0" title="SD2Vita is present" value="1"/>
+			<list_item id="adv_09_rchk_1" title="Memory Card is present" value="2"/>
+			<list_item id="adv_09_rchk_2" title="Connected to a power source" value="3"/>
+		  </list>
+		  <list id="adv_09_rcret" 
+				key="/CONFIG/YAMT/adv_rcret_09"
+				title="The check must ...">
+			<list_item id="adv_09_rcret_0" title="Succeed" value="1"/>
+			<list_item id="adv_09_rcret_1" title="Fail" value="0"/>
+		  </list>
+	    </setting_list>
+		<setting_list id="id_adv_yamt_grwlist"
+                      title="grw0:"
+					  style="edit">
+		  <list id="adv_10a" 
+				key="/CONFIG/YAMT/adv_dev_100"
+				title="Device:">
+			<list_item id="adv_10a_i" title="NOT SET" value="255"/>
+			<list_item id="adv_10a_0" title="int" value="0"/>
+			<list_item id="adv_10a_1" title="ext" value="1"/>
+			<list_item id="adv_10a_2" title="gcd" value="2"/>
+			<list_item id="adv_10a_3" title="mcd" value="3"/>
+			<list_item id="adv_10a_4" title="xmc" value="4"/>
+			<list_item id="adv_10a_5" title="uma" value="5"/>
+		  </list>
+		  <list id="adv_10b" 
+				key="/CONFIG/YAMT/adv_dev_102"
+				title="Partition type:">
+			<list_item id="adv_10b_i" title="NOT SET" value="255"/>
+			<list_item id="adv_10b_0" title="ina" value="0"/>
+			<list_item id="adv_10b_1" title="act" value="1"/>
+			<list_item id="adv_10b_2" title="ign" value="2"/>
+		  </list>
+		  <list id="adv_10c" 
+				key="/CONFIG/YAMT/adv_dev_103"
+				title="Partition:">
+			<list_item id="adv_10c_i" title="NOT SET" value="255"/>
+			<list_item id="adv_10c_00" title="a" value="0"/>
+			<list_item id="adv_10c_01" title="unused" value="1"/>
+			<list_item id="adv_10c_02" title="idstor" value="2"/>
+			<list_item id="adv_10c_03" title="sloader" value="3"/>
+			<list_item id="adv_10c_04" title="os" value="4"/>
+			<list_item id="adv_10c_05" title="vsh" value="5"/>
+			<list_item id="adv_10c_06" title="vshdata" value="6"/>
+			<list_item id="adv_10c_07" title="vtrm" value="7"/>
+			<list_item id="adv_10c_08" title="user" value="8"/>
+			<list_item id="adv_10c_09" title="userext" value="9"/>
+			<list_item id="adv_10c_10" title="gamero" value="10"/>
+			<list_item id="adv_10c_11" title="gamerw" value="11"/>
+			<list_item id="adv_10c_12" title="updater" value="12"/>
+			<list_item id="adv_10c_13" title="sysdata" value="13"/>
+			<list_item id="adv_10c_14" title="mediaid" value="14"/>
+			<list_item id="adv_10c_15" title="pidata" value="15"/>
+			<list_item id="adv_10c_16" title="entire" value="16"/>
+		  </list>
+		  <list id="adv_10_rchk" 
+				key="/CONFIG/YAMT/adv_rchk_10"
+				title="Check if ...">
+			<list_item id="adv_10_rchk_i" title="NO CHECK" value="0"/>
+			<list_item id="adv_10_rchk_0" title="SD2Vita is present" value="1"/>
+			<list_item id="adv_10_rchk_1" title="Memory Card is present" value="2"/>
+			<list_item id="adv_10_rchk_2" title="Connected to a power source" value="3"/>
+		  </list>
+		  <list id="adv_10_rcret" 
+				key="/CONFIG/YAMT/adv_rcret_10"
+				title="The check must ...">
+			<list_item id="adv_10_rcret_0" title="Succeed" value="1"/>
+			<list_item id="adv_10_rcret_1" title="Fail" value="0"/>
+		  </list>
+	    </setting_list>
+		<setting_list id="id_adv_yamt_salist"
+                      title="sa0:"
+					  style="edit">
+		  <list id="adv_11a" 
+				key="/CONFIG/YAMT/adv_dev_110"
+				title="Device:">
+			<list_item id="adv_11a_i" title="NOT SET" value="255"/>
+			<list_item id="adv_11a_0" title="int" value="0"/>
+			<list_item id="adv_11a_1" title="ext" value="1"/>
+			<list_item id="adv_11a_2" title="gcd" value="2"/>
+			<list_item id="adv_11a_3" title="mcd" value="3"/>
+			<list_item id="adv_11a_4" title="xmc" value="4"/>
+			<list_item id="adv_11a_5" title="uma" value="5"/>
+		  </list>
+		  <list id="adv_11b" 
+				key="/CONFIG/YAMT/adv_dev_112"
+				title="Partition type:">
+			<list_item id="adv_11b_i" title="NOT SET" value="255"/>
+			<list_item id="adv_11b_0" title="ina" value="0"/>
+			<list_item id="adv_11b_1" title="act" value="1"/>
+			<list_item id="adv_11b_2" title="ign" value="2"/>
+		  </list>
+		  <list id="adv_11c" 
+				key="/CONFIG/YAMT/adv_dev_113"
+				title="Partition:">
+			<list_item id="adv_11c_i" title="NOT SET" value="255"/>
+			<list_item id="adv_11c_00" title="a" value="0"/>
+			<list_item id="adv_11c_01" title="unused" value="1"/>
+			<list_item id="adv_11c_02" title="idstor" value="2"/>
+			<list_item id="adv_11c_03" title="sloader" value="3"/>
+			<list_item id="adv_11c_04" title="os" value="4"/>
+			<list_item id="adv_11c_05" title="vsh" value="5"/>
+			<list_item id="adv_11c_06" title="vshdata" value="6"/>
+			<list_item id="adv_11c_07" title="vtrm" value="7"/>
+			<list_item id="adv_11c_08" title="user" value="8"/>
+			<list_item id="adv_11c_09" title="userext" value="9"/>
+			<list_item id="adv_11c_10" title="gamero" value="10"/>
+			<list_item id="adv_11c_11" title="gamerw" value="11"/>
+			<list_item id="adv_11c_12" title="updater" value="12"/>
+			<list_item id="adv_11c_13" title="sysdata" value="13"/>
+			<list_item id="adv_11c_14" title="mediaid" value="14"/>
+			<list_item id="adv_11c_15" title="pidata" value="15"/>
+			<list_item id="adv_11c_16" title="entire" value="16"/>
+		  </list>
+		  <list id="adv_11_rchk" 
+				key="/CONFIG/YAMT/adv_rchk_11"
+				title="Check if ...">
+			<list_item id="adv_11_rchk_i" title="NO CHECK" value="0"/>
+			<list_item id="adv_11_rchk_0" title="SD2Vita is present" value="1"/>
+			<list_item id="adv_11_rchk_1" title="Memory Card is present" value="2"/>
+			<list_item id="adv_11_rchk_2" title="Connected to a power source" value="3"/>
+		  </list>
+		  <list id="adv_11_rcret" 
+				key="/CONFIG/YAMT/adv_rcret_11"
+				title="The check must ...">
+			<list_item id="adv_11_rcret_0" title="Succeed" value="1"/>
+			<list_item id="adv_11_rcret_1" title="Fail" value="0"/>
+		  </list>
+	    </setting_list>
+		<setting_list id="id_adv_yamt_pdlist"
+                      title="pd0:"
+					  style="edit">
+		  <list id="adv_12a" 
+				key="/CONFIG/YAMT/adv_dev_120"
+				title="Device:">
+			<list_item id="adv_12a_i" title="NOT SET" value="255"/>
+			<list_item id="adv_12a_0" title="int" value="0"/>
+			<list_item id="adv_12a_1" title="ext" value="1"/>
+			<list_item id="adv_12a_2" title="gcd" value="2"/>
+			<list_item id="adv_12a_3" title="mcd" value="3"/>
+			<list_item id="adv_12a_4" title="xmc" value="4"/>
+			<list_item id="adv_12a_5" title="uma" value="5"/>
+		  </list>
+		  <list id="adv_12b" 
+				key="/CONFIG/YAMT/adv_dev_122"
+				title="Partition type:">
+			<list_item id="adv_12b_i" title="NOT SET" value="255"/>
+			<list_item id="adv_12b_0" title="ina" value="0"/>
+			<list_item id="adv_12b_1" title="act" value="1"/>
+			<list_item id="adv_12b_2" title="ign" value="2"/>
+		  </list>
+		  <list id="adv_12c" 
+				key="/CONFIG/YAMT/adv_dev_123"
+				title="Partition:">
+			<list_item id="adv_12c_i" title="NOT SET" value="255"/>
+			<list_item id="adv_12c_00" title="a" value="0"/>
+			<list_item id="adv_12c_01" title="unused" value="1"/>
+			<list_item id="adv_12c_02" title="idstor" value="2"/>
+			<list_item id="adv_12c_03" title="sloader" value="3"/>
+			<list_item id="adv_12c_04" title="os" value="4"/>
+			<list_item id="adv_12c_05" title="vsh" value="5"/>
+			<list_item id="adv_12c_06" title="vshdata" value="6"/>
+			<list_item id="adv_12c_07" title="vtrm" value="7"/>
+			<list_item id="adv_12c_08" title="user" value="8"/>
+			<list_item id="adv_12c_09" title="userext" value="9"/>
+			<list_item id="adv_12c_10" title="gamero" value="10"/>
+			<list_item id="adv_12c_11" title="gamerw" value="11"/>
+			<list_item id="adv_12c_12" title="updater" value="12"/>
+			<list_item id="adv_12c_13" title="sysdata" value="13"/>
+			<list_item id="adv_12c_14" title="mediaid" value="14"/>
+			<list_item id="adv_12c_15" title="pidata" value="15"/>
+			<list_item id="adv_12c_16" title="entire" value="16"/>
+		  </list>
+		  <list id="adv_12_rchk" 
+				key="/CONFIG/YAMT/adv_rchk_12"
+				title="Check if ...">
+			<list_item id="adv_12_rchk_i" title="NO CHECK" value="0"/>
+			<list_item id="adv_12_rchk_0" title="SD2Vita is present" value="1"/>
+			<list_item id="adv_12_rchk_1" title="Memory Card is present" value="2"/>
+			<list_item id="adv_12_rchk_2" title="Connected to a power source" value="3"/>
+		  </list>
+		  <list id="adv_12_rcret" 
+				key="/CONFIG/YAMT/adv_rcret_12"
+				title="The check must ...">
+			<list_item id="adv_12_rcret_0" title="Succeed" value="1"/>
+			<list_item id="adv_12_rcret_1" title="Fail" value="0"/>
+		  </list>
+	    </setting_list>
+	  </setting_list>
+    </setting_list>
+
+    <!-- ワイヤレスコントローラー(for Dolce) -->
+    <button id="wireless_controller" title="msg_wireless_controllers" icon="tex_spanner"/>
+
+	  <!-- Bluetooth®設定 -->
+    <link id="bluetooth_settings" title="msg_bt_devices" file="bluetooth_settings.xml" icon="tex_spanner"/>
+
+	  <!-- BDリモートコントローラーを登録する -->
+    <button id="bd_remocon_register" title="msg_register_bd_remote_controller" icon="tex_spanner"/>
+
+	  <!-- 外付けキーボード -->
+	  <setting_list id="keyboard_settings" title="msg_external_keyboard" icon="tex_spanner">
+		  <!-- キーボードのタイプ  -->
+      <!-- Bug86420:オプションメニューの幅を全言語での最大長にあわせた幅に固定する -->
+		  <list id="id_keyboard_type" title="msg_type" min_width="643">
+			  <list_item id="type_dk" title="msg_language_dk" value="0"/>
+			  <list_item id="type_de" title="msg_language_de_de" value="1"/>
+			  <list_item id="type_de_sw" title="msg_language_de_ch" value="2"/>
+			  <list_item id="type_en_us" title="msg_language_en_us" value="3"/>
+        <list_item id="type_en_uk" title="msg_language_en_uk" value="4"/>
+			  <list_item id="type_es" title="msg_language_es" value="5"/>
+			  <list_item id="type_fi"	 title="msg_language_fi" value="6"/>
+        <list_item id="type_fr" title="msg_language_fr_fr" value="7"/>
+			  <list_item id="type_be" title="msg_language_fr_be" value="8"/>
+			  <list_item id="type_fr_ca" title="msg_language_fr_ca" value="9"/>
+			  <list_item id="type_fr_sw" title="msg_language_fr_ch" value="10"/>
+			  <list_item id="type_it" title="msg_language_it" value="11"/>
+			  <list_item id="type_nl" title="msg_language_nl" value="12"/>
+			  <list_item id="type_no" title="msg_language_no" value="13"/>
+			  <list_item id="type_pl" title="msg_language_pl" value="14"/>
+			  <list_item id="type_pt_br" title="msg_language_pt_br" value="15"/>
+			  <list_item id="type_pt_po" title="msg_language_pt_pt" value="16"/>
+			  <list_item id="type_ru" title="msg_language_ru" value="17"/>
+			  <list_item id="type_se" title="msg_language_se" value="18"/>
+			  <list_item id="type_tr" title="msg_language_tr" value="19"/>
+			  <list_item id="type_jp" title="msg_language_jp" value="20"/>
+			  <list_item id="type_kr" title="msg_language_kr" value="21"/>
+			  <list_item id="type_cn_s" title="msg_language_cn_s" value="22"/>
+			  <list_item id="type_cn_t" title="msg_language_cn_t" value="23"/>
+		  </list>
+		  <!-- キーボードの入力方式(繁体中文)  -->
+		  <list id="id_keyboard_input_mode1" title="msg_tc_input_method">
+			  <list_item id="mode_zhuyin" title="msg_zhuyin" value="0"/>
+			  <list_item id="mode_pinyin_taiwan" title="msg_pinyin_taiwan" value="1"/>
+        <list_item id="mode_pinyin_hongkong" title="msg_pinyin_hongkong" value="2"/>
+			  <list_item id="mode_cangjie" title="msg_cangjie" value="3"/>
+		  </list>
+		  <!-- キーボードの入力方式  -->
+		  <list id="id_keyboard_input_mode2" title="msg_ja_input_method">
+			  <list_item id="mode_romaji" title="msg_ja_romaji" value="0"/>
+			  <list_item id="mode_kana" title="msg_ja_kana" value="1"/>
+		  </list>
+		  <!-- キーリピート(開始までの時間) -->
+		  <list id="id_keyrepeat_delay" title="msg_key_repeat_delay">
+			  <list_item id="short" title="msg_short" value="0"/>
+			  <list_item id="normal" title="msg_nrml" value="1"/>
+			  <list_item id="long" title="msg_long" value="2"/>
+		  </list>
+		  <!-- キーリピート(速さ) -->
+		  <list id="id_keyrepeat_rate" title="msg_key_repeat_rate">
+			  <list_item id="fast" title="msg_fast" value="0"/>
+			  <list_item id="regular" title="msg_nrml" value="1"/>
+			  <list_item id="slow" title="msg_slow" value="2"/>
+		  </list>
+	  </setting_list>
+
+  </setting_list>
+
+  <!--ワイヤレスコントローラー(for Dolce)--> 
+  <setting_list id="controller_settings" title="msg_wireless_controllers" icon="tex_spanner">
+		  
+    <!--コントローラー番号-->   
+		<list id="id_controller_assign" title="msg_controller_number" icon="tex_spanner">
+			<list_item id="list_item_value_1" title="1" value="1"/>
+			<list_item id="list_item_value_2" title="2" value="2"/>
+      <list_item id="list_item_value_3" title="3" value="3"/>
+      <list_item id="list_item_value_4" title="4" value="4"/>
+    </list>
+		  
+    <!--コントローラー振動機能--> 
+		<toggle_switch id="id_controller_vibration_func"
+                    key="/CONFIG/SYSTEM/controller_vibration"
+                    title="msg_enable_vibration"
+                    icon="tex_spanner"/>
+	</setting_list>
+
+</system_settings>

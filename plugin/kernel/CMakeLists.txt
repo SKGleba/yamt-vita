@@ -36,6 +36,7 @@ target_link_libraries(yamt.elf
 	SceCpuForDriver_stub
 	SceModulemgrForKernel_367_stub
 	ScePervasiveForDriver_stub
+	SceSysrootForKernel_stub
 )
 ELSE(NEWFW)
 target_link_libraries(yamt.elf
@@ -47,6 +48,7 @@ target_link_libraries(yamt.elf
 	SceCpuForDriver_stub
 	SceModulemgrForKernel_stub
 	ScePervasiveForDriver_stub
+	SceSysrootForKernel_stub
 )
 ENDIF(NEWFW)
 
