@@ -13,6 +13,7 @@
 typedef struct cfg_entry {
   size_t t_off;
   uint8_t mid; // mountpoint id / 0x100
+  uint8_t mode;
   uint8_t reqs[2]; // req, t/f
   uint8_t devn[4];
 } __attribute__((packed)) cfg_entry;
@@ -21,7 +22,7 @@ typedef struct cfg_struct {
   uint8_t ver;
   uint8_t vec;
   uint8_t ion;
-  uint16_t mrq;
+  uint8_t mrq;
   cfg_entry entry[16];
 } __attribute__((packed)) cfg_struct;
 
@@ -59,18 +60,22 @@ static void set_slots(void) {
 	cfg.entry[11].mid = 0xB;
 	cfg.entry[12].t_off = 0x4DC; // PD0
 	cfg.entry[12].mid = 0xC;
+	cfg.entry[13].t_off = 0xDEADBEEF; // IMC0
+	cfg.entry[13].mid = 0xD;
+	cfg.entry[14].t_off = 0xDEADBEEF; // XMC0
+	cfg.entry[14].mid = 0xE;
 	int lpos = 0;
 	while (lpos < 16) {
 		sceClibMemset(&cfg.entry[lpos].devn, 0xFF, sizeof(cfg.entry[lpos].devn));
+		cfg.entry[lpos].mode = 1;
 		lpos = lpos + 1;
 	}
 }
 
 static void set_cfg_etr_ez(int slot, int dno) {
-	if (dno == 0) {
-		sceClibMemset(&cfg.entry[slot], 0, sizeof(cfg.entry[slot]));
+	if (dno == 0) { // DEFAULT
 		sceClibMemset(&cfg.entry[slot].devn, 0xFF, sizeof(cfg.entry[slot].devn));
-	} else if (dno == 1) {
+	} else if (dno == 1) { // sd2vita
 		cfg.entry[slot].devn[0] = 2;
 		cfg.entry[slot].devn[1] = 0;
 		cfg.entry[slot].devn[2] = 1;
@@ -123,12 +128,12 @@ static int load_config_user(void) {
   if (fd >= 0) {
     rd = sceIoRead(fd, &cfg, sizeof(cfg));
     sceIoClose(fd);
-	if (cfg.ver == 2 && rd == sizeof(cfg))
+	if (cfg.ver == 3 && rd == sizeof(cfg))
 		return 0;
   }
   // default config
   sceClibMemset(&cfg, 0, sizeof(cfg));
-  cfg.ver = 2;
+  cfg.ver = 3;
   cfg.vec = 16;
   cfg.ion = 0;
   cfg.mrq = 1;
@@ -172,6 +177,8 @@ static int sceRegMgrGetKeyInt_SceSystemSettingsCore_patched(const char *category
 		*value = cfg.entry[((name[9] - 0x30) * 10) + (name[10] - 0x30)].reqs[0];
       } else if (sceClibStrncmp(name, "adv_rcret_", 10) == 0) {
 		*value = cfg.entry[((name[10] - 0x30) * 10) + (name[11] - 0x30)].reqs[1];
+	  } else if (sceClibStrncmp(name, "adv_mode_", 9) == 0) {
+		*value = cfg.entry[((name[9] - 0x30) * 10) + (name[10] - 0x30)].mode;
       }
     }
     return 0;
@@ -198,6 +205,8 @@ static int sceRegMgrSetKeyInt_SceSystemSettingsCore_patched(const char *category
 	  cfg.entry[((name[9] - 0x30) * 10) + (name[10] - 0x30)].reqs[0] = value;
     } else if (sceClibStrncmp(name, "adv_rcret_", 10) == 0) {
 	  cfg.entry[((name[10] - 0x30) * 10) + (name[11] - 0x30)].reqs[1] = value;
+	} else if (sceClibStrncmp(name, "adv_mode_", 9) == 0) {
+	  cfg.entry[((name[9] - 0x30) * 10) + (name[10] - 0x30)].mode = value;
     }
     save_config_user();
     return 0;

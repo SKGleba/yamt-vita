@@ -8,11 +8,11 @@ if(NOT DEFINED CMAKE_TOOLCHAIN_FILE)
   endif()
 endif()
 
-set(SHORT_NAME yamt_basic)
+set(SHORT_NAME yamt)
 project(${SHORT_NAME})
 include("${VITASDK}/share/vita.cmake" REQUIRED)
 
-set(VITA_APP_NAME "YAMT -basic-")
+set(VITA_APP_NAME "YAMT installer")
 set(VITA_TITLEID  "SKGYAMT01")
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=gnu99 -fno-builtin-printf")

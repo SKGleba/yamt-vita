@@ -20,7 +20,7 @@ Requires enso, compatible ONLY with firmware 3.60 and 3.65.
  
 # Usage [advanced]
  - You can remount every partition with yamt.
- - In the 'Advanced" tab you have all the partitions listed excluding pseudo and alias partitions like lma0 and xmc0.
+ - In the 'Advanced" tab you have all the partitions listed excluding pseudo partitions like lma0.
  - You can edit the assignements of the listed partitions, please take a look at https://wiki.henkaku.xyz/vita/SceIofilemgr#Mount_Points.
    - i.e if you set sa0 to [ext; act; entire] it will bind sa0 to the sd2vita's main partition at boot.
  
@@ -34,8 +34,6 @@ Requires enso, compatible ONLY with firmware 3.60 and 3.65.
  
 # Notes
  - The project is still WIP, report all bugs.
- - This plugin patches xmc0/imc0 as ux0, you won't be able to separately mount those
-   - i.e you can't mount xmc0 while ux0 is set to sd2vita.
   
  # Credits
   - TheOfficialFlow, xyz for their work on vitashell/gamesd

@@ -45,6 +45,11 @@
 		<setting_list id="id_adv_yamt_uxlist"
                       title="ux0:"
 					  style="edit">
+		  <toggle_switch id="adv_mode_00"
+					     key="/CONFIG/YAMT/adv_mode_00"
+					     title="'Swap' redirect mode"
+				         description="Should increase stability."
+                         icon="tex_spanner"/>
 		  <list id="adv_00a" 
 				key="/CONFIG/YAMT/adv_dev_000"
 				title="Device:">
@@ -104,6 +109,11 @@
 		<setting_list id="id_adv_yamt_umalist"
                       title="uma0:"
 					  style="edit">
+		  <toggle_switch id="adv_mode_01"
+					     key="/CONFIG/YAMT/adv_mode_01"
+					     title="'Swap' redirect mode"
+				         description="Should increase stability."
+                         icon="tex_spanner"/>
 		  <list id="adv_01a" 
 				key="/CONFIG/YAMT/adv_dev_010"
 				title="Device:">
@@ -160,9 +170,135 @@
 			<list_item id="adv_01_rcret_1" title="Fail" value="0"/>
 		  </list>
 	    </setting_list>
+		
+		<setting_list id="id_adv_yamt_xmlist"
+                      title="xmc0:"
+					  style="edit">
+		  <list id="adv_14a" 
+				key="/CONFIG/YAMT/adv_dev_140"
+				title="Device:">
+			<list_item id="adv_14a_i" title="NOT SET" value="255"/>
+			<list_item id="adv_14a_0" title="int" value="0"/>
+			<list_item id="adv_14a_1" title="ext" value="1"/>
+			<list_item id="adv_14a_2" title="gcd" value="2"/>
+			<list_item id="adv_14a_3" title="mcd" value="3"/>
+			<list_item id="adv_14a_4" title="xmc" value="4"/>
+			<list_item id="adv_14a_5" title="uma" value="5"/>
+		  </list>
+		  <list id="adv_14b" 
+				key="/CONFIG/YAMT/adv_dev_142"
+				title="Partition type:">
+			<list_item id="adv_14b_i" title="NOT SET" value="255"/>
+			<list_item id="adv_14b_0" title="ina" value="0"/>
+			<list_item id="adv_14b_1" title="act" value="1"/>
+			<list_item id="adv_14b_2" title="ign" value="2"/>
+		  </list>
+		  <list id="adv_14c" 
+				key="/CONFIG/YAMT/adv_dev_143"
+				title="Partition:">
+			<list_item id="adv_14c_i" title="NOT SET" value="255"/>
+			<list_item id="adv_14c_00" title="a" value="0"/>
+			<list_item id="adv_14c_01" title="unused" value="1"/>
+			<list_item id="adv_14c_02" title="idstor" value="2"/>
+			<list_item id="adv_14c_03" title="sloader" value="3"/>
+			<list_item id="adv_14c_04" title="os" value="4"/>
+			<list_item id="adv_14c_05" title="vsh" value="5"/>
+			<list_item id="adv_14c_06" title="vshdata" value="6"/>
+			<list_item id="adv_14c_07" title="vtrm" value="7"/>
+			<list_item id="adv_14c_08" title="user" value="8"/>
+			<list_item id="adv_14c_09" title="userext" value="9"/>
+			<list_item id="adv_14c_10" title="gamero" value="10"/>
+			<list_item id="adv_14c_11" title="gamerw" value="11"/>
+			<list_item id="adv_14c_12" title="updater" value="12"/>
+			<list_item id="adv_14c_13" title="sysdata" value="13"/>
+			<list_item id="adv_14c_14" title="mediaid" value="14"/>
+			<list_item id="adv_14c_15" title="pidata" value="15"/>
+			<list_item id="adv_14c_16" title="entire" value="16"/>
+		  </list>
+		  <list id="adv_14_rchk" 
+				key="/CONFIG/YAMT/adv_rchk_14"
+				title="Check if ...">
+			<list_item id="adv_14_rchk_i" title="NO CHECK" value="0"/>
+			<list_item id="adv_14_rchk_0" title="SD2Vita is present" value="1"/>
+			<list_item id="adv_14_rchk_1" title="Memory Card is present" value="2"/>
+			<list_item id="adv_14_rchk_2" title="Connected to a power source" value="3"/>
+		  </list>
+		  <list id="adv_14_rcret" 
+				key="/CONFIG/YAMT/adv_rcret_14"
+				title="The check must ...">
+			<list_item id="adv_14_rcret_0" title="Succeed" value="1"/>
+			<list_item id="adv_14_rcret_1" title="Fail" value="0"/>
+		  </list>
+	    </setting_list>
+		
+		<setting_list id="id_adv_yamt_imlist"
+                      title="imc0:"
+					  style="edit">
+		  <list id="adv_13a" 
+				key="/CONFIG/YAMT/adv_dev_130"
+				title="Device:">
+			<list_item id="adv_13a_i" title="NOT SET" value="255"/>
+			<list_item id="adv_13a_0" title="int" value="0"/>
+			<list_item id="adv_13a_1" title="ext" value="1"/>
+			<list_item id="adv_13a_2" title="gcd" value="2"/>
+			<list_item id="adv_13a_3" title="mcd" value="3"/>
+			<list_item id="adv_13a_4" title="xmc" value="4"/>
+			<list_item id="adv_13a_5" title="uma" value="5"/>
+		  </list>
+		  <list id="adv_13b" 
+				key="/CONFIG/YAMT/adv_dev_132"
+				title="Partition type:">
+			<list_item id="adv_13b_i" title="NOT SET" value="255"/>
+			<list_item id="adv_13b_0" title="ina" value="0"/>
+			<list_item id="adv_13b_1" title="act" value="1"/>
+			<list_item id="adv_13b_2" title="ign" value="2"/>
+		  </list>
+		  <list id="adv_13c" 
+				key="/CONFIG/YAMT/adv_dev_133"
+				title="Partition:">
+			<list_item id="adv_13c_i" title="NOT SET" value="255"/>
+			<list_item id="adv_13c_00" title="a" value="0"/>
+			<list_item id="adv_13c_01" title="unused" value="1"/>
+			<list_item id="adv_13c_02" title="idstor" value="2"/>
+			<list_item id="adv_13c_03" title="sloader" value="3"/>
+			<list_item id="adv_13c_04" title="os" value="4"/>
+			<list_item id="adv_13c_05" title="vsh" value="5"/>
+			<list_item id="adv_13c_06" title="vshdata" value="6"/>
+			<list_item id="adv_13c_07" title="vtrm" value="7"/>
+			<list_item id="adv_13c_08" title="user" value="8"/>
+			<list_item id="adv_13c_09" title="userext" value="9"/>
+			<list_item id="adv_13c_10" title="gamero" value="10"/>
+			<list_item id="adv_13c_11" title="gamerw" value="11"/>
+			<list_item id="adv_13c_12" title="updater" value="12"/>
+			<list_item id="adv_13c_13" title="sysdata" value="13"/>
+			<list_item id="adv_13c_14" title="mediaid" value="14"/>
+			<list_item id="adv_13c_15" title="pidata" value="15"/>
+			<list_item id="adv_13c_16" title="entire" value="16"/>
+		  </list>
+		  <list id="adv_13_rchk" 
+				key="/CONFIG/YAMT/adv_rchk_13"
+				title="Check if ...">
+			<list_item id="adv_13_rchk_i" title="NO CHECK" value="0"/>
+			<list_item id="adv_13_rchk_0" title="SD2Vita is present" value="1"/>
+			<list_item id="adv_13_rchk_1" title="Memory Card is present" value="2"/>
+			<list_item id="adv_13_rchk_2" title="Connected to a power source" value="3"/>
+		  </list>
+		  <list id="adv_13_rcret" 
+				key="/CONFIG/YAMT/adv_rcret_13"
+				title="The check must ...">
+			<list_item id="adv_13_rcret_0" title="Succeed" value="1"/>
+			<list_item id="adv_13_rcret_1" title="Fail" value="0"/>
+		  </list>
+	    </setting_list>
+		
 		<setting_list id="id_adv_yamt_sdlist"
                       title="sd0:"
 					  style="edit">
+		  <toggle_switch id="adv_mode_02"
+					     key="/CONFIG/YAMT/adv_mode_02"
+					     title="'Swap' redirect mode"
+				         description="Should increase stability."
+                         icon="tex_spanner"/>
 		  <list id="adv_02a" 
 				key="/CONFIG/YAMT/adv_dev_020"
 				title="Device:">
@@ -222,6 +358,11 @@
 		<setting_list id="id_adv_yamt_oslist"
                       title="os0:"
 					  style="edit">
+		  <toggle_switch id="adv_mode_03"
+					     key="/CONFIG/YAMT/adv_mode_03"
+					     title="'Swap' redirect mode"
+				         description="Should increase stability."
+                         icon="tex_spanner"/>
 		  <list id="adv_03a" 
 				key="/CONFIG/YAMT/adv_dev_030"
 				title="Device:">
@@ -281,6 +422,11 @@
 		<setting_list id="id_adv_yamt_vslist"
                       title="vs0:"
 					  style="edit">
+		  <toggle_switch id="adv_mode_04"
+					     key="/CONFIG/YAMT/adv_mode_04"
+					     title="'Swap' redirect mode"
+				         description="Should increase stability."
+                         icon="tex_spanner"/>
 		  <list id="adv_04a" 
 				key="/CONFIG/YAMT/adv_dev_040"
 				title="Device:">
@@ -340,6 +486,11 @@
 		<setting_list id="id_adv_yamt_vdlist"
                       title="vd0:"
 					  style="edit">
+		  <toggle_switch id="adv_mode_05"
+					     key="/CONFIG/YAMT/adv_mode_05"
+					     title="'Swap' redirect mode"
+				         description="Should increase stability."
+                         icon="tex_spanner"/>
 		  <list id="adv_05a" 
 				key="/CONFIG/YAMT/adv_dev_050"
 				title="Device:">
@@ -399,6 +550,11 @@
 		<setting_list id="id_adv_yamt_tmlist"
                       title="tm0:"
 					  style="edit">
+		  <toggle_switch id="adv_mode_06"
+					     key="/CONFIG/YAMT/adv_mode_06"
+					     title="'Swap' redirect mode"
+				         description="Should increase stability."
+                         icon="tex_spanner"/>
 		  <list id="adv_06a" 
 				key="/CONFIG/YAMT/adv_dev_060"
 				title="Device:">
@@ -458,6 +614,11 @@
 		<setting_list id="id_adv_yamt_urlist"
                       title="ur0:"
 					  style="edit">
+		  <toggle_switch id="adv_mode_07"
+					     key="/CONFIG/YAMT/adv_mode_07"
+					     title="'Swap' redirect mode"
+				         description="Should increase stability."
+                         icon="tex_spanner"/>
 		  <list id="adv_07a" 
 				key="/CONFIG/YAMT/adv_dev_070"
 				title="Device:">
@@ -517,6 +678,11 @@
 		<setting_list id="id_adv_yamt_udlist"
                       title="ud0:"
 					  style="edit">
+		  <toggle_switch id="adv_mode_08"
+					     key="/CONFIG/YAMT/adv_mode_08"
+					     title="'Swap' redirect mode"
+				         description="Should increase stability."
+                         icon="tex_spanner"/>
 		  <list id="adv_08a" 
 				key="/CONFIG/YAMT/adv_dev_080"
 				title="Device:">
@@ -576,6 +742,11 @@
 		<setting_list id="id_adv_yamt_grolist"
                       title="gro0:"
 					  style="edit">
+		  <toggle_switch id="adv_mode_09"
+					     key="/CONFIG/YAMT/adv_mode_09"
+					     title="'Swap' redirect mode"
+				         description="Should increase stability."
+                         icon="tex_spanner"/>
 		  <list id="adv_09a" 
 				key="/CONFIG/YAMT/adv_dev_090"
 				title="Device:">
@@ -635,6 +806,11 @@
 		<setting_list id="id_adv_yamt_grwlist"
                       title="grw0:"
 					  style="edit">
+		  <toggle_switch id="adv_mode_10"
+					     key="/CONFIG/YAMT/adv_mode_10"
+					     title="'Swap' redirect mode"
+				         description="Should increase stability."
+                         icon="tex_spanner"/>
 		  <list id="adv_10a" 
 				key="/CONFIG/YAMT/adv_dev_100"
 				title="Device:">
@@ -694,6 +870,11 @@
 		<setting_list id="id_adv_yamt_salist"
                       title="sa0:"
 					  style="edit">
+		  <toggle_switch id="adv_mode_11"
+					     key="/CONFIG/YAMT/adv_mode_11"
+					     title="'Swap' redirect mode"
+				         description="Should increase stability."
+                         icon="tex_spanner"/>
 		  <list id="adv_11a" 
 				key="/CONFIG/YAMT/adv_dev_110"
 				title="Device:">
@@ -753,6 +934,11 @@
 		<setting_list id="id_adv_yamt_pdlist"
                       title="pd0:"
 					  style="edit">
+		  <toggle_switch id="adv_mode_12"
+					     key="/CONFIG/YAMT/adv_mode_12"
+					     title="'Swap' redirect mode"
+				         description="Should increase stability."
+                         icon="tex_spanner"/>
 		  <list id="adv_12a" 
 				key="/CONFIG/YAMT/adv_dev_120"
 				title="Device:">
