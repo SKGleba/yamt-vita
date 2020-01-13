@@ -10,7 +10,7 @@ Requires enso, compatible ONLY with firmware 3.60 and 3.65.
  - Basic & noob-friendly gui manager included.
 
 # Installation
- 1) Remove the previous driver, if you had yamt - remove it with the old installer
+ 1) Remove the previous driver, if you had yamt - remove it with the NEW installer.
  2) Install the vpk
  3) Open the app, the installer will do the rest for you
  4) Reboot, you should be able to access a new menu under the "Devices" tab in the System Settings app.
