@@ -33,8 +33,9 @@ Requires enso, compatible ONLY with firmware 3.60 and 3.65.
  2) Add yamt.suprx to tai config.txt under \*NPXS10015
  
 # Notes
+ - To compile simply run ". create_vpk.sh".
  - The project is still WIP, report all bugs.
   
- # Credits
+# Credits
   - TheOfficialFlow, xyz for their work on vitashell/gamesd
   - Team Molecule for enso and henkaku
