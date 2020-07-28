@@ -11,6 +11,7 @@ typedef struct cfg_struct {
   uint8_t vec;
   uint8_t ion;
   uint8_t mrq;
+  uint8_t drv[4];
   cfg_entry entry[16];
 } __attribute__((packed)) cfg_struct;
 
@@ -21,6 +22,14 @@ typedef struct {
 	const char *blkdev2;
 	int id;
 } SceIoDevice;
+
+typedef struct usercmd {
+  uint32_t magic;
+  uint32_t arg0;
+  uint32_t arg1;
+  uint32_t arg2;
+  char data[0x200];
+} __attribute__((packed)) usercmd;
 
 typedef struct {
 	int id;

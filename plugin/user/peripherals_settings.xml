@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 
-<system_settings version="1.0" plugin="peripherals_settings_plugin">
+<system_settings version="1.0" plugin="peripherals_settings_plugin" back_button_color="20.0, 1.0, 5.0, 1.0">>
 
   <!-- 周辺機器 -->
   <setting_list id="peripherals_settings" title="msg_accessories">
@@ -13,16 +13,6 @@
                    title="Use YAMT"
 				   description="Enables the YAMT driver"
                    icon="tex_spanner"/>
-	  <toggle_switch id="enable_gcsd"
-                   key="/CONFIG/YAMT/enable_gcsd"
-                   title="Use YAMT GC-SD patches"
-				   description="Adds support for devices such as SD2Vita"
-                   icon="tex_spanner"/>
-      <toggle_switch id="adv_00_pmode" 
-					key="/CONFIG/YAMT/uxpmode"
-					title="Patch external ux0"
-					description="Uncheck this if there is no memory card inserted"
-            		icon="tex_spanner"/>
       <list id="id_yamt_ux" 
             key="/CONFIG/YAMT/uxm"
             title="ux0:">
@@ -30,6 +20,7 @@
         <list_item id="id_yamt_ux_gsd" title="SD2Vita" value="1"/>
 		<list_item id="id_yamt_ux_xmc" title="Memory Card" value="2"/>
 		<list_item id="id_yamt_ux_imc" title="Internal Storage" value="3"/>
+		<list_item id="id_yamt_ux_usb" title="USB/PSVSD" value="4"/>
       </list>
 	  <list id="id_yamt_uma" 
             key="/CONFIG/YAMT/umm"
@@ -38,9 +29,46 @@
         <list_item id="id_yamt_umm_gsd" title="SD2Vita" value="1"/>
 		<list_item id="id_yamt_umm_xmc" title="Memory Card" value="2"/>
 		<list_item id="id_yamt_umm_imc" title="Internal Storage" value="3"/>
+		<list_item id="id_yamt_umm_usb" title="USB/PSVSD" value="4"/>
       </list>
+      <setting_list id="id_driver_sett"
+                    title="Driver settings"
+					style="edit">
+	    <toggle_switch id="enable_gcsd"
+                       key="/CONFIG/YAMT/enable_gcsd"
+                       title="Use YAMT GC-SD patches"
+				       description="Adds support for devices such as SD2Vita"
+					   icon="tex_spanner"/>
+		<toggle_switch id="adv_00_pmode" 
+					   key="/CONFIG/YAMT/uxpmode"
+					   title="Patch external ux0"
+					   description="Uncheck this if there is no memory card inserted"
+            		   icon="tex_spanner"/>
+        <list id="id_yamt_cop" 
+              key="/CONFIG/YAMT/cop"
+              title="Developer options">
+          <list_item id="id_yamt_cop_idle" title="Idle" value="0"/>
+          <list_item id="id_yamt_cop_clean" title="Clean the SD card for format" value="1"/>
+		  <list_item id="id_yamt_cop_remount" title="Remount all custom partitions" value="2"/>
+		  <list_item id="id_yamt_cop_rmcfg" title="Reset the YAMT storage config" value="3"/>
+        </list>
+        <toggle_switch id="enable_usb"
+                       key="/CONFIG/YAMT/gpo_0"
+                       title="[yUSB] Use USB patches"
+				       description="Experimental USB/PSVSD support"
+					   icon="tex_spanner"/>
+        <toggle_switch id="set_gpo1"
+                       key="/CONFIG/YAMT/gpo_1"
+                       title="[yUSB] Enable logging"/>
+        <toggle_switch id="set_gpo2"
+                       key="/CONFIG/YAMT/gpo_2"
+                       title="[yUSB] Force USBMC mode"/>
+        <toggle_switch id="set_gpo3"
+                       key="/CONFIG/YAMT/gpo_3"
+                       title="[yUSB] Disable wakeup patch"/>
+      </setting_list>
 	  <setting_list id="id_adv_yamt"
-                    title="Advanced"
+                    title="★Custom partitions"
 					rotate="full">
 		<setting_list id="id_adv_yamt_uxlist"
                       title="ux0:"

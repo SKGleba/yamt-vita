@@ -1,10 +1,15 @@
 cmake_minimum_required(VERSION 2.8)
 
-set(CMAKE_SYSTEM_NAME "Generic")
-set(CMAKE_C_COMPILER "arm-vita-eabi-gcc")
-set(CMAKE_CXX_COMPILER "arm-vita-eabi-g++")
+if(NOT DEFINED CMAKE_TOOLCHAIN_FILE)
+  if(DEFINED ENV{VITASDK})
+    set(CMAKE_TOOLCHAIN_FILE "$ENV{VITASDK}/share/vita.toolchain.cmake" CACHE PATH "toolchain file")
+  else()
+    message(FATAL_ERROR "Please define VITASDK to point to your SDK path!")
+  endif()
+endif()
 
-project(HENkaku)
+project(yamt)
+include("${VITASDK}/share/vita.cmake" REQUIRED)
 
 set(CMAKE_C_FLAGS "-Wl,-q -Wall -O3 -std=gnu99")
 set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} -std=c++11 -fno-rtti -fno-exceptions")
@@ -37,6 +42,7 @@ target_link_libraries(yamt.elf
 	SceModulemgrForKernel_367_stub
 	ScePervasiveForDriver_stub
 	SceSysrootForKernel_stub
+	SceSysmemForDriver_stub
 )
 ELSE(NEWFW)
 target_link_libraries(yamt.elf
@@ -49,6 +55,7 @@ target_link_libraries(yamt.elf
 	SceModulemgrForKernel_stub
 	ScePervasiveForDriver_stub
 	SceSysrootForKernel_stub
+	SceSysmemForDriver_stub
 )
 ENDIF(NEWFW)
 
@@ -61,4 +68,7 @@ add_custom_target(yamt.skprx ALL
 	COMMAND vita-elf-create -e ${CMAKE_SOURCE_DIR}/yamt.yml yamt.elf yamt.velf
 	COMMAND vita-make-fself -c yamt.velf yamt.skprx
 )
+
 add_dependencies(yamt.skprx yamt.elf)
+
+vita_create_stubs(stubs yamt.elf ${CMAKE_SOURCE_DIR}/yamt.yml KERNEL)

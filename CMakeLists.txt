@@ -29,8 +29,8 @@ include_directories(
 
 add_executable(${SHORT_NAME}
   src/main.c
-  src/debug_screen.c
-  src/debug_screen_font.c
+  src/graphics.c
+  src/font.c
 )
 
 target_link_libraries(${SHORT_NAME}
@@ -39,6 +39,7 @@ target_link_libraries(${SHORT_NAME}
   SceProcessmgr_stub
   SceSysmodule_stub
   SceVshBridge_stub
+  SceCtrl_stub
 )
 
 vita_create_self(${SHORT_NAME}.self ${SHORT_NAME} UNSAFE)
@@ -49,4 +50,8 @@ vita_create_vpk(${SHORT_NAME}.vpk ${VITA_TITLEID} ${SHORT_NAME}.self
   FILE ${CMAKE_BINARY_DIR}/plugin/yamt_360.skprx yamt_360.skprx
   FILE ${CMAKE_BINARY_DIR}/plugin/yamt_365.skprx yamt_365.skprx
   FILE ${CMAKE_BINARY_DIR}/plugin/yamt.suprx yamt.suprx
+  FILE ${CMAKE_BINARY_DIR}/plugin/usbuo.skprx usbuo.skprx
+  FILE ${CMAKE_BINARY_DIR}/res/icon0.png sce_sys/icon0.png
+  FILE ${CMAKE_BINARY_DIR}/res/template.xml sce_sys/livearea/contents/template.xml
+  FILE ${CMAKE_BINARY_DIR}/res/bg.png sce_sys/livearea/contents/bg.png
 )

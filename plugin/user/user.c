@@ -23,13 +23,24 @@ typedef struct cfg_struct {
   uint8_t vec;
   uint8_t ion;
   uint8_t mrq;
+  uint8_t drv[4];
   cfg_entry entry[16];
 } __attribute__((packed)) cfg_struct;
+
+typedef struct usercmd {
+  uint32_t magic;
+  uint32_t arg0;
+  uint32_t arg1;
+  uint32_t arg2;
+  char data[0x200];
+} __attribute__((packed)) usercmd;
 
 extern unsigned char _binary_peripherals_settings_xml_start;
 extern unsigned char _binary_peripherals_settings_xml_size;
 
 static cfg_struct cfg;
+
+static int kcmd_cur = 0;
 
 static SceUID g_hooks[6];
 
@@ -96,6 +107,13 @@ static void set_cfg_etr_ez(int slot, int dno) {
 		cfg.entry[slot].devn[3] = 9;
 		cfg.entry[slot].reqs[0] = 0;
 		cfg.entry[slot].reqs[1] = 0;
+	} else if (dno == 4) {
+		cfg.entry[slot].devn[0] = 5;
+		cfg.entry[slot].devn[1] = 0;
+		cfg.entry[slot].devn[2] = 2;
+		cfg.entry[slot].devn[3] = 16;
+		cfg.entry[slot].reqs[0] = 0;
+		cfg.entry[slot].reqs[1] = 0;
 	}
 }
 
@@ -106,6 +124,8 @@ static int get_cfg_etr_ez(int slot) {
 		return 2;
 	} else if (cfg.entry[slot].devn[0] == 0) {
 		return 3;
+	} else if (cfg.entry[slot].devn[0] == 5) {
+		return 4;
 	} else if (cfg.entry[slot].devn[0] == 0xFF) {
 		return 0;
 	}
@@ -128,15 +148,16 @@ static int load_config_user(void) {
   if (fd >= 0) {
     rd = sceIoRead(fd, &cfg, sizeof(cfg));
     sceIoClose(fd);
-	if (cfg.ver == 3 && rd == sizeof(cfg))
+	if (cfg.ver == 4 && rd == sizeof(cfg))
 		return 0;
   }
   // default config
   sceClibMemset(&cfg, 0, sizeof(cfg));
-  cfg.ver = 3;
+  cfg.ver = 4;
   cfg.vec = 16;
   cfg.ion = 0;
   cfg.mrq = 1;
+  cfg.drv[0] = 1;
   set_slots();
   save_config_user();
   return 0;
@@ -154,6 +175,31 @@ static void set_cfg_ux_off(int offc) {
 	} else {
 		cfg.entry[0].t_off = 0x340; // IMC
 	}
+}
+
+static void applyKernelCmd(int kcmd) {
+	kcmd_cur = kcmd;
+	usercmd ucmd;
+	sceClibMemset(&ucmd, 0, 0x200);
+	ucmd.magic = 0xCAFEBABE;
+	switch (kcmd) {
+		case 1: // wipe first blocks
+			for (int i = 0; i < 24; ++i) {
+				ucmd.arg0 = i;
+				yamtUserCmdHandler(1, &ucmd);
+			}
+			break;
+		case 2:
+			yamtUserCmdHandler(2, &ucmd);
+			break;
+		case 3:
+			sceIoRemove(CONFIG_PATH);
+			load_config_user();
+			break;
+		default:
+			break;
+	}
+	kcmd_cur = 0;
 }
 
 static tai_hook_ref_t g_sceRegMgrGetKeyInt_SceSystemSettingsCore_hook;
@@ -179,7 +225,11 @@ static int sceRegMgrGetKeyInt_SceSystemSettingsCore_patched(const char *category
 		*value = cfg.entry[((name[10] - 0x30) * 10) + (name[11] - 0x30)].reqs[1];
 	  } else if (sceClibStrncmp(name, "adv_mode_", 9) == 0) {
 		*value = cfg.entry[((name[9] - 0x30) * 10) + (name[10] - 0x30)].mode;
-      }
+      } else if (sceClibStrncmp(name, "cop", 3) == 0) {
+		*value = kcmd_cur;
+	  } else if (sceClibStrncmp(name, "gpo_", 4) == 0) {
+		*value = cfg.drv[(name[4] - 0x30)];
+	  }
     }
     return 0;
   }
@@ -207,7 +257,11 @@ static int sceRegMgrSetKeyInt_SceSystemSettingsCore_patched(const char *category
 	  cfg.entry[((name[10] - 0x30) * 10) + (name[11] - 0x30)].reqs[1] = value;
 	} else if (sceClibStrncmp(name, "adv_mode_", 9) == 0) {
 	  cfg.entry[((name[9] - 0x30) * 10) + (name[10] - 0x30)].mode = value;
-    }
+    } else if (sceClibStrncmp(name, "cop", 3) == 0) {
+	  applyKernelCmd(value);
+	} else if (sceClibStrncmp(name, "gpo_", 4) == 0) {
+	  cfg.drv[(name[4] - 0x30)] = value;
+	}
     save_config_user();
     return 0;
   }

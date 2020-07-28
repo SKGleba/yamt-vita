@@ -17,6 +17,11 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -fno-rtti -fno-exceptions")
 include_directories(
 )
 
+link_directories(
+	${CMAKE_CURRENT_BINARY_DIR}
+	${CMAKE_CURRENT_BINARY_DIR}/../kernel/stubs/
+)
+
 # Builds
 function(ADD_RESOURCES out_var)
   set(result)
@@ -51,6 +56,7 @@ target_link_libraries(user
   SceRegistryMgr_stub
   ScePower_stub
   SceVshBridge_stub
+  yamtKernel_stub
 )
 
 set_target_properties(user
