@@ -1,10 +1,9 @@
-#include <psp2/io/fcntl.h>
-
 static int enable_logging = LOGGING_ENABLED;
 static char buf_logging[256];
 
 #define LOG(...) \
 	do { \
+		ksceDebugPrintf(__VA_ARGS__); \
 		if (enable_logging == 1) { \
 			memset(buf_logging, 0, sizeof(buf_logging)); \
 			snprintf(buf_logging, sizeof(buf_logging), ##__VA_ARGS__); \
@@ -14,6 +13,7 @@ static char buf_logging[256];
 	
 #define LOG_START(...) \
 	do { \
+		ksceDebugPrintf(__VA_ARGS__); \
 		if (enable_logging == 1) { \
 			memset(buf_logging, 0, sizeof(buf_logging)); \
 			snprintf(buf_logging, sizeof(buf_logging), ##__VA_ARGS__); \

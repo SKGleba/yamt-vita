@@ -1,8 +1,8 @@
-usbuo:
+yamtKernel:
   attributes: 0
   version:
-    major: 0
-    minor: 5
+    major: 2
+    minor: 0
   main:
     start: module_start
     stop: module_stop

@@ -47,10 +47,11 @@ vita_create_self(${SHORT_NAME}.self ${SHORT_NAME} UNSAFE)
 vita_create_vpk(${SHORT_NAME}.vpk ${VITA_TITLEID} ${SHORT_NAME}.self
   VERSION ${VITA_VERSION}
   NAME ${VITA_APP_NAME}
-  FILE ${CMAKE_BINARY_DIR}/plugin/yamt_360.skprx yamt_360.skprx
-  FILE ${CMAKE_BINARY_DIR}/plugin/yamt_365.skprx yamt_365.skprx
+  FILE ${CMAKE_BINARY_DIR}/plugin/yamt.skprx yamt.skprx
+  FILE ${CMAKE_BINARY_DIR}/plugin/yamt_lite.skprx yamt_lite.skprx
   FILE ${CMAKE_BINARY_DIR}/plugin/yamt.suprx yamt.suprx
-  FILE ${CMAKE_BINARY_DIR}/plugin/usbuo.skprx usbuo.skprx
+  FILE ${CMAKE_BINARY_DIR}/plugin/yamt_lite.suprx yamt_lite.suprx
+  FILE ${CMAKE_BINARY_DIR}/plugin/helper.skprx helper.skprx
   FILE ${CMAKE_BINARY_DIR}/res/icon0.png sce_sys/icon0.png
   FILE ${CMAKE_BINARY_DIR}/res/template.xml sce_sys/livearea/contents/template.xml
   FILE ${CMAKE_BINARY_DIR}/res/bg.png sce_sys/livearea/contents/bg.png

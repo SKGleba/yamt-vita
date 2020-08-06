@@ -1,21 +1,15 @@
 yamtKernel:
   attributes: 0
   version:
-    major: 2
+    major: 4
     minor: 0
   main:
     start: module_start
     stop: module_stop
   modules:
-    uyamt:
-      syscall: true
-      functions:
-        - yamtUserCmdHandler
     kyamt:
       functions:
-        - yamtMount
-        - yamtGetDevice
-        - yamtGetModOff
         - yamtGetCDevID
-        - yamtInject
-        - yamtCheckGPO
+        - yamtGetValidMids
+        - yamtGPIO
+        - yamtPatchUsbDrv

@@ -98,27 +98,14 @@ int installYamtB() {
 	sceIoRename("ur0:tai/boot_config.txt", "ur0:tai/boot_config.txt_oy");
 	
 	FILE *pFile = fopen("ur0:tai/boot_config.txt", "wb");
-	char *pos = strstr(pbf, "\nload	os0:kd/hid.skprx");
-	if (!pos) {
-		printf("failed to patch config: cannot locate hid line\n");
-		return -1;
-	}
 	char *pkx = strstr(pbf, "# YAMT\n");
 	if (!pkx) {
 		const char *patch1 = 
 			"# YAMT\n- load\tur0:tai/yamt.skprx\n\n";
 		fwrite(patch1, 1, strlen(patch1), pFile);
 	}
-	int len = pos - pbf;
-	fwrite(pbf, 1, len, pFile);
-	char *psx = strstr(pbf, "\n- load\tur0:tai/yamt_usb.skprx");
-	if (!psx) {
-		const char *patch2 = 
-			"\n- load\tur0:tai/yamt_usb.skprx\n";
-		fwrite(patch2, 1, strlen(patch2), pFile);
-	}
-	len = strlen(pos);
-	fwrite(pos, 1, len, pFile);
+	
+	fwrite(pbf, 1, psz, pFile);
 	fclose(pFile);
 	free(pbf);
 	return 0;
@@ -139,7 +126,7 @@ void installYamtC() {
 	char *pkx = strstr(pbf, "# YAMT\n");
 	if (!pkx) {
 		const char *patch1 = 
-			"# YAMT\n*NPXS10015\nur0:tai/yamt.suprx\n\n";
+			"# YAMT\n*NPXS10015\nur0:tai/yamt.suprx\n*KERNEL\nur0:tai/yamt_helper.skprx\n\n";
 		fwrite(patch1, 1, strlen(patch1), pFile);
 	}
 	
@@ -148,57 +135,13 @@ void installYamtC() {
 	free(pbf);
 }
 
-int main(int argc, char *argv[]) {
-	(void)argc;
-	(void)argv;
-
-	psvDebugScreenInit();
-	psvDebugScreenClear(COLOR_BLACK);
-	
-	static char version[16];
-	
-	SceKernelFwInfo data;
-	data.size = sizeof(SceKernelFwInfo);
-	_vshSblGetSystemSwVersion(&data);
-	
-	psvDebugScreenSetFgColor(COLOR_CYAN);
-	printf("YAMT installer v4.0b3 by SKGleba\n\n");
-	
-	if (ex("ur0:tai/boot_config.txt") == 0) {
-		psvDebugScreenSetFgColor(COLOR_RED);
-		printf("Could not find boot_config.txt in ur0:tai/ !\n");
-		sceKernelDelayThread(3 * 1000 * 1000);
-		sceKernelExitProcess(0);
-		sceKernelDelayThread(3 * 1000 * 1000);
-	}
-	
-	psvDebugScreenSetFgColor(COLOR_WHITE);
-	if (ex("ur0:tai/yamt.skprx")) {
-		printf("removing the YAMT driver... ");
-		sceIoRemove("ur0:tai/yamt.skprx");
-		sceIoRemove("ur0:tai/yamt.suprx");
-		printf("ok!\n");
-		psvDebugScreenSetFgColor(COLOR_YELLOW);
-		printf("\npress CROSS to remove the storage config\nor press any other key to continue... ");
-		if (get_key() == SCE_CTRL_CROSS)
-			sceIoRemove("ur0:tai/yamt.cfg");
+void copyYamtFull(void) {
 		psvDebugScreenSetFgColor(COLOR_WHITE);
-		printf("ok!\nremoving the USB compat driver... ");
-		sceIoRemove("ur0:tai/yamt_usb.skprx");
-		printf("ok!\n");
-	} else {
 		printf("copying the YAMT driver... ");
-		fcp((data.version < 0x3630000) ? "app0:yamt_360.skprx" : "app0:yamt_365.skprx", "ur0:tai/yamt.skprx");
+		fcp("app0:yamt.skprx", "ur0:tai/yamt.skprx");
+		fcp("app0:helper.skprx", "ur0:tai/yamt_helper.skprx");
 		fcp("app0:yamt.suprx", "ur0:tai/yamt.suprx");
-		printf("ok!\n");
-		psvDebugScreenSetFgColor(COLOR_YELLOW);
-		printf("\npress SQUARE to install the USB/PSVSD driver\nor press any other key to continue\n");
-		int addUSB = (get_key() == SCE_CTRL_SQUARE) ? 1 : 0;
 		psvDebugScreenSetFgColor(COLOR_WHITE);
-		if (addUSB) {
-			printf("copying the USB compat driver... ");
-			fcp("app0:usbuo.skprx", "ur0:tai/yamt_usb.skprx");
-		}
 		printf("ok!\nadding psp2 config lines... ");
 		if (installYamtB() < 0) {
 			psvDebugScreenSetFgColor(COLOR_RED);
@@ -211,7 +154,108 @@ int main(int argc, char *argv[]) {
 		installYamtC();
 		sceIoRemove("ux0:tai/config.txt");
 		printf("ok!\n");
+}
+
+void copyYamtLite(void) {
+		psvDebugScreenSetFgColor(COLOR_WHITE);
+		printf("copying the YAMT driver... ");
+		fcp("app0:yamt_lite.skprx", "ur0:tai/yamt.skprx");
+		fcp("app0:yamt_lite.suprx", "ur0:tai/yamt.suprx");
+		printf("ok!\nadding psp2 config lines... ");
+		if (installYamtB() < 0) {
+			psvDebugScreenSetFgColor(COLOR_RED);
+			printf("failed...\n ");
+			sceKernelDelayThread(4 * 1000 * 1000);
+			sceKernelExitProcess(0);
+			return;
+		}
+		printf("ok!\nadding tai config lines... ");
+		installYamtC();
+		sceIoRemove("ux0:tai/config.txt");
+		printf("ok!\n");
+}
+
+void removeYamt() {
+	psvDebugScreenSetFgColor(COLOR_WHITE);
+	printf("removing the YAMT driver... ");
+	sceIoRemove("ur0:tai/yamt.skprx");
+	sceIoRemove("ur0:tai/yamt_helper.skprx");
+	sceIoRemove("ur0:tai/yamt.suprx");
+	printf("ok!\n");
+	psvDebugScreenSetFgColor(COLOR_YELLOW);
+	printf("\npress CROSS to remove the storage config\nor press any other key to continue... ");
+	if (get_key() == SCE_CTRL_CROSS)
+		sceIoRemove("ur0:tai/yamt.cfg");
+	psvDebugScreenSetFgColor(COLOR_WHITE);
+	printf("ok!\n");
+}
+
+char mmit[][256] = {" -> Install the lite version"," -> Install the full version"," -> Uninstall"," -> Exit"};
+int sel = 0;
+int optct = 4;
+
+void smenu(){
+	psvDebugScreenClear(COLOR_BLACK);
+	psvDebugScreenSetFgColor(COLOR_CYAN);
+	printf("                    YAMT installer v4.0-b4                       \n");
+	printf("                         By SKGleba                              \n");
+	psvDebugScreenSetFgColor(COLOR_RED);
+	for(int i = 0; i < optct; i++){
+		if(sel==i){
+			psvDebugScreenSetFgColor(COLOR_GREEN);
+		}
+		printf("%s\n", mmit[i]);
+		psvDebugScreenSetFgColor(COLOR_RED);
 	}
+	printf("\n");
+	psvDebugScreenSetFgColor(COLOR_WHITE);
+}
+
+int main(int argc, char *argv[]) {
+	(void)argc;
+	(void)argv;
+
+	psvDebugScreenInit();
+	
+	if (ex("ur0:tai/boot_config.txt") == 0) {
+		psvDebugScreenSetFgColor(COLOR_RED);
+		printf("Could not find boot_config.txt in ur0:tai/ !\n");
+		sceKernelDelayThread(3 * 1000 * 1000);
+		sceKernelExitProcess(0);
+		sceKernelDelayThread(3 * 1000 * 1000);
+	}
+	
+switch_opts:
+	smenu();
+	sceKernelDelayThread(0.3 * 1000 * 1000);
+	switch (get_key()) {
+		case SCE_CTRL_CROSS:
+			if (sel == 3)
+				sceKernelExitProcess(0);
+			else if (sel == 2)
+				removeYamt();
+			else if (sel == 1)
+				copyYamtFull();
+			else
+				copyYamtLite();
+			break;
+		case SCE_CTRL_UP:
+			if(sel!=0){
+				sel--;
+			}
+			goto switch_opts;
+		case SCE_CTRL_DOWN:
+			if(sel+1<optct){
+				sel++;
+			}
+			goto switch_opts;
+		case SCE_CTRL_CIRCLE:
+			sceKernelExitProcess(0);
+			break;
+		default:
+			goto switch_opts;
+	}
+	
 	psvDebugScreenSetFgColor(COLOR_GREEN);
 	printf("\ndone, rebooting!\n");
 	sceKernelDelayThread(4 * 1000 * 1000);

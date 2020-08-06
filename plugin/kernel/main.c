@@ -7,32 +7,48 @@
 #include "defs.h"
 
 static cfg_struct cfg;
+static int newfw = 0, umaid = 0;
 static uint8_t mids[16];
 static char convc[16][64];
 static SceIoDevice custom[16];
-static tai_module_info_t finfo;
-static int isbusy = 0, tempf = 0, opret = 0;
-static SceIoMountPoint *(* sceIoFindMountPoint)(int id) = NULL;
+static uint32_t gpio[4];
+const char umass_skipb[] = {0x0d, 0xe0, 0x00, 0xbf};
+const char stub_ret_one[] = {0x01, 0x00, 0xa0, 0xe3, 0x1e, 0xff, 0x2f, 0xe1};
+
+int yamtPatchUsbDrv(const char *drvpath) {
+	gpio[2] = 2;
+	INJECT("SceUsbServ", 0x22ec, &stub_ret_one, sizeof(stub_ret_one));
+	SceUID modid = ksceKernelLoadModule(drvpath, 0x800, NULL);
+	if (modid >= 0) {
+		INJECT_NOGET(modid, 0x1546, &umass_skipb, sizeof(umass_skipb));
+		ksceKernelStartModule(modid, 0, NULL, 0, NULL, NULL);
+		gpio[2] = 0;
+		if (umaid > 0)
+			ksceIoMount(umaid, NULL, 0, 0, 0, 0);
+	}
+	gpio[2] = 0;
+	return modid;
+}
 
 static int mthr(SceSize args, void *argp) {
-	isbusy = 1;
-	if (tempf == 0) {
-		int curid = 0;
-		while (curid < 15) {
-			if (mids[curid] > 0) {
-				ksceIoUmount(mids[curid] * 0x100, 0, 0, 0);
-				ksceIoUmount(mids[curid] * 0x100, 1, 0, 0);
-				ksceIoMount(mids[curid] * 0x100, NULL, 0, 0, 0, 0);
-			}
-			curid-=-1;
+	gpio[1] = 1;
+	int curid = 0;
+	while (curid < 15 && (gpio[1])) {
+		if (mids[curid] > 0) {
+			ksceIoUmount(mids[curid] * 0x100, 0, 0, 0);
+			ksceIoUmount(mids[curid] * 0x100, 1, 0, 0);
+			ksceIoMount(mids[curid] * 0x100, NULL, 0, 0, 0, 0);
 		}
-	} else {
-		ksceIoUmount(tempf, 0, 0, 0);
-		ksceIoUmount(tempf, 1, 0, 0);
-		ksceIoMount(tempf, NULL, 0, 0, 0, 0);
+		curid-=-1;
 	}
-	isbusy = 0;
-	tempf = 0;
+	gpio[1] = 0;
+	if (cfg.drv[0]) {
+		gpio[2] = 1;
+		ksceKernelDelayThread(50000);
+		if (gpio[2] == 1)
+			yamtPatchUsbDrv("os0:kd/umass.skprx");
+		gpio[2] = 0;
+	}
 	ksceKernelExitDeleteThread(0);
 	return 1;
 }
@@ -54,10 +70,13 @@ static int req(uint8_t req, uint8_t wstat) {
 }
 
 static void patch_redirect(void) {
-	size_t base_oof = (0x1D340 - 0xA0);
-#ifdef FW365
-	base_oof = (0x1D498 - 0xA0);
-#endif
+	size_t base_oof = (newfw) ? (0x1D498 - 0xA0) : (0x1D340 - 0xA0);
+	size_t get_dev_mnfo_off = (newfw) ? 0x182f5 : 0x138c1;
+	SceIoMountPoint *(* sceIoFindMountPoint)(int id) = NULL;
+	SceUID iof_modid = ksceKernelSearchModuleByName("SceIofilemgr");
+	module_get_offset(KERNEL_PID, iof_modid, 0, get_dev_mnfo_off, (uintptr_t *)&sceIoFindMountPoint);
+	if (iof_modid < 0 || sceIoFindMountPoint == NULL)
+		return;
 	SceIoMountPoint *mount1;
 	int loopos = 0, vetr = 0;
 	while (loopos < cfg.vec) {
@@ -71,48 +90,14 @@ static void patch_redirect(void) {
 				custom[vetr].blkdev = custom[vetr].blkdev2 = convc[vetr];
 				custom[vetr].id = (cfg.entry[loopos].mid * 0x100);
 				mount1->dev = &custom[vetr];
+				mount1->dev2 = &custom[vetr];
 			} else if (cfg.entry[loopos].mode == 0 && cfg.entry[loopos].t_off != 0xDEADBEEF)
-				INJECT_NOGET(finfo, (base_oof + cfg.entry[loopos].t_off), convc[vetr], strlen(convc[vetr]) + 1);
+				INJECT_NOGET(iof_modid, (base_oof + cfg.entry[loopos].t_off), convc[vetr], strlen(convc[vetr]) + 1);
 			mids[vetr] = cfg.entry[loopos].mid;
 			vetr = vetr + 1;
 		}
 		loopos = loopos + 1;
 	}
-}
-
-// Returns ptr to [name]->[segidx] @ [offset]
-int yamtGetModOff(const char *name, int segidx, size_t offset) {
-	uintptr_t addr;
-	tai_module_info_t info;
-	info.size = sizeof(info);
-	if (module_get_by_name_nid(KERNEL_PID, name, &info) >= 0) {
-		module_get_offset(KERNEL_PID, info.modid, segidx, offset, &addr);
-		return (int)addr;
-	}
-	return 0;
-}
-
-// Returns SceIoDevice for mountpoint with id [id]
-int yamtGetDevice(int id) {
-	SceIoMountPoint *mountp = sceIoFindMountPoint(id);
-	if (mountp == NULL)
-		return 0;
-	return (int)(mountp->dev);
-}
-
-void yamtInject(const char *name, uint32_t off, void *data, uint32_t sz) {
-	INJECT(name, off, data, sz);
-}
-
-// Sets ptable[id]->pdescr to [cdev] and remounts [id]
-int yamtMount(SceIoDevice *cdev, int id) {
-	if (cdev != NULL) {
-		SceIoMountPoint *mount1 = sceIoFindMountPoint(id);
-		mount1->dev = cdev;
-	}
-	ksceIoUmount(id, 0, 0, 0);
-	ksceIoUmount(id, 1, 0, 0);
-	return ksceIoMount(id, NULL, 0, 0, 0, 0);
 }
 
 int yamtGetCDevID(int master, int slave) {
@@ -125,67 +110,32 @@ int yamtGetCDevID(int master, int slave) {
 	return 0;
 }
 
-int yamtCheckGPO(int drvn) {
-	if (drvn > 3)
-		return 0;
-	return cfg.drv[drvn];
+int yamtGetValidMids(void* dst) {
+	if (cfg.ion == 0)
+		return -1;
+	memcpy(dst, &mids, 16);
+	return 0;
 }
 
-int yamtUserCmdHandler(int cmd, void *cmdbuf) {
-	int state = 0;
-	opret = -1;
-	if (cmdbuf == NULL)
-		return opret;
-	usercmd buf;
-	ENTER_SYSCALL(state);
-	ksceKernelMemcpyUserToKernel(&buf, (uintptr_t)cmdbuf, 0x210);
-	EXIT_SYSCALL(state);
-	if (buf.magic == 0xCAFEBABE) {
-		switch (cmd) {
-			case 0: // read SD to buf
-				opret = ksceSdifReadSectorSd(ksceSdifGetSdContextPartValidateSd(1), buf.arg0, (void *)&buf.data, 1);
-				break;
-			case 1: // write SD to buf
-				opret = ksceSdifWriteSectorSd(ksceSdifGetSdContextPartValidateSd(1), buf.arg0, &buf.data, 1);
-				break;
-			case 2: // remount everything
-				for (int i = 0; i < 16; ++i) {
-					if (mids[i] > 0) {
-						ksceIoUmount(mids[i] * 0x100, 0, 0, 0);
-						ksceIoUmount(mids[i] * 0x100, 1, 0, 0);
-						ksceIoMount(mids[i] * 0x100, NULL, 0, 0, 0, 0);
-					}
-				}
-				opret = 0;
-				break;
-			default:
-				break;
-		}
-	}
-	ENTER_SYSCALL(state);
-	ksceKernelMemcpyKernelToUser((uintptr_t)cmdbuf, &buf, 0x210);
-	EXIT_SYSCALL(state);
-	return opret;
+int yamtGPIO(uint32_t mode, uint32_t slot, uint32_t value) {
+	if (mode > 1 || slot > 3)
+		return 0;
+	if (mode)
+		gpio[slot] = value;
+	return gpio[slot];
 }
 
 // GC-SD->ux0, MC->uma0
 static void setupDefaultConfig(void) {
-	cfg.ion = cfg.mrq = cfg.entry[0].reqs[0] = cfg.entry[1].reqs[0] = cfg.entry[0].mode = 1;
-	cfg.entry[1].mode = cfg.entry[0].reqs[1] = cfg.entry[1].reqs[1] = cfg.entry[0].devn[2] = 1;
-	cfg.vec = cfg.entry[0].devn[0] = cfg.entry[1].devn[2] = 2;
-	cfg.entry[0].devn[1] = cfg.entry[1].devn[1] = 0;
-	cfg.ver = 4;
-	cfg.entry[0].devn[3] = 16;
-	cfg.entry[0].mid = 0x8;
-	cfg.entry[1].devn[0] = 4;
-	cfg.entry[1].devn[3] = 9;
-	cfg.entry[1].mid = 0xF;
+	cfg.ion = cfg.mrq = 1;
+	cfg.vec = 0;
 }
 
 void _start() __attribute__ ((weak, alias ("module_start")));
 int module_start(SceSize argc, const void *args)
 {
 	// read cfg to mem
+	memset(&gpio, 0, sizeof(gpio));
 	memset(&cfg, 0, sizeof(cfg));
 	int fd = ksceIoOpen("ur0:tai/yamt.cfg", SCE_O_RDONLY, 0);
 	if (fd > 0) {
@@ -195,8 +145,10 @@ int module_start(SceSize argc, const void *args)
 	if (fd < 0 || cfg.ver != 4)
 		setupDefaultConfig();
 	
+	newfw = tai_init();
+	
 	// Check config flags
-	if (cfg.ion == 0 || cfg.vec > 16)
+	if (cfg.ion == 0 || cfg.vec > 16 || newfw < 0)
 		return SCE_KERNEL_START_SUCCESS;
 	
 	// Patch SD checks
@@ -205,20 +157,19 @@ int module_start(SceSize argc, const void *args)
 		INJECT("SceSysmem", 0x21610, movsr01, sizeof(movsr01));
 	}
 	
-	// Prepare iofilemgr patch stuff
-	size_t get_dev_mnfo_off = 0x138c1;
-#ifdef FW365
-	get_dev_mnfo_off = 0x182f5;
-#endif
-	finfo.size = sizeof(finfo);
-	module_get_by_name_nid(KERNEL_PID, "SceIofilemgr", &finfo);
-	module_get_offset(KERNEL_PID, finfo.modid, 0, get_dev_mnfo_off, (uintptr_t *)&sceIoFindMountPoint);
+	gpio[0] = *(uint32_t *)cfg.drv;
 	
 	// "Big" redirect loop
 	patch_redirect();
 	
 	// ksceIoMount threaded to save time
 	ksceKernelStartThread(ksceKernelCreateThread("x", mthr, 0x00, 0x1000, 0, 0, 0), 0, NULL);
+	
+	umaid = yamtGetCDevID(5, 16); // uma---entire
+	if (umaid == 0)
+		umaid = yamtGetCDevID(5, 0); // uma---a
+	
+	gpio[3] = (cfg.drv[2]) ? 0x800 : umaid;
 	
 	return SCE_KERNEL_START_SUCCESS;
 }

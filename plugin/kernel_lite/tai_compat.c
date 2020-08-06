@@ -1,14 +1,7 @@
 #include "tai_compat.h"
 
-// getModuleInfo ptr
 static int (* get_mod_info)(SceUID pid, SceUID modid, SceKernelModuleInfo *sceinfo_op) = NULL;
 
-/*
- sets the getModuleInfo ptr and returns
- * 0 if fw is probably 3.60
- * 1 if fw is probably 3.65
- * -1 if bad fw or other error
-*/
 int tai_init(void) {
 	char stuz[4];
 	stuz[0] = *(uint8_t *)ksceKernelSearchModuleByName;
@@ -24,8 +17,6 @@ int tai_init(void) {
 	}
 	return 1;
 }
-
-// taihen's module_get_offset
 int module_get_offset(SceUID pid, SceUID modid, int segidx, size_t offset, uintptr_t *addr) {
   SceKernelModuleInfo sceinfo;
   size_t count;

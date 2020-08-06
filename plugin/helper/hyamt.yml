@@ -1,0 +1,13 @@
+yamtHelper:
+  attributes: 0
+  version:
+    major: 2
+    minor: 0
+  main:
+    start: module_start
+    stop: module_stop
+  modules:
+    hyamt:
+      syscall: true
+      functions:
+        - yamtUserCmdHandler

@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+
+<system_settings version="1.0" plugin="peripherals_settings_plugin" back_button_color="20.0, 1.0, 5.0, 1.0">>
+
+  <!-- 周辺機器 -->
+  <setting_list id="peripherals_settings" title="msg_accessories">
+  
+    <setting_list id="id_yamt"
+                  title="Storage Devices"
+                  icon="tex_spanner">
+	  <toggle_switch id="enable_yamt"
+                   key="/CONFIG/YAMT/enable_driver"
+                   title="Use YAMT"
+				   description="Enables the YAMT driver"
+                   icon="tex_spanner"/>
+      <list id="id_yamt_ux" 
+            key="/CONFIG/YAMT/uxm"
+            title="ux0:">
+        <list_item id="id_yamt_ux_off" title="Default" value="0"/>
+        <list_item id="id_yamt_ux_gsd" title="SD2Vita" value="1"/>
+		<list_item id="id_yamt_ux_xmc" title="Memory Card" value="2"/>
+		<list_item id="id_yamt_ux_imc" title="Internal Storage" value="3"/>
+      </list>
+	  <list id="id_yamt_uma" 
+            key="/CONFIG/YAMT/umm"
+            title="uma0:">
+        <list_item id="id_yamt_umm_off" title="Default" value="0"/>
+        <list_item id="id_yamt_umm_gsd" title="SD2Vita" value="1"/>
+		<list_item id="id_yamt_umm_xmc" title="Memory Card" value="2"/>
+		<list_item id="id_yamt_umm_imc" title="Internal Storage" value="3"/>
+      </list>
+      <list id="id_yamt_cop" 
+              key="/CONFIG/YAMT/cop"
+              title="Developer options">
+          <list_item id="id_yamt_cop_idle" title="Idle" value="0"/>
+		  <list_item id="id_yamt_cop_rmcfg" title="Reset the YAMT storage config" value="1"/>
+		  <list_item id="id_yamt_cop_formatsd" title="TexFAT format GC-SD's storage" value="2"/>
+		  <list_item id="id_yamt_cop_rwu" title="RW mount sa0 and pd0" value="3"/>
+      </list>
+    </setting_list>
+
+    <!-- ワイヤレスコントローラー(for Dolce) -->
+    <button id="wireless_controller" title="msg_wireless_controllers" icon="tex_spanner"/>
+
+	  <!-- Bluetooth®設定 -->
+    <link id="bluetooth_settings" title="msg_bt_devices" file="bluetooth_settings.xml" icon="tex_spanner"/>
+
+	  <!-- BDリモートコントローラーを登録する -->
+    <button id="bd_remocon_register" title="msg_register_bd_remote_controller" icon="tex_spanner"/>
+
+	  <!-- 外付けキーボード -->
+	  <setting_list id="keyboard_settings" title="msg_external_keyboard" icon="tex_spanner">
+		  <!-- キーボードのタイプ  -->
+      <!-- Bug86420:オプションメニューの幅を全言語での最大長にあわせた幅に固定する -->
+		  <list id="id_keyboard_type" title="msg_type" min_width="643">
+			  <list_item id="type_dk" title="msg_language_dk" value="0"/>
+			  <list_item id="type_de" title="msg_language_de_de" value="1"/>
+			  <list_item id="type_de_sw" title="msg_language_de_ch" value="2"/>
+			  <list_item id="type_en_us" title="msg_language_en_us" value="3"/>
+        <list_item id="type_en_uk" title="msg_language_en_uk" value="4"/>
+			  <list_item id="type_es" title="msg_language_es" value="5"/>
+			  <list_item id="type_fi"	 title="msg_language_fi" value="6"/>
+        <list_item id="type_fr" title="msg_language_fr_fr" value="7"/>
+			  <list_item id="type_be" title="msg_language_fr_be" value="8"/>
+			  <list_item id="type_fr_ca" title="msg_language_fr_ca" value="9"/>
+			  <list_item id="type_fr_sw" title="msg_language_fr_ch" value="10"/>
+			  <list_item id="type_it" title="msg_language_it" value="11"/>
+			  <list_item id="type_nl" title="msg_language_nl" value="12"/>
+			  <list_item id="type_no" title="msg_language_no" value="13"/>
+			  <list_item id="type_pl" title="msg_language_pl" value="14"/>
+			  <list_item id="type_pt_br" title="msg_language_pt_br" value="15"/>
+			  <list_item id="type_pt_po" title="msg_language_pt_pt" value="16"/>
+			  <list_item id="type_ru" title="msg_language_ru" value="17"/>
+			  <list_item id="type_se" title="msg_language_se" value="18"/>
+			  <list_item id="type_tr" title="msg_language_tr" value="19"/>
+			  <list_item id="type_jp" title="msg_language_jp" value="20"/>
+			  <list_item id="type_kr" title="msg_language_kr" value="21"/>
+			  <list_item id="type_cn_s" title="msg_language_cn_s" value="22"/>
+			  <list_item id="type_cn_t" title="msg_language_cn_t" value="23"/>
+		  </list>
+		  <!-- キーボードの入力方式(繁体中文)  -->
+		  <list id="id_keyboard_input_mode1" title="msg_tc_input_method">
+			  <list_item id="mode_zhuyin" title="msg_zhuyin" value="0"/>
+			  <list_item id="mode_pinyin_taiwan" title="msg_pinyin_taiwan" value="1"/>
+        <list_item id="mode_pinyin_hongkong" title="msg_pinyin_hongkong" value="2"/>
+			  <list_item id="mode_cangjie" title="msg_cangjie" value="3"/>
+		  </list>
+		  <!-- キーボードの入力方式  -->
+		  <list id="id_keyboard_input_mode2" title="msg_ja_input_method">
+			  <list_item id="mode_romaji" title="msg_ja_romaji" value="0"/>
+			  <list_item id="mode_kana" title="msg_ja_kana" value="1"/>
+		  </list>
+		  <!-- キーリピート(開始までの時間) -->
+		  <list id="id_keyrepeat_delay" title="msg_key_repeat_delay">
+			  <list_item id="short" title="msg_short" value="0"/>
+			  <list_item id="normal" title="msg_nrml" value="1"/>
+			  <list_item id="long" title="msg_long" value="2"/>
+		  </list>
+		  <!-- キーリピート(速さ) -->
+		  <list id="id_keyrepeat_rate" title="msg_key_repeat_rate">
+			  <list_item id="fast" title="msg_fast" value="0"/>
+			  <list_item id="regular" title="msg_nrml" value="1"/>
+			  <list_item id="slow" title="msg_slow" value="2"/>
+		  </list>
+	  </setting_list>
+
+  </setting_list>
+
+  <!--ワイヤレスコントローラー(for Dolce)--> 
+  <setting_list id="controller_settings" title="msg_wireless_controllers" icon="tex_spanner">
+		  
+    <!--コントローラー番号-->   
+		<list id="id_controller_assign" title="msg_controller_number" icon="tex_spanner">
+			<list_item id="list_item_value_1" title="1" value="1"/>
+			<list_item id="list_item_value_2" title="2" value="2"/>
+      <list_item id="list_item_value_3" title="3" value="3"/>
+      <list_item id="list_item_value_4" title="4" value="4"/>
+    </list>
+		  
+    <!--コントローラー振動機能--> 
+		<toggle_switch id="id_controller_vibration_func"
+                    key="/CONFIG/SYSTEM/controller_vibration"
+                    title="msg_enable_vibration"
+                    icon="tex_spanner"/>
+	</setting_list>
+
+</system_settings>

@@ -7,41 +7,15 @@
 #include <psp2/power.h>
 #include <taihen.h>
 #include <string.h>
-#include "FatFormatProxy.h"
+#include "../kernel_lite/defs.h"
+#include "../user/FatFormatProxy.h"
 
 #define CONFIG_PATH "ur0:tai/yamt.cfg"
-
-typedef struct cfg_entry {
-  size_t t_off;
-  uint8_t mid; // mountpoint id / 0x100
-  uint8_t mode;
-  uint8_t reqs[2]; // req, t/f
-  uint8_t devn[4];
-} __attribute__((packed)) cfg_entry;
-
-typedef struct cfg_struct {
-  uint8_t ver;
-  uint8_t vec;
-  uint8_t ion;
-  uint8_t mrq;
-  uint8_t drv[4];
-  cfg_entry entry[16];
-} __attribute__((packed)) cfg_struct;
-
-typedef struct usercmd {
-  uint32_t magic;
-  uint32_t arg0;
-  uint32_t arg1;
-  uint32_t arg2;
-  char data[0x200];
-} __attribute__((packed)) usercmd;
 
 extern unsigned char _binary_peripherals_settings_xml_start;
 extern unsigned char _binary_peripherals_settings_xml_size;
 
-static cfg_struct cfg;
-
-static int kcmd_cur = 0;
+static lite_cfg_struct cfg;
 
 static SceUID g_hooks[6];
 
@@ -72,94 +46,6 @@ int module_get_offset(SceUID modid, int segidx, uint32_t offset, void *stub_out)
 	return 0;
 }
 
-static void set_slots(void) {
-	cfg.entry[0].t_off = 0x808; // XMCUX
-	cfg.entry[0].mid = 0x8;
-	cfg.entry[1].t_off = 0x43C; // UMA
-	cfg.entry[1].mid = 0xF;
-	cfg.entry[2].t_off = 0x164; // SD0
-	cfg.entry[2].mid = 0x1;
-	cfg.entry[3].t_off = 0x72C; // OS0
-	cfg.entry[3].mid = 0x2;
-	cfg.entry[4].t_off = 0x60C; // VS0
-	cfg.entry[4].mid = 0x3;
-	cfg.entry[5].t_off = 0x1B4; // VD0
-	cfg.entry[5].mid = 0x4;
-	cfg.entry[6].t_off = 0x60; // TM0
-	cfg.entry[6].mid = 0x5;
-	cfg.entry[7].t_off = 0xEC; // UR0
-	cfg.entry[7].mid = 0x6;
-	cfg.entry[8].t_off = 0x28C; // UD0
-	cfg.entry[8].mid = 0x7;
-	cfg.entry[9].t_off = 0x18; // GRO0
-	cfg.entry[9].mid = 0x9;
-	cfg.entry[10].t_off = 0x40C; // GRW0
-	cfg.entry[10].mid = 0xA;
-	cfg.entry[11].t_off = 0x370; // SA0
-	cfg.entry[11].mid = 0xB;
-	cfg.entry[12].t_off = 0x4DC; // PD0
-	cfg.entry[12].mid = 0xC;
-	cfg.entry[13].t_off = 0xDEADBEEF; // IMC0
-	cfg.entry[13].mid = 0xD;
-	cfg.entry[14].t_off = 0xDEADBEEF; // XMC0
-	cfg.entry[14].mid = 0xE;
-	int lpos = 0;
-	while (lpos < 16) {
-		sceClibMemset(&cfg.entry[lpos].devn, 0xFF, sizeof(cfg.entry[lpos].devn));
-		cfg.entry[lpos].mode = 1;
-		lpos = lpos + 1;
-	}
-}
-
-static void set_cfg_etr_ez(int slot, int dno) {
-	if (dno == 0) { // DEFAULT
-		sceClibMemset(&cfg.entry[slot].devn, 0xFF, sizeof(cfg.entry[slot].devn));
-	} else if (dno == 1) { // sd2vita
-		cfg.entry[slot].devn[0] = 2;
-		cfg.entry[slot].devn[1] = 0;
-		cfg.entry[slot].devn[2] = 1;
-		cfg.entry[slot].devn[3] = 16;
-		cfg.entry[slot].reqs[0] = 1;
-		cfg.entry[slot].reqs[1] = 1;
-	} else if (dno == 2) {
-		cfg.entry[slot].devn[0] = 4;
-		cfg.entry[slot].devn[1] = 0;
-		cfg.entry[slot].devn[2] = 2;
-		cfg.entry[slot].devn[3] = 9;
-		cfg.entry[slot].reqs[0] = 2;
-		cfg.entry[slot].reqs[1] = 1;
-	} else if (dno == 3) {
-		cfg.entry[slot].devn[0] = 0;
-		cfg.entry[slot].devn[1] = 0;
-		cfg.entry[slot].devn[2] = 2;
-		cfg.entry[slot].devn[3] = 9;
-		cfg.entry[slot].reqs[0] = 0;
-		cfg.entry[slot].reqs[1] = 0;
-	} else if (dno == 4) {
-		cfg.entry[slot].devn[0] = 5;
-		cfg.entry[slot].devn[1] = 0;
-		cfg.entry[slot].devn[2] = 2;
-		cfg.entry[slot].devn[3] = 16;
-		cfg.entry[slot].reqs[0] = 0;
-		cfg.entry[slot].reqs[1] = 0;
-	}
-}
-
-static int get_cfg_etr_ez(int slot) {
-	if (cfg.entry[slot].devn[0] == 2) {
-		return 1;
-	} else if (cfg.entry[slot].devn[0] == 4) {
-		return 2;
-	} else if (cfg.entry[slot].devn[0] == 0) {
-		return 3;
-	} else if (cfg.entry[slot].devn[0] == 5) {
-		return 4;
-	} else if (cfg.entry[slot].devn[0] == 0xFF) {
-		return 0;
-	}
-	return 0;
-}
-
 static void save_config_user(void) {
   SceUID fd;
   fd = sceIoOpen(CONFIG_PATH, SCE_O_TRUNC | SCE_O_CREAT | SCE_O_WRONLY, 6);
@@ -176,107 +62,33 @@ static int load_config_user(void) {
   if (fd >= 0) {
     rd = sceIoRead(fd, &cfg, sizeof(cfg));
     sceIoClose(fd);
-	if (cfg.ver == 4 && rd == sizeof(cfg))
+	if (cfg.ver == 0x34 && rd == sizeof(cfg))
 		return 0;
   }
   // default config
   sceClibMemset(&cfg, 0, sizeof(cfg));
-  cfg.ver = 4;
-  cfg.vec = 16;
-  cfg.ion = 0;
-  cfg.mrq = 1;
-  cfg.drv[0] = 1;
-  set_slots();
+  cfg.ver = 0x34;
+  cfg.ion = 0x30;
+  cfg.uxm = 0x30;
+  cfg.umm = 0x30;
   save_config_user();
   return 0;
 }
 
-static int get_cfg_ux_off(void) {
-	if (cfg.entry[0].t_off == 0x808)
-		return 1;
-	return 0;
-}
-
-static void set_cfg_ux_off(int offc) {
-	if (offc == 1) {
-		cfg.entry[0].t_off = 0x808; // XMC
-	} else {
-		cfg.entry[0].t_off = 0x340; // IMC
-	}
-}
-
-static void switchTXF_ext(int mode) {
-  char xf = (mode == 9) ? 0x2 : 0x1;
-  SceUID fd = sceIoOpen("sdstor0:ext-lp-ign-entire", SCE_O_WRONLY, 6);
-  if (fd >= 0) {
-    sceIoPwrite(fd, &xf, 1, 0x6e);
-    sceIoClose(fd);
-  }
-  fd = sceIoOpen("sdstor0:int-lp-ign-userext", SCE_O_WRONLY, 6);
-  if (fd >= 0) {
-    sceIoPwrite(fd, &xf, 1, 0x6e);
-    sceIoClose(fd);
-  }
-  fd = sceIoOpen("sdstor0:int-lp-ign-user", SCE_O_WRONLY, 6);
-  if (fd >= 0) {
-    sceIoPwrite(fd, &xf, 1, 0x6e);
-    sceIoClose(fd);
-  }
-  fd = sceIoOpen("sdstor0:xmc-lp-ign-userext", SCE_O_WRONLY, 6);
-  if (fd >= 0) {
-    sceIoPwrite(fd, &xf, 1, 0x6e);
-    sceIoClose(fd);
-  }
-}
-
-void applyKernelCmd(int kcmd) {
-	kcmd_cur = kcmd;
-	usercmd ucmd;
-	sceClibMemset(&ucmd, 0, 0x200);
-	ucmd.magic = 0xCAFEBABE;
-	uint8_t *cmids = &ucmd.data;
-	switch (kcmd) {
-		case 1: // wipe first blocks
-			for (int i = 0; i < 24; ++i) {
-				ucmd.arg0 = i;
-				yamtUserCmdHandler(1, &ucmd);
-			}
-			break;
-		case 2:
-			yamtUserCmdHandler(2, &ucmd);
-			break;
-		case 3:
+static void callCOp(int opid) {
+	switch (opid) {
+		case 1:
 			sceIoRemove(CONFIG_PATH);
 			load_config_user();
 			break;
-		case 4: // Format the SD card to exFAT
+		case 2: // Format the SD card to exFAT
 			formatBlkDev_settings("sdstor0:ext-lp-ign-entire", F_TYPE_EXFAT, 1);
 			break;
-		case 5:
-			ucmd.arg0 = 1;
-			ucmd.arg1 = 2;
-			cmids[0] = 0xB;
-			cmids[1] = 0xC;
-			yamtUserCmdHandler(2, &ucmd);
-			break;
-		case 6:
-			ucmd.arg0 = 1;
-			ucmd.arg1 = 2;
-			cmids[0] = 0x2;
-			cmids[1] = 0x3;
-			yamtUserCmdHandler(2, &ucmd);
-			break;
-		case 7: // Format the USB device to exFAT
-			formatBlkDev_settings("sdstor0:uma-lp-ign-entire", F_TYPE_EXFAT, 1);
-			break;
-		case 8:
-		case 9:
-			switchTXF_ext(kcmd);
+		case 3:
 			break;
 		default:
 			break;
 	}
-	kcmd_cur = 0;
 }
 
 static tai_hook_ref_t g_sceRegMgrGetKeyInt_SceSystemSettingsCore_hook;
@@ -285,27 +97,13 @@ static int sceRegMgrGetKeyInt_SceSystemSettingsCore_patched(const char *category
     if (value) {
       load_config_user();
       if (sceClibStrncmp(name, "enable_driver", 13) == 0) {
-        *value = cfg.ion;
-	  } else if (sceClibStrncmp(name, "enable_gcsd", 11) == 0) {
-        *value = cfg.mrq;
+        *value = cfg.ion - 0x30;
       } else if (sceClibStrncmp(name, "uxm", 3) == 0) {
-		*value = get_cfg_etr_ez(0);
+		*value = cfg.uxm - 0x30;
 	  } else if (sceClibStrncmp(name, "umm", 3) == 0) {
-		*value = get_cfg_etr_ez(1);
-	  } else if (sceClibStrncmp(name, "uxpmode", 7) == 0) {
-		*value = get_cfg_ux_off();
-      } else if (sceClibStrncmp(name, "adv_dev_", 8) == 0) {
-		*value = cfg.entry[((name[8] - 0x30) * 10) + (name[9] - 0x30)].devn[name[10] - 0x30];
-      } else if (sceClibStrncmp(name, "adv_rchk_", 9) == 0) {
-		*value = cfg.entry[((name[9] - 0x30) * 10) + (name[10] - 0x30)].reqs[0];
-      } else if (sceClibStrncmp(name, "adv_rcret_", 10) == 0) {
-		*value = cfg.entry[((name[10] - 0x30) * 10) + (name[11] - 0x30)].reqs[1];
-	  } else if (sceClibStrncmp(name, "adv_mode_", 9) == 0) {
-		*value = cfg.entry[((name[9] - 0x30) * 10) + (name[10] - 0x30)].mode;
-      } else if (sceClibStrncmp(name, "cop", 3) == 0) {
-		*value = kcmd_cur;
-	  } else if (sceClibStrncmp(name, "gpo_", 4) == 0) {
-		*value = cfg.drv[(name[4] - 0x30)];
+		*value = cfg.umm - 0x30;
+	  } else if (sceClibStrncmp(name, "cop", 3) == 0) {
+	    *value = 0;
 	  }
     }
     return 0;
@@ -317,27 +115,13 @@ static tai_hook_ref_t g_sceRegMgrSetKeyInt_SceSystemSettingsCore_hook;
 static int sceRegMgrSetKeyInt_SceSystemSettingsCore_patched(const char *category, const char *name, int value) {
   if (sceClibStrncmp(category, "/CONFIG/YAMT", 12) == 0) {
     if (sceClibStrncmp(name, "enable_driver", 13) == 0) {
-      cfg.ion = value;
-    } else if (sceClibStrncmp(name, "enable_gcsd", 11) == 0) {
-      cfg.mrq = value;
+      cfg.ion = value + 0x30;
     } else if (sceClibStrncmp(name, "uxm", 3) == 0) {
-      set_cfg_etr_ez(0, value);
+      cfg.uxm = value + 0x30;
     } else if (sceClibStrncmp(name, "umm", 3) == 0) {
-      set_cfg_etr_ez(1, value);
-	} else if (sceClibStrncmp(name, "uxpmode", 7) == 0) {
-      set_cfg_ux_off(value);
-    } else if (sceClibStrncmp(name, "adv_dev_", 8) == 0) {
-	  cfg.entry[((name[8] - 0x30) * 10) + (name[9] - 0x30)].devn[name[10] - 0x30] = value;
-    } else if (sceClibStrncmp(name, "adv_rchk_", 9) == 0) {
-	  cfg.entry[((name[9] - 0x30) * 10) + (name[10] - 0x30)].reqs[0] = value;
-    } else if (sceClibStrncmp(name, "adv_rcret_", 10) == 0) {
-	  cfg.entry[((name[10] - 0x30) * 10) + (name[11] - 0x30)].reqs[1] = value;
-	} else if (sceClibStrncmp(name, "adv_mode_", 9) == 0) {
-	  cfg.entry[((name[9] - 0x30) * 10) + (name[10] - 0x30)].mode = value;
-    } else if (sceClibStrncmp(name, "cop", 3) == 0) {
-	  applyKernelCmd(value);
-	} else if (sceClibStrncmp(name, "gpo_", 4) == 0) {
-	  cfg.drv[(name[4] - 0x30)] = value;
+      cfg.umm = value + 0x30;
+	} else if (sceClibStrncmp(name, "cop", 3) == 0) {
+	  callCOp(value);
 	}
     save_config_user();
     return 0;

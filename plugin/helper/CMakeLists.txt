@@ -8,7 +8,7 @@ if(NOT DEFINED CMAKE_TOOLCHAIN_FILE)
   endif()
 endif()
 
-project(yamt)
+project(hyamt)
 include("${VITASDK}/share/vita.cmake" REQUIRED)
 
 set(CMAKE_C_FLAGS "-Wl,-q -Wall -O3 -std=gnu99")
@@ -17,34 +17,39 @@ set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} -std=c++11 -fno-rtti -fno-exceptions")
 include_directories(
 )
 
-add_executable(yamt.elf
-	tai_compat.c
+link_directories(
+	${CMAKE_CURRENT_BINARY_DIR}
+	${CMAKE_CURRENT_BINARY_DIR}/../kernel/stubs/
+)
+
+add_executable(hyamt.elf
 	main.c
 )
 
-target_link_libraries(yamt.elf
-	SceThreadmgrForDriver_stub
-	SceSysconForDriver_stub
-	SceIofilemgrForDriver_stub
-	SceSdifForDriver_stub
-	SceSysclibForDriver_stub
-	SceCpuForDriver_stub
+target_link_libraries(hyamt.elf
 	SceModulemgrForDriver_stub
-	ScePervasiveForDriver_stub
-	SceSysrootForKernel_stub
+	SceThreadmgrForDriver_stub
+	SceIofilemgrForDriver_stub
+	SceSysrootForDriver_stub
+	SceKernelSuspendForDriver_stub
+	SceSysclibForDriver_stub
+	SceSdifForDriver_stub
 	SceSysmemForDriver_stub
+	taihenForKernel_stub
+	taihenModuleUtils_stub
+	SceDebugForDriver_stub
 )
 
-set_target_properties(yamt.elf
+set_target_properties(hyamt.elf
 	PROPERTIES LINK_FLAGS "-nostdlib"
 	COMPILE_FLAGS "-D__VITA_KERNEL__"
 )
 
-add_custom_target(yamt.skprx ALL
-	COMMAND vita-elf-create -e ${CMAKE_SOURCE_DIR}/yamt.yml yamt.elf yamt.velf
-	COMMAND vita-make-fself -c yamt.velf yamt.skprx
+add_custom_target(hyamt.skprx ALL
+	COMMAND vita-elf-create -e ${CMAKE_SOURCE_DIR}/hyamt.yml hyamt.elf hyamt.velf
+	COMMAND vita-make-fself -c hyamt.velf hyamt.skprx
 )
 
-add_dependencies(yamt.skprx yamt.elf)
+add_dependencies(hyamt.skprx hyamt.elf)
 
-vita_create_stubs(stubs yamt.elf ${CMAKE_SOURCE_DIR}/yamt.yml KERNEL)
+vita_create_stubs(stubs hyamt.elf ${CMAKE_SOURCE_DIR}/hyamt.yml KERNEL)

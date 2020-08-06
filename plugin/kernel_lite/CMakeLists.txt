@@ -46,5 +46,3 @@ add_custom_target(yamt.skprx ALL
 )
 
 add_dependencies(yamt.skprx yamt.elf)
-
-vita_create_stubs(stubs yamt.elf ${CMAKE_SOURCE_DIR}/yamt.yml KERNEL)

@@ -48,24 +48,29 @@
               key="/CONFIG/YAMT/cop"
               title="Developer options">
           <list_item id="id_yamt_cop_idle" title="Idle" value="0"/>
-          <list_item id="id_yamt_cop_clean" title="Clean the SD card for format" value="1"/>
-		  <list_item id="id_yamt_cop_remount" title="Remount all custom partitions" value="2"/>
 		  <list_item id="id_yamt_cop_rmcfg" title="Reset the YAMT storage config" value="3"/>
+		  <list_item id="id_yamt_cop_formatsd" title="TexFAT format GC-SD's storage" value="4"/>
+		  <list_item id="id_yamt_cop_formatud" title="TexFAT format USB/PSVSD's storage" value="7"/>
+		  <list_item id="id_yamt_cop_cleans" title="Clean GC-SD's storage for PC format" value="1"/>
+		  <list_item id="id_yamt_cop_remount" title="Mount all custom partitions" value="2"/>
+		  <list_item id="id_yamt_cop_rwu" title="RW mount sa0 and pd0" value="5"/>
+		  <list_item id="id_yamt_cop_rwk" title="RW mount os0 and vs0" value="6"/>
+		 <!-- <list_item id="id_yamt_cop_txfed" title="Disable TexFAT on all user storages" value="8"/> -->
+		 <!-- <list_item id="id_yamt_cop_txfee" title="Enable TexFAT on all user storages" value="9"/> -->
         </list>
         <toggle_switch id="enable_usb"
                        key="/CONFIG/YAMT/gpo_0"
-                       title="[yUSB] Use USB patches"
-				       description="Experimental USB/PSVSD support"
+                       title="Enable experimental USB patches"
 					   icon="tex_spanner"/>
         <toggle_switch id="set_gpo1"
                        key="/CONFIG/YAMT/gpo_1"
-                       title="[yUSB] Enable logging"/>
+                       title="Enable helper logging to file"/>
         <toggle_switch id="set_gpo2"
                        key="/CONFIG/YAMT/gpo_2"
-                       title="[yUSB] Force USBMC mode"/>
+                       title="Force USB legacy ux0 mode"/>
         <toggle_switch id="set_gpo3"
                        key="/CONFIG/YAMT/gpo_3"
-                       title="[yUSB] Disable wakeup patch"/>
+                       title="Disable USB wakeup patch"/>
       </setting_list>
 	  <setting_list id="id_adv_yamt"
                     title="★Custom partitions"
