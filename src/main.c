@@ -124,7 +124,8 @@ void installYamtC() {
 	
 	FILE *pFile = fopen("ur0:tai/config.txt", "wb");
 	char *pkx = strstr(pbf, "# YAMT\n");
-	if (!pkx) {
+	char *pzx = strstr(pbf, "ur0:tai/yamt_helper.skprx\n");
+	if (!pkx || !pzx) {
 		const char *patch1 = 
 			"# YAMT\n*NPXS10015\nur0:tai/yamt.suprx\n*KERNEL\nur0:tai/yamt_helper.skprx\n\n";
 		fwrite(patch1, 1, strlen(patch1), pFile);
@@ -197,7 +198,7 @@ int optct = 4;
 void smenu(){
 	psvDebugScreenClear(COLOR_BLACK);
 	psvDebugScreenSetFgColor(COLOR_CYAN);
-	printf("                    YAMT installer v4.0-b4                       \n");
+	printf("                     YAMT installer v4.0                         \n");
 	printf("                         By SKGleba                              \n");
 	psvDebugScreenSetFgColor(COLOR_RED);
 	for(int i = 0; i < optct; i++){

@@ -14,6 +14,7 @@ static SceIoDevice custom[16];
 static uint32_t gpio[4];
 const char umass_skipb[] = {0x0d, 0xe0, 0x00, 0xbf};
 const char stub_ret_one[] = {0x01, 0x00, 0xa0, 0xe3, 0x1e, 0xff, 0x2f, 0xe1};
+static const char *psvsdpdev = "sdstor0:uma-pp-act-a";
 
 int yamtPatchUsbDrv(const char *drvpath) {
 	gpio[2] = 2;
@@ -42,10 +43,10 @@ static int mthr(SceSize args, void *argp) {
 		curid-=-1;
 	}
 	gpio[1] = 0;
-	if (cfg.drv[0]) {
+	if (cfg.drv[0] && !cfg.drv[3]) {
 		gpio[2] = 1;
-		ksceKernelDelayThread(50000);
-		if (gpio[2] == 1)
+		ksceKernelDelayThread(500000);
+		if (gpio[2] == 1 && ksceKernelSearchModuleByName("SceUsbServ") >= 0)
 			yamtPatchUsbDrv("os0:kd/umass.skprx");
 		gpio[2] = 0;
 	}
@@ -87,7 +88,8 @@ static void patch_redirect(void) {
 				mount1 = sceIoFindMountPoint(cfg.entry[loopos].mid * 0x100);
 				custom[vetr].dev = mount1->dev->dev;
 				custom[vetr].dev2 = mount1->dev->dev2;
-				custom[vetr].blkdev = custom[vetr].blkdev2 = convc[vetr];
+				custom[vetr].blkdev = (umaid == cfg.entry[loopos].mid * 0x100) ? psvsdpdev : convc[vetr]; // add physdev support for psvsd compat
+				custom[vetr].blkdev2 = convc[vetr];
 				custom[vetr].id = (cfg.entry[loopos].mid * 0x100);
 				mount1->dev = &custom[vetr];
 				mount1->dev2 = &custom[vetr];
@@ -159,17 +161,17 @@ int module_start(SceSize argc, const void *args)
 	
 	gpio[0] = *(uint32_t *)cfg.drv;
 	
+	umaid = yamtGetCDevID(5, 16); // uma---entire
+	if (umaid == 0)
+		umaid = yamtGetCDevID(5, 0); // uma---a
+	
 	// "Big" redirect loop
 	patch_redirect();
 	
 	// ksceIoMount threaded to save time
 	ksceKernelStartThread(ksceKernelCreateThread("x", mthr, 0x00, 0x1000, 0, 0, 0), 0, NULL);
 	
-	umaid = yamtGetCDevID(5, 16); // uma---entire
-	if (umaid == 0)
-		umaid = yamtGetCDevID(5, 0); // uma---a
-	
-	gpio[3] = (cfg.drv[2]) ? 0x800 : umaid;
+	gpio[3] = umaid;
 	
 	return SCE_KERNEL_START_SUCCESS;
 }

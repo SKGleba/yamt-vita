@@ -7,7 +7,6 @@
 #define LOGGING_ENABLED 0
 #include "logging.h"
 #include <taihen.h>
-static SceIoDevice uma_ux0_dev = { "ux0:", "exfatux0", "sdstor0:uma-pp-act-a", "sdstor0:uma-lp-act-entire", 0x800 };
 
 static int umaid = 0;
 static uint8_t mids[16];
@@ -28,7 +27,7 @@ int yamtUserCmdHandler(int cmd, void *cmdbuf) {
 			case 0: // read SD to buf
 				opret = ksceSdifReadSectorSd(ksceSdifGetSdContextPartValidateSd(1), buf.arg0, (void *)&buf.data, 1);
 				break;
-			case 1: // write SD to buf
+			case 1: // write buf to SD
 				opret = ksceSdifWriteSectorSd(ksceSdifGetSdContextPartValidateSd(1), buf.arg0, &buf.data, 1);
 				break;
 			case 2: // remount everything
@@ -62,36 +61,6 @@ void patch_appmgr() {
 	}
 }
 
-int legacyUsbRedir(void) {
-	tai_module_info_t sceiofilemgr_modinfo;
-	sceiofilemgr_modinfo.size = sizeof(tai_module_info_t);
-	SceIoMountPoint *(* sceIoFindMountPoint)(int id) = NULL;
-	if (taiGetModuleInfoForKernel(KERNEL_PID, "SceIofilemgr", &sceiofilemgr_modinfo) < 0)
-		return -1;
-	
-	switch (sceiofilemgr_modinfo.module_nid) {
-		case 0x9642948C: // 3.60
-			module_get_offset(KERNEL_PID, sceiofilemgr_modinfo.modid, 0, 0x138C1, (uintptr_t *)&sceIoFindMountPoint);
-			break;
-		case 0xA96ACE9D: // 3.65
-			module_get_offset(KERNEL_PID, sceiofilemgr_modinfo.modid, 0, 0x182F5, (uintptr_t *)&sceIoFindMountPoint);
-			break;
-		default:
-			return -1;
-	}
-	
-	if (sceIoFindMountPoint == NULL)
-		return -1;
-	
-	SceIoMountPoint *mount1 = sceIoFindMountPoint(0x800);
-	mount1->dev = &uma_ux0_dev;
-	mount1->dev2 = &uma_ux0_dev;
-	
-	ksceIoUmount(0x800, 0, 0, 0);
-	ksceIoUmount(0x800, 1, 0, 0);
-	return ksceIoMount(0x800, NULL, 0, 0, 0, 0);
-}
-
 void addUsbPatches(void) {
 	int (* _ksceKernelMountBootfs)(const char *bootImagePath);
 	int (* _ksceKernelUmountBootfs)(void);
@@ -107,12 +76,13 @@ void addUsbPatches(void) {
 		module_get_export_func(KERNEL_PID, "SceKernelModulemgr", 0x92C9FFC2, 0xBD61AD4D, (uintptr_t *)&_ksceKernelUmountBootfs);
 	
 	SceUID sceusbmass_modid;
-	LOG("Loading SceUsbMass from os0:.\nMounting bootfs:...\n");
+	LOG("Mounting bootfs for umass... ");
 	if (_ksceKernelMountBootfs("os0:kd/bootimage.skprx") >= 0) {
 		ret = yamtPatchUsbDrv("os0:kd/umass.skprx");
-		LOG("patch_usb: : 0x%X\n", ret);
+		LOG("ok\npatch_usb: 0x%X\n", ret);
 		_ksceKernelUmountBootfs();
-	}
+	} else
+		LOG("failed\n");
 }
 
 static int yusb_sysevent_handler(int resume, int eventid, void *args, void *opt) {
@@ -152,7 +122,8 @@ int module_start(SceSize argc, const void *args)
 	}
 	
 	while(yamtGPIO(0, 2, 0) == 2) {
-		ksceKernelDelayThread(5000);
+		LOG("yamt_usb busy, waiting 0.05s\n");
+		ksceKernelDelayThread(50000);
 	}
 	
 	// init log sys
@@ -168,6 +139,8 @@ int module_start(SceSize argc, const void *args)
 			int fd;
 mounted: 
 			fd = ksceIoOpen("sdstor0:uma-lp-act-entire", SCE_O_RDONLY, 0);
+			if (fd < 0)
+				fd = ksceIoOpen("sdstor0:uma-pp-act-a", SCE_O_RDONLY, 0);
 			if (flags[2]) {
 				LOG("forcing legacy usb mode\n");
 				for (int i = 0; i <= 25; i++) {
@@ -184,15 +157,19 @@ mounted:
 				}
 				if (fd >= 0) {
 					ksceIoClose(fd);
-					patch_appmgr();
-					LOG("found uma, legacy redir 0x%X\n", legacyUsbRedir());
+					if (umaid == 0x800)
+						patch_appmgr();
+					ksceIoUmount(umaid, 0, 0, 0);
+					ksceIoUmount(umaid, 1, 0, 0);
+					LOG("found uma, legacy redir 0x%X\n", ksceIoMount(umaid, NULL, 0, 0, 0, 0));
 				}
 			} else {
 				if (fd >= 0) {
 					ksceIoClose(fd);
 					if (umaid == 0x800)
 						patch_appmgr();
-				}
+					LOG("found uma, redir 0x%X\n", ksceIoMount(umaid, NULL, 0, 0, 0, 0));
+				}	
 			}
 			LOG("umass module loaded, uma fd = 0x%X, umaid = 0x%X\n", fd, umaid);
 			if (fd >= 0 && (!flags[3]))
@@ -206,9 +183,11 @@ mounted:
 	// mount if yamt didnt make it
 	yamtGPIO(1, 1, 0);
 	yamtGetValidMids(&mids);
-	for (int i = 0; i < 16; ++i) {
-		if (mids[i] > 0)
-			LOG("mounting 0x%X = 0x%X\n", mids[i] * 0x100, ksceIoMount(mids[i] * 0x100, NULL, 0, 0, 0, 0));
+	if (!flags[3]) {
+		for (int i = 0; i < 16; ++i) {
+			if (mids[i] > 0)
+				LOG("mounting 0x%X = 0x%X\n", mids[i] * 0x100, ksceIoMount(mids[i] * 0x100, NULL, 0, 0, 0, 0));
+		}
 	}
 	
 	return SCE_KERNEL_START_SUCCESS;
