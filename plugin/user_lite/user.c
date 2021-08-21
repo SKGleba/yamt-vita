@@ -251,7 +251,7 @@ static int sceKernelStopUnloadModule_SceSettings_patched(SceUID modid, SceSize a
     if (g_hooks[3] >= 0) taiHookRelease(g_hooks[3], g_sceRegMgrGetKeyInt_SceSystemSettingsCore_hook);
     if (g_hooks[4] >= 0) taiHookRelease(g_hooks[4], g_sceRegMgrSetKeyInt_SceSystemSettingsCore_hook);
     if (g_hooks[5] >= 0) taiHookRelease(g_hooks[5], g_sceRegMgrGetKeysInfo_SceSystemSettingsCore_hook);
-	if (g_hooks[6] >= 0) taiHookRelease(g_hooks[6], g_scePafToplevelGetText_SceSystemSettingsCore_hook);
+    if (g_hooks[6] >= 0) taiHookRelease(g_hooks[6], g_scePafToplevelGetText_SceSystemSettingsCore_hook);
   }
   return TAI_CONTINUE(int, g_sceKernelStopUnloadModule_SceSettings_hook, modid, args, argp, flags, option, status);
 }
