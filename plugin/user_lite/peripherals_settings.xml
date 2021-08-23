@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 
 <system_settings version="1.0" plugin="peripherals_settings_plugin" back_button_color="20.0, 1.0, 5.0, 1.0">>
 
@@ -6,36 +6,36 @@
   <setting_list id="peripherals_settings" title="msg_accessories">
   
     <setting_list id="id_yamt"
-                  title="Storage Devices"
+                  title="msg_storage_devices"
                   icon="tex_spanner">
 	  <toggle_switch id="enable_yamt"
                    key="/CONFIG/YAMT/enable_driver"
-                   title="Use YAMT"
-				   description="Enables the YAMT driver"
+                   title="msg_use_yamt"
+				   description="msg_enable_yamt"
                    icon="tex_spanner"/>
       <list id="id_yamt_ux" 
             key="/CONFIG/YAMT/uxm"
             title="ux0:">
-        <list_item id="id_yamt_ux_off" title="Default" value="0"/>
-        <list_item id="id_yamt_ux_gsd" title="SD2Vita" value="1"/>
-		<list_item id="id_yamt_ux_xmc" title="Memory Card" value="2"/>
-		<list_item id="id_yamt_ux_imc" title="Internal Storage" value="3"/>
+        <list_item id="id_yamt_ux_off" title="msg_default" value="0"/>
+        <list_item id="id_yamt_ux_gsd" title="msg_sd2vita" value="1"/>
+		<list_item id="id_yamt_ux_xmc" title="msg_memory_card" value="2"/>
+		<list_item id="id_yamt_ux_imc" title="msg_internal_storage" value="3"/>
       </list>
 	  <list id="id_yamt_uma" 
             key="/CONFIG/YAMT/umm"
             title="uma0:">
-        <list_item id="id_yamt_umm_off" title="Default" value="0"/>
-        <list_item id="id_yamt_umm_gsd" title="SD2Vita" value="1"/>
-		<list_item id="id_yamt_umm_xmc" title="Memory Card" value="2"/>
-		<list_item id="id_yamt_umm_imc" title="Internal Storage" value="3"/>
+        <list_item id="id_yamt_umm_off" title="msg_default" value="0"/>
+        <list_item id="id_yamt_umm_gsd" title="msg_sd2vita" value="1"/>
+		<list_item id="id_yamt_umm_xmc" title="msg_memory_card" value="2"/>
+		<list_item id="id_yamt_umm_imc" title="msg_internal_storage" value="3"/>
       </list>
       <list id="id_yamt_cop" 
               key="/CONFIG/YAMT/cop"
-              title="Developer options">
-          <list_item id="id_yamt_cop_idle" title="Idle" value="0"/>
-		  <list_item id="id_yamt_cop_rmcfg" title="Reset the YAMT storage config" value="1"/>
-		  <list_item id="id_yamt_cop_formatsd" title="TexFAT format GC-SD's storage" value="2"/>
-		  <list_item id="id_yamt_cop_rwu" title="RW mount sa0 and pd0" value="3"/>
+              title="msg_developer_options">
+          <list_item id="id_yamt_cop_idle" title="msg_idle" value="0"/>
+		  <list_item id="id_yamt_cop_rmcfg" title="msg_reset_yamt" value="1"/>
+		  <list_item id="id_yamt_cop_formatsd" title="msg_format_gcsd" value="2"/>
+		  <list_item id="id_yamt_cop_rwu" title="msg_rw_mount_sa0_pd0" value="3"/>
       </list>
     </setting_list>
 

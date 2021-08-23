@@ -8,6 +8,7 @@
 #include <taihen.h>
 #include <string.h>
 #include "FatFormatProxy.h"
+#include "language.h"
 
 #define CONFIG_PATH "ur0:tai/yamt.cfg"
 
@@ -43,7 +44,7 @@ static cfg_struct cfg;
 
 static int kcmd_cur = 0;
 
-static SceUID g_hooks[6];
+static SceUID g_hooks[7];
 
 int module_get_offset(SceUID modid, int segidx, uint32_t offset, void *stub_out){
 
@@ -345,6 +346,88 @@ static int sceRegMgrSetKeyInt_SceSystemSettingsCore_patched(const char *category
   return TAI_CONTINUE(int, g_sceRegMgrSetKeyInt_SceSystemSettingsCore_hook, category, name, value);
 }
 
+static tai_hook_ref_t g_scePafToplevelGetText_SceSystemSettingsCore_hook;
+static wchar_t *scePafToplevelGetText_SceSystemSettingsCore_patched(void *arg, char **msg) {
+  language_container_t *language_container;
+  int language = -1;
+  sceRegMgrGetKeyInt("/CONFIG/SYSTEM", "language", &language);
+  switch (language) {
+    case SCE_SYSTEM_PARAM_LANG_JAPANESE:      language_container = &language_japanese;      break;
+    case SCE_SYSTEM_PARAM_LANG_ENGLISH_US:    language_container = &language_english_us;    break;
+    case SCE_SYSTEM_PARAM_LANG_FRENCH:        language_container = &language_french;        break;
+    case SCE_SYSTEM_PARAM_LANG_SPANISH:       language_container = &language_spanish;       break;
+    case SCE_SYSTEM_PARAM_LANG_GERMAN:        language_container = &language_german;        break;
+    case SCE_SYSTEM_PARAM_LANG_ITALIAN:       language_container = &language_italian;       break;
+    case SCE_SYSTEM_PARAM_LANG_DUTCH:         language_container = &language_dutch;         break;
+    case SCE_SYSTEM_PARAM_LANG_PORTUGUESE_PT: language_container = &language_portuguese_pt; break;
+    case SCE_SYSTEM_PARAM_LANG_RUSSIAN:       language_container = &language_russian;       break;
+    case SCE_SYSTEM_PARAM_LANG_KOREAN:        language_container = &language_korean;        break;
+    case SCE_SYSTEM_PARAM_LANG_CHINESE_T:     language_container = &language_chinese_t;     break;
+    case SCE_SYSTEM_PARAM_LANG_CHINESE_S:     language_container = &language_chinese_s;     break;
+    case SCE_SYSTEM_PARAM_LANG_FINNISH:       language_container = &language_finnish;       break;
+    case SCE_SYSTEM_PARAM_LANG_SWEDISH:       language_container = &language_swedish;       break;
+    case SCE_SYSTEM_PARAM_LANG_DANISH:        language_container = &language_danish;        break;
+    case SCE_SYSTEM_PARAM_LANG_NORWEGIAN:     language_container = &language_norwegian;     break;
+    case SCE_SYSTEM_PARAM_LANG_POLISH:        language_container = &language_polish;        break;
+    case SCE_SYSTEM_PARAM_LANG_PORTUGUESE_BR: language_container = &language_portuguese_br; break;
+    case SCE_SYSTEM_PARAM_LANG_ENGLISH_GB:    language_container = &language_english_gb;    break;
+    case SCE_SYSTEM_PARAM_LANG_TURKISH:       language_container = &language_turkish;       break;
+    default:                                  language_container = &language_english_us;    break;
+  }
+  if (msg && sceClibStrncmp(*msg, "msg_", 4) == 0) {
+    #define LANGUAGE_ENTRY(name) \
+      else if (sceClibStrncmp(*msg, #name, sizeof(#name)) == 0) { \
+        return language_container->name; \
+      }
+    if (0) {}
+    LANGUAGE_ENTRY(msg_storage_devices)
+    LANGUAGE_ENTRY(msg_use_yamt)
+    LANGUAGE_ENTRY(msg_enable_yamt)
+    LANGUAGE_ENTRY(msg_default)
+    LANGUAGE_ENTRY(msg_sd2vita)
+    LANGUAGE_ENTRY(msg_memory_card)
+    LANGUAGE_ENTRY(msg_internal_storage)
+    LANGUAGE_ENTRY(msg_usb_psvsd)
+    LANGUAGE_ENTRY(msg_driver_settings)
+    LANGUAGE_ENTRY(msg_use_yamt_gcsd_patches)
+    LANGUAGE_ENTRY(msg_add_device)
+    LANGUAGE_ENTRY(msg_patch_external_ux)
+    LANGUAGE_ENTRY(msg_uncheck_no_memory_card)
+    LANGUAGE_ENTRY(msg_developer_options)
+    LANGUAGE_ENTRY(msg_idle)
+    LANGUAGE_ENTRY(msg_reset_yamt)
+    LANGUAGE_ENTRY(msg_texfat_format_gcsd)
+    LANGUAGE_ENTRY(msg_texfat_format_usb_psvsd)
+    LANGUAGE_ENTRY(msg_gcsd_pc_format)
+    LANGUAGE_ENTRY(msg_mount_all)
+    LANGUAGE_ENTRY(msg_rw_mount_sa0_pd0)
+    LANGUAGE_ENTRY(msg_rw_mount_os0_vs0)
+    LANGUAGE_ENTRY(msg_disable_texfat)
+    LANGUAGE_ENTRY(msg_enable_texfat)
+    LANGUAGE_ENTRY(msg_enable_usb_patch)
+    LANGUAGE_ENTRY(msg_force_legacy_usb_psvsd)
+    LANGUAGE_ENTRY(msg_disable_usb_psvsd_patch)
+    LANGUAGE_ENTRY(msg_enable_helpe_log)
+    LANGUAGE_ENTRY(msg_custom_partitions)
+    LANGUAGE_ENTRY(msg_swap_redirect_mode)
+    LANGUAGE_ENTRY(msg_should_increase_stability)
+    LANGUAGE_ENTRY(msg_mount_device)
+    LANGUAGE_ENTRY(msg_mount_partition_type)
+    LANGUAGE_ENTRY(msg_mount_partition)
+    LANGUAGE_ENTRY(msg_not_set)
+    LANGUAGE_ENTRY(msg_check_if)
+    LANGUAGE_ENTRY(msg_no_check)
+    LANGUAGE_ENTRY(msg_sd2vita_present)
+    LANGUAGE_ENTRY(msg_memory_card_present)
+    LANGUAGE_ENTRY(msg_connected_power)
+    LANGUAGE_ENTRY(msg_check_must)
+    LANGUAGE_ENTRY(msg_check_succeed)
+    LANGUAGE_ENTRY(msg_check_fail)
+    #undef LANGUAGE_ENTRY
+  }
+  return TAI_CONTINUE(wchar_t *, g_scePafToplevelGetText_SceSystemSettingsCore_hook, arg, msg);
+}
+
 typedef struct {
   int size;
   const char *name;
@@ -398,6 +481,11 @@ static SceUID sceKernelLoadStartModule_SceSettings_patched(char *path, SceSize a
                                         0xC436F916, // SceRegMgr
                                         0x58421DD1, 
                                         sceRegMgrGetKeysInfo_SceSystemSettingsCore_patched);
+	g_hooks[6] = taiHookFunctionImport(&g_scePafToplevelGetText_SceSystemSettingsCore_hook, 
+                                        "SceSystemSettingsCore", 
+                                        0x4D9A9DD0, // ScePafToplevel
+                                        0x19CEFDA7, 
+                                        scePafToplevelGetText_SceSystemSettingsCore_patched);
   }
   return ret;
 }
@@ -410,6 +498,7 @@ static int sceKernelStopUnloadModule_SceSettings_patched(SceUID modid, SceSize a
     if (g_hooks[3] >= 0) taiHookRelease(g_hooks[3], g_sceRegMgrGetKeyInt_SceSystemSettingsCore_hook);
     if (g_hooks[4] >= 0) taiHookRelease(g_hooks[4], g_sceRegMgrSetKeyInt_SceSystemSettingsCore_hook);
     if (g_hooks[5] >= 0) taiHookRelease(g_hooks[5], g_sceRegMgrGetKeysInfo_SceSystemSettingsCore_hook);
+	if (g_hooks[6] >= 0) taiHookRelease(g_hooks[6], g_scePafToplevelGetText_SceSystemSettingsCore_hook);
   }
   return TAI_CONTINUE(int, g_sceKernelStopUnloadModule_SceSettings_hook, modid, args, argp, flags, option, status);
 }

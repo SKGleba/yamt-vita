@@ -6,87 +6,87 @@
   <setting_list id="peripherals_settings" title="msg_accessories">
   
     <setting_list id="id_yamt"
-                  title="Storage Devices"
+                  title="msg_storage_devices"
                   icon="tex_spanner">
 	  <toggle_switch id="enable_yamt"
                    key="/CONFIG/YAMT/enable_driver"
-                   title="Use YAMT"
-				   description="Enables the YAMT driver"
+                   title="msg_use_yamt"
+				   description="msg_enable_yamt"
                    icon="tex_spanner"/>
       <list id="id_yamt_ux" 
             key="/CONFIG/YAMT/uxm"
             title="ux0:">
-        <list_item id="id_yamt_ux_off" title="Default" value="0"/>
-        <list_item id="id_yamt_ux_gsd" title="SD2Vita" value="1"/>
-		<list_item id="id_yamt_ux_xmc" title="Memory Card" value="2"/>
-		<list_item id="id_yamt_ux_imc" title="Internal Storage" value="3"/>
-		<list_item id="id_yamt_ux_usb" title="USB/PSVSD" value="4"/>
+        <list_item id="id_yamt_ux_off" title="msg_default" value="0"/>
+        <list_item id="id_yamt_ux_gsd" title="msg_sd2vita" value="1"/>
+		<list_item id="id_yamt_ux_xmc" title="msg_memory_card" value="2"/>
+		<list_item id="id_yamt_ux_imc" title="msg_internal_storage" value="3"/>
+		<list_item id="id_yamt_ux_usb" title="msg_usb_psvsd" value="4"/>
       </list>
 	  <list id="id_yamt_uma" 
             key="/CONFIG/YAMT/umm"
             title="uma0:">
-        <list_item id="id_yamt_umm_off" title="Default" value="0"/>
-        <list_item id="id_yamt_umm_gsd" title="SD2Vita" value="1"/>
-		<list_item id="id_yamt_umm_xmc" title="Memory Card" value="2"/>
-		<list_item id="id_yamt_umm_imc" title="Internal Storage" value="3"/>
-		<list_item id="id_yamt_umm_usb" title="USB/PSVSD" value="4"/>
+        <list_item id="id_yamt_umm_off" title="msg_default" value="0"/>
+        <list_item id="id_yamt_umm_gsd" title="msg_sd2vita" value="1"/>
+		<list_item id="id_yamt_umm_xmc" title="msg_memory_card" value="2"/>
+		<list_item id="id_yamt_umm_imc" title="msg_internal_storage" value="3"/>
+		<list_item id="id_yamt_umm_usb" title="msg_usb_psvsd" value="4"/>
       </list>
       <setting_list id="id_driver_sett"
-                    title="Driver settings"
+                    title="msg_driver_settings"
 					style="edit">
 	    <toggle_switch id="enable_gcsd"
                        key="/CONFIG/YAMT/enable_gcsd"
-                       title="Use YAMT GC-SD patches"
-				       description="Adds support for devices such as SD2Vita"
+                       title="msg_use_yamt_gcsd_patches"
+				       description="msg_add_device"
 					   icon="tex_spanner"/>
 		<toggle_switch id="adv_00_pmode" 
 					   key="/CONFIG/YAMT/uxpmode"
-					   title="Patch external ux0"
-					   description="Uncheck this if there is no memory card inserted"
+					   title="msg_patch_external_ux"
+					   description="msg_uncheck_no_memory_card"
             		   icon="tex_spanner"/>
         <list id="id_yamt_cop" 
               key="/CONFIG/YAMT/cop"
-              title="Developer options">
-          <list_item id="id_yamt_cop_idle" title="Idle" value="0"/>
-		  <list_item id="id_yamt_cop_rmcfg" title="Reset the YAMT storage config" value="3"/>
-		  <list_item id="id_yamt_cop_formatsd" title="TexFAT format GC-SD's storage" value="4"/>
-		  <list_item id="id_yamt_cop_formatud" title="TexFAT format USB/PSVSD's storage" value="7"/>
-		  <list_item id="id_yamt_cop_cleans" title="Clean GC-SD's storage for PC format" value="1"/>
-		  <list_item id="id_yamt_cop_remount" title="Mount all custom partitions" value="2"/>
-		  <list_item id="id_yamt_cop_rwu" title="RW mount sa0 and pd0" value="5"/>
-		  <list_item id="id_yamt_cop_rwk" title="RW mount os0 and vs0" value="6"/>
-		 <!-- <list_item id="id_yamt_cop_txfed" title="Disable TexFAT on all user storages" value="8"/> -->
-		 <!-- <list_item id="id_yamt_cop_txfee" title="Enable TexFAT on all user storages" value="9"/> -->
+              title="msg_developer_options">
+          <list_item id="id_yamt_cop_idle" title="msg_idle" value="0"/>
+		  <list_item id="id_yamt_cop_rmcfg" title="msg_reset_yamt" value="3"/>
+		  <list_item id="id_yamt_cop_formatsd" title="msg_texfat_format_gcsd" value="4"/>
+		  <list_item id="id_yamt_cop_formatud" title="msg_texfat_format_usb_psvsd" value="7"/>
+		  <list_item id="id_yamt_cop_cleans" title="msg_gcsd_pc_format" value="1"/>
+		  <list_item id="id_yamt_cop_remount" title="msg_mount_all" value="2"/>
+		  <list_item id="id_yamt_cop_rwu" title="msg_rw_mount_sa0_pd0" value="5"/>
+		  <list_item id="id_yamt_cop_rwk" title="msg_rw_mount_os0_vs0" value="6"/>
+		 <!-- <list_item id="id_yamt_cop_txfed" title="msg_disable_texfat" value="8"/> -->
+		 <!-- <list_item id="id_yamt_cop_txfee" title="msg_enable_texfat" value="9"/> -->
         </list>
         <toggle_switch id="enable_usb"
                        key="/CONFIG/YAMT/gpo_0"
-                       title="Enable experimental USB patches"
+                       title="msg_enable_usb_patch"
 					   icon="tex_spanner"/>
 		<toggle_switch id="set_gpo2"
                        key="/CONFIG/YAMT/gpo_2"
-                       title="Force legacy USB/PSVSD mode"/>
+                       title="msg_force_legacy_usb_psvsd"/>
 		<toggle_switch id="set_gpo3"
                        key="/CONFIG/YAMT/gpo_3"
-                       title="Disable extra USB/PSVSD patches"/>
+                       title="msg_disable_usb_psvsd_patch"/>
         <toggle_switch id="set_gpo1"
                        key="/CONFIG/YAMT/gpo_1"
-                       title="Enable helper logging to file"/>
+                       title="msg_enable_helpe_log"/>
       </setting_list>
 	  <setting_list id="id_adv_yamt"
-                    title="★Custom partitions"
+                    title="msg_custom_partitions"
 					rotate="full">
 		<setting_list id="id_adv_yamt_uxlist"
                       title="ux0:"
 					  style="edit">
 		  <toggle_switch id="adv_mode_00"
 					     key="/CONFIG/YAMT/adv_mode_00"
-					     title="'Swap' redirect mode"
-				         description="Should increase stability."
+					     title="msg_swap_redirect_mode"
+				         description="msg_should_increase_stability"
                          icon="tex_spanner"/>
 		  <list id="adv_00a" 
 				key="/CONFIG/YAMT/adv_dev_000"
-				title="Device:">
-			<list_item id="adv_00a_i" title="NOT SET" value="255"/>
+				title="msg_mount_device">
+			<list_item id="adv_00a_i" title="msg_not_set" value="255"/>
 			<list_item id="adv_00a_0" title="int" value="0"/>
 			<list_item id="adv_00a_1" title="ext" value="1"/>
 			<list_item id="adv_00a_2" title="gcd" value="2"/>
@@ -96,16 +96,16 @@
 		  </list>
 		  <list id="adv_00b" 
 				key="/CONFIG/YAMT/adv_dev_002"
-				title="Partition type:">
-			<list_item id="adv_00b_i" title="NOT SET" value="255"/>
+				title="msg_mount_partition_type">
+			<list_item id="adv_00b_i" title="msg_not_set" value="255"/>
 			<list_item id="adv_00b_0" title="ina" value="0"/>
 			<list_item id="adv_00b_1" title="act" value="1"/>
 			<list_item id="adv_00b_2" title="ign" value="2"/>
 		  </list>
 		  <list id="adv_00c" 
 				key="/CONFIG/YAMT/adv_dev_003"
-				title="Partition:">
-			<list_item id="adv_00c_i" title="NOT SET" value="255"/>
+				title="msg_mount_partition">
+			<list_item id="adv_00c_i" title="msg_not_set" value="255"/>
 			<list_item id="adv_00c_00" title="a" value="0"/>
 			<list_item id="adv_00c_01" title="unused" value="1"/>
 			<list_item id="adv_00c_02" title="idstor" value="2"/>
@@ -126,17 +126,17 @@
 		  </list>
 		  <list id="adv_00_rchk" 
 				key="/CONFIG/YAMT/adv_rchk_00"
-				title="Check if ...">
-			<list_item id="adv_00_rchk_i" title="NO CHECK" value="0"/>
-			<list_item id="adv_00_rchk_0" title="SD2Vita is present" value="1"/>
-			<list_item id="adv_00_rchk_1" title="Memory Card is present" value="2"/>
-			<list_item id="adv_00_rchk_2" title="Connected to a power source" value="3"/>
+				title="msg_check_if">
+			<list_item id="adv_00_rchk_i" title="msg_no_check" value="0"/>
+			<list_item id="adv_00_rchk_0" title="msg_sd2vita_present" value="1"/>
+			<list_item id="adv_00_rchk_1" title="msg_memory_card_present" value="2"/>
+			<list_item id="adv_00_rchk_2" title="msg_connected_power" value="3"/>
 		  </list>
 		  <list id="adv_00_rcret" 
 				key="/CONFIG/YAMT/adv_rcret_00"
-				title="The check must ...">
-			<list_item id="adv_00_rcret_0" title="Succeed" value="1"/>
-			<list_item id="adv_00_rcret_1" title="Fail" value="0"/>
+				title="msg_check_must">
+			<list_item id="adv_00_rcret_0" title="msg_check_succeed" value="1"/>
+			<list_item id="adv_00_rcret_1" title="msg_check_fail" value="0"/>
 		  </list>
 	    </setting_list>
 		<setting_list id="id_adv_yamt_umalist"
@@ -144,13 +144,13 @@
 					  style="edit">
 		  <toggle_switch id="adv_mode_01"
 					     key="/CONFIG/YAMT/adv_mode_01"
-					     title="'Swap' redirect mode"
-				         description="Should increase stability."
+					     title="msg_swap_redirect_mode"
+				         description="msg_should_increase_stability"
                          icon="tex_spanner"/>
 		  <list id="adv_01a" 
 				key="/CONFIG/YAMT/adv_dev_010"
-				title="Device:">
-			<list_item id="adv_01a_i" title="NOT SET" value="255"/>
+				title="msg_mount_device">
+			<list_item id="adv_01a_i" title="msg_not_set" value="255"/>
 			<list_item id="adv_01a_0" title="int" value="0"/>
 			<list_item id="adv_01a_1" title="ext" value="1"/>
 			<list_item id="adv_01a_2" title="gcd" value="2"/>
@@ -160,16 +160,16 @@
 		  </list>
 		  <list id="adv_01b" 
 				key="/CONFIG/YAMT/adv_dev_012"
-				title="Partition type:">
-			<list_item id="adv_01b_i" title="NOT SET" value="255"/>
+				title="msg_mount_partition_type">
+			<list_item id="adv_01b_i" title="msg_not_set" value="255"/>
 			<list_item id="adv_01b_0" title="ina" value="0"/>
 			<list_item id="adv_01b_1" title="act" value="1"/>
 			<list_item id="adv_01b_2" title="ign" value="2"/>
 		  </list>
 		  <list id="adv_01c" 
 				key="/CONFIG/YAMT/adv_dev_013"
-				title="Partition:">
-			<list_item id="adv_01c_i" title="NOT SET" value="255"/>
+				title="msg_mount_partition">
+			<list_item id="adv_01c_i" title="msg_not_set" value="255"/>
 			<list_item id="adv_01c_00" title="a" value="0"/>
 			<list_item id="adv_01c_01" title="unused" value="1"/>
 			<list_item id="adv_01c_02" title="idstor" value="2"/>
@@ -190,17 +190,17 @@
 		  </list>
 		  <list id="adv_01_rchk" 
 				key="/CONFIG/YAMT/adv_rchk_01"
-				title="Check if ...">
-			<list_item id="adv_01_rchk_i" title="NO CHECK" value="0"/>
-			<list_item id="adv_01_rchk_0" title="SD2Vita is present" value="1"/>
-			<list_item id="adv_01_rchk_1" title="Memory Card is present" value="2"/>
-			<list_item id="adv_01_rchk_2" title="Connected to a power source" value="3"/>
+				title="msg_check_if">
+			<list_item id="adv_01_rchk_i" title="msg_no_check" value="0"/>
+			<list_item id="adv_01_rchk_0" title="msg_sd2vita_present" value="1"/>
+			<list_item id="adv_01_rchk_1" title="msg_memory_card_present" value="2"/>
+			<list_item id="adv_01_rchk_2" title="msg_connected_power" value="3"/>
 		  </list>
 		  <list id="adv_01_rcret" 
 				key="/CONFIG/YAMT/adv_rcret_01"
-				title="The check must ...">
-			<list_item id="adv_01_rcret_0" title="Succeed" value="1"/>
-			<list_item id="adv_01_rcret_1" title="Fail" value="0"/>
+				title="msg_check_must">
+			<list_item id="adv_01_rcret_0" title="msg_check_succeed" value="1"/>
+			<list_item id="adv_01_rcret_1" title="msg_check_fail" value="0"/>
 		  </list>
 	    </setting_list>
 		
@@ -209,8 +209,8 @@
 					  style="edit">
 		  <list id="adv_14a" 
 				key="/CONFIG/YAMT/adv_dev_140"
-				title="Device:">
-			<list_item id="adv_14a_i" title="NOT SET" value="255"/>
+				title="msg_mount_device">
+			<list_item id="adv_14a_i" title="msg_not_set" value="255"/>
 			<list_item id="adv_14a_0" title="int" value="0"/>
 			<list_item id="adv_14a_1" title="ext" value="1"/>
 			<list_item id="adv_14a_2" title="gcd" value="2"/>
@@ -220,16 +220,16 @@
 		  </list>
 		  <list id="adv_14b" 
 				key="/CONFIG/YAMT/adv_dev_142"
-				title="Partition type:">
-			<list_item id="adv_14b_i" title="NOT SET" value="255"/>
+				title="msg_mount_partition_type">
+			<list_item id="adv_14b_i" title="msg_not_set" value="255"/>
 			<list_item id="adv_14b_0" title="ina" value="0"/>
 			<list_item id="adv_14b_1" title="act" value="1"/>
 			<list_item id="adv_14b_2" title="ign" value="2"/>
 		  </list>
 		  <list id="adv_14c" 
 				key="/CONFIG/YAMT/adv_dev_143"
-				title="Partition:">
-			<list_item id="adv_14c_i" title="NOT SET" value="255"/>
+				title="msg_mount_partition">
+			<list_item id="adv_14c_i" title="msg_not_set" value="255"/>
 			<list_item id="adv_14c_00" title="a" value="0"/>
 			<list_item id="adv_14c_01" title="unused" value="1"/>
 			<list_item id="adv_14c_02" title="idstor" value="2"/>
@@ -250,17 +250,17 @@
 		  </list>
 		  <list id="adv_14_rchk" 
 				key="/CONFIG/YAMT/adv_rchk_14"
-				title="Check if ...">
-			<list_item id="adv_14_rchk_i" title="NO CHECK" value="0"/>
-			<list_item id="adv_14_rchk_0" title="SD2Vita is present" value="1"/>
-			<list_item id="adv_14_rchk_1" title="Memory Card is present" value="2"/>
-			<list_item id="adv_14_rchk_2" title="Connected to a power source" value="3"/>
+				title="msg_check_if">
+			<list_item id="adv_14_rchk_i" title="msg_no_check" value="0"/>
+			<list_item id="adv_14_rchk_0" title="msg_sd2vita_present" value="1"/>
+			<list_item id="adv_14_rchk_1" title="msg_memory_card_present" value="2"/>
+			<list_item id="adv_14_rchk_2" title="msg_connected_power" value="3"/>
 		  </list>
 		  <list id="adv_14_rcret" 
 				key="/CONFIG/YAMT/adv_rcret_14"
-				title="The check must ...">
-			<list_item id="adv_14_rcret_0" title="Succeed" value="1"/>
-			<list_item id="adv_14_rcret_1" title="Fail" value="0"/>
+				title="msg_check_must">
+			<list_item id="adv_14_rcret_0" title="msg_check_succeed" value="1"/>
+			<list_item id="adv_14_rcret_1" title="msg_check_fail" value="0"/>
 		  </list>
 	    </setting_list>
 		
@@ -269,8 +269,8 @@
 					  style="edit">
 		  <list id="adv_13a" 
 				key="/CONFIG/YAMT/adv_dev_130"
-				title="Device:">
-			<list_item id="adv_13a_i" title="NOT SET" value="255"/>
+				title="msg_mount_device">
+			<list_item id="adv_13a_i" title="msg_not_set" value="255"/>
 			<list_item id="adv_13a_0" title="int" value="0"/>
 			<list_item id="adv_13a_1" title="ext" value="1"/>
 			<list_item id="adv_13a_2" title="gcd" value="2"/>
@@ -280,16 +280,16 @@
 		  </list>
 		  <list id="adv_13b" 
 				key="/CONFIG/YAMT/adv_dev_132"
-				title="Partition type:">
-			<list_item id="adv_13b_i" title="NOT SET" value="255"/>
+				title="msg_mount_partition_type">
+			<list_item id="adv_13b_i" title="msg_not_set" value="255"/>
 			<list_item id="adv_13b_0" title="ina" value="0"/>
 			<list_item id="adv_13b_1" title="act" value="1"/>
 			<list_item id="adv_13b_2" title="ign" value="2"/>
 		  </list>
 		  <list id="adv_13c" 
 				key="/CONFIG/YAMT/adv_dev_133"
-				title="Partition:">
-			<list_item id="adv_13c_i" title="NOT SET" value="255"/>
+				title="msg_mount_partition">
+			<list_item id="adv_13c_i" title="msg_not_set" value="255"/>
 			<list_item id="adv_13c_00" title="a" value="0"/>
 			<list_item id="adv_13c_01" title="unused" value="1"/>
 			<list_item id="adv_13c_02" title="idstor" value="2"/>
@@ -310,17 +310,17 @@
 		  </list>
 		  <list id="adv_13_rchk" 
 				key="/CONFIG/YAMT/adv_rchk_13"
-				title="Check if ...">
-			<list_item id="adv_13_rchk_i" title="NO CHECK" value="0"/>
-			<list_item id="adv_13_rchk_0" title="SD2Vita is present" value="1"/>
-			<list_item id="adv_13_rchk_1" title="Memory Card is present" value="2"/>
-			<list_item id="adv_13_rchk_2" title="Connected to a power source" value="3"/>
+				title="msg_check_if">
+			<list_item id="adv_13_rchk_i" title="msg_no_check" value="0"/>
+			<list_item id="adv_13_rchk_0" title="msg_sd2vita_present" value="1"/>
+			<list_item id="adv_13_rchk_1" title="msg_memory_card_present" value="2"/>
+			<list_item id="adv_13_rchk_2" title="msg_connected_power" value="3"/>
 		  </list>
 		  <list id="adv_13_rcret" 
 				key="/CONFIG/YAMT/adv_rcret_13"
-				title="The check must ...">
-			<list_item id="adv_13_rcret_0" title="Succeed" value="1"/>
-			<list_item id="adv_13_rcret_1" title="Fail" value="0"/>
+				title="msg_check_must">
+			<list_item id="adv_13_rcret_0" title="msg_check_succeed" value="1"/>
+			<list_item id="adv_13_rcret_1" title="msg_check_fail" value="0"/>
 		  </list>
 	    </setting_list>
 		
@@ -329,13 +329,13 @@
 					  style="edit">
 		  <toggle_switch id="adv_mode_02"
 					     key="/CONFIG/YAMT/adv_mode_02"
-					     title="'Swap' redirect mode"
-				         description="Should increase stability."
+					     title="msg_swap_redirect_mode"
+				         description="msg_should_increase_stability"
                          icon="tex_spanner"/>
 		  <list id="adv_02a" 
 				key="/CONFIG/YAMT/adv_dev_020"
-				title="Device:">
-			<list_item id="adv_02a_i" title="NOT SET" value="255"/>
+				title="msg_mount_device">
+			<list_item id="adv_02a_i" title="msg_not_set" value="255"/>
 			<list_item id="adv_02a_0" title="int" value="0"/>
 			<list_item id="adv_02a_1" title="ext" value="1"/>
 			<list_item id="adv_02a_2" title="gcd" value="2"/>
@@ -345,16 +345,16 @@
 		  </list>
 		  <list id="adv_02b" 
 				key="/CONFIG/YAMT/adv_dev_022"
-				title="Partition type:">
-			<list_item id="adv_02b_i" title="NOT SET" value="255"/>
+				title="msg_mount_partition_type">
+			<list_item id="adv_02b_i" title="msg_not_set" value="255"/>
 			<list_item id="adv_02b_0" title="ina" value="0"/>
 			<list_item id="adv_02b_1" title="act" value="1"/>
 			<list_item id="adv_02b_2" title="ign" value="2"/>
 		  </list>
 		  <list id="adv_02c" 
 				key="/CONFIG/YAMT/adv_dev_023"
-				title="Partition:">
-			<list_item id="adv_02c_i" title="NOT SET" value="255"/>
+				title="msg_mount_partition">
+			<list_item id="adv_02c_i" title="msg_not_set" value="255"/>
 			<list_item id="adv_02c_00" title="a" value="0"/>
 			<list_item id="adv_02c_01" title="unused" value="1"/>
 			<list_item id="adv_02c_02" title="idstor" value="2"/>
@@ -375,17 +375,17 @@
 		  </list>
 		  <list id="adv_02_rchk" 
 				key="/CONFIG/YAMT/adv_rchk_02"
-				title="Check if ...">
-			<list_item id="adv_02_rchk_i" title="NO CHECK" value="0"/>
-			<list_item id="adv_02_rchk_0" title="SD2Vita is present" value="1"/>
-			<list_item id="adv_02_rchk_1" title="Memory Card is present" value="2"/>
-			<list_item id="adv_02_rchk_2" title="Connected to a power source" value="3"/>
+				title="msg_check_if">
+			<list_item id="adv_02_rchk_i" title="msg_no_check" value="0"/>
+			<list_item id="adv_02_rchk_0" title="msg_sd2vita_present" value="1"/>
+			<list_item id="adv_02_rchk_1" title="msg_memory_card_present" value="2"/>
+			<list_item id="adv_02_rchk_2" title="msg_connected_power" value="3"/>
 		  </list>
 		  <list id="adv_02_rcret" 
 				key="/CONFIG/YAMT/adv_rcret_02"
-				title="The check must ...">
-			<list_item id="adv_02_rcret_0" title="Succeed" value="1"/>
-			<list_item id="adv_02_rcret_1" title="Fail" value="0"/>
+				title="msg_check_must">
+			<list_item id="adv_02_rcret_0" title="msg_check_succeed" value="1"/>
+			<list_item id="adv_02_rcret_1" title="msg_check_fail" value="0"/>
 		  </list>
 	    </setting_list>
 		<setting_list id="id_adv_yamt_oslist"
@@ -393,13 +393,13 @@
 					  style="edit">
 		  <toggle_switch id="adv_mode_03"
 					     key="/CONFIG/YAMT/adv_mode_03"
-					     title="'Swap' redirect mode"
-				         description="Should increase stability."
+					     title="msg_swap_redirect_mode"
+				         description="msg_should_increase_stability"
                          icon="tex_spanner"/>
 		  <list id="adv_03a" 
 				key="/CONFIG/YAMT/adv_dev_030"
-				title="Device:">
-			<list_item id="adv_03a_i" title="NOT SET" value="255"/>
+				title="msg_mount_device">
+			<list_item id="adv_03a_i" title="msg_not_set" value="255"/>
 			<list_item id="adv_03a_0" title="int" value="0"/>
 			<list_item id="adv_03a_1" title="ext" value="1"/>
 			<list_item id="adv_03a_2" title="gcd" value="2"/>
@@ -409,16 +409,16 @@
 		  </list>
 		  <list id="adv_03b" 
 				key="/CONFIG/YAMT/adv_dev_032"
-				title="Partition type:">
-			<list_item id="adv_03b_i" title="NOT SET" value="255"/>
+				title="msg_mount_partition_type">
+			<list_item id="adv_03b_i" title="msg_not_set" value="255"/>
 			<list_item id="adv_03b_0" title="ina" value="0"/>
 			<list_item id="adv_03b_1" title="act" value="1"/>
 			<list_item id="adv_03b_2" title="ign" value="2"/>
 		  </list>
 		  <list id="adv_03c" 
 				key="/CONFIG/YAMT/adv_dev_033"
-				title="Partition:">
-			<list_item id="adv_03c_i" title="NOT SET" value="255"/>
+				title="msg_mount_partition">
+			<list_item id="adv_03c_i" title="msg_not_set" value="255"/>
 			<list_item id="adv_03c_00" title="a" value="0"/>
 			<list_item id="adv_03c_01" title="unused" value="1"/>
 			<list_item id="adv_03c_02" title="idstor" value="2"/>
@@ -439,17 +439,17 @@
 		  </list>
 		  <list id="adv_03_rchk" 
 				key="/CONFIG/YAMT/adv_rchk_03"
-				title="Check if ...">
-			<list_item id="adv_03_rchk_i" title="NO CHECK" value="0"/>
-			<list_item id="adv_03_rchk_0" title="SD2Vita is present" value="1"/>
-			<list_item id="adv_03_rchk_1" title="Memory Card is present" value="2"/>
-			<list_item id="adv_03_rchk_2" title="Connected to a power source" value="3"/>
+				title="msg_check_if">
+			<list_item id="adv_03_rchk_i" title="msg_no_check" value="0"/>
+			<list_item id="adv_03_rchk_0" title="msg_sd2vita_present" value="1"/>
+			<list_item id="adv_03_rchk_1" title="msg_memory_card_present" value="2"/>
+			<list_item id="adv_03_rchk_2" title="msg_connected_power" value="3"/>
 		  </list>
 		  <list id="adv_03_rcret" 
 				key="/CONFIG/YAMT/adv_rcret_03"
-				title="The check must ...">
-			<list_item id="adv_03_rcret_0" title="Succeed" value="1"/>
-			<list_item id="adv_03_rcret_1" title="Fail" value="0"/>
+				title="msg_check_must">
+			<list_item id="adv_03_rcret_0" title="msg_check_succeed" value="1"/>
+			<list_item id="adv_03_rcret_1" title="msg_check_fail" value="0"/>
 		  </list>
 	    </setting_list>
 		<setting_list id="id_adv_yamt_vslist"
@@ -457,13 +457,13 @@
 					  style="edit">
 		  <toggle_switch id="adv_mode_04"
 					     key="/CONFIG/YAMT/adv_mode_04"
-					     title="'Swap' redirect mode"
-				         description="Should increase stability."
+					     title="msg_swap_redirect_mode"
+				         description="msg_should_increase_stability"
                          icon="tex_spanner"/>
 		  <list id="adv_04a" 
 				key="/CONFIG/YAMT/adv_dev_040"
-				title="Device:">
-			<list_item id="adv_04a_i" title="NOT SET" value="255"/>
+				title="msg_mount_device">
+			<list_item id="adv_04a_i" title="msg_not_set" value="255"/>
 			<list_item id="adv_04a_0" title="int" value="0"/>
 			<list_item id="adv_04a_1" title="ext" value="1"/>
 			<list_item id="adv_04a_2" title="gcd" value="2"/>
@@ -473,16 +473,16 @@
 		  </list>
 		  <list id="adv_04b" 
 				key="/CONFIG/YAMT/adv_dev_042"
-				title="Partition type:">
-			<list_item id="adv_04b_i" title="NOT SET" value="255"/>
+				title="msg_mount_partition_type">
+			<list_item id="adv_04b_i" title="msg_not_set" value="255"/>
 			<list_item id="adv_04b_0" title="ina" value="0"/>
 			<list_item id="adv_04b_1" title="act" value="1"/>
 			<list_item id="adv_04b_2" title="ign" value="2"/>
 		  </list>
 		  <list id="adv_04c" 
 				key="/CONFIG/YAMT/adv_dev_043"
-				title="Partition:">
-			<list_item id="adv_04c_i" title="NOT SET" value="255"/>
+				title="msg_mount_partition">
+			<list_item id="adv_04c_i" title="msg_not_set" value="255"/>
 			<list_item id="adv_04c_00" title="a" value="0"/>
 			<list_item id="adv_04c_01" title="unused" value="1"/>
 			<list_item id="adv_04c_02" title="idstor" value="2"/>
@@ -503,17 +503,17 @@
 		  </list>
 		  <list id="adv_04_rchk" 
 				key="/CONFIG/YAMT/adv_rchk_04"
-				title="Check if ...">
-			<list_item id="adv_04_rchk_i" title="NO CHECK" value="0"/>
-			<list_item id="adv_04_rchk_0" title="SD2Vita is present" value="1"/>
-			<list_item id="adv_04_rchk_1" title="Memory Card is present" value="2"/>
-			<list_item id="adv_04_rchk_2" title="Connected to a power source" value="3"/>
+				title="msg_check_if">
+			<list_item id="adv_04_rchk_i" title="msg_no_check" value="0"/>
+			<list_item id="adv_04_rchk_0" title="msg_sd2vita_present" value="1"/>
+			<list_item id="adv_04_rchk_1" title="msg_memory_card_present" value="2"/>
+			<list_item id="adv_04_rchk_2" title="msg_connected_power" value="3"/>
 		  </list>
 		  <list id="adv_04_rcret" 
 				key="/CONFIG/YAMT/adv_rcret_04"
-				title="The check must ...">
-			<list_item id="adv_04_rcret_0" title="Succeed" value="1"/>
-			<list_item id="adv_04_rcret_1" title="Fail" value="0"/>
+				title="msg_check_must">
+			<list_item id="adv_04_rcret_0" title="msg_check_succeed" value="1"/>
+			<list_item id="adv_04_rcret_1" title="msg_check_fail" value="0"/>
 		  </list>
 	    </setting_list>
 		<setting_list id="id_adv_yamt_vdlist"
@@ -521,13 +521,13 @@
 					  style="edit">
 		  <toggle_switch id="adv_mode_05"
 					     key="/CONFIG/YAMT/adv_mode_05"
-					     title="'Swap' redirect mode"
-				         description="Should increase stability."
+					     title="msg_swap_redirect_mode"
+				         description="msg_should_increase_stability"
                          icon="tex_spanner"/>
 		  <list id="adv_05a" 
 				key="/CONFIG/YAMT/adv_dev_050"
-				title="Device:">
-			<list_item id="adv_05a_i" title="NOT SET" value="255"/>
+				title="msg_mount_device">
+			<list_item id="adv_05a_i" title="msg_not_set" value="255"/>
 			<list_item id="adv_05a_0" title="int" value="0"/>
 			<list_item id="adv_05a_1" title="ext" value="1"/>
 			<list_item id="adv_05a_2" title="gcd" value="2"/>
@@ -537,16 +537,16 @@
 		  </list>
 		  <list id="adv_05b" 
 				key="/CONFIG/YAMT/adv_dev_052"
-				title="Partition type:">
-			<list_item id="adv_05b_i" title="NOT SET" value="255"/>
+				title="msg_mount_partition_type">
+			<list_item id="adv_05b_i" title="msg_not_set" value="255"/>
 			<list_item id="adv_05b_0" title="ina" value="0"/>
 			<list_item id="adv_05b_1" title="act" value="1"/>
 			<list_item id="adv_05b_2" title="ign" value="2"/>
 		  </list>
 		  <list id="adv_05c" 
 				key="/CONFIG/YAMT/adv_dev_053"
-				title="Partition:">
-			<list_item id="adv_05c_i" title="NOT SET" value="255"/>
+				title="msg_mount_partition">
+			<list_item id="adv_05c_i" title="msg_not_set" value="255"/>
 			<list_item id="adv_05c_00" title="a" value="0"/>
 			<list_item id="adv_05c_01" title="unused" value="1"/>
 			<list_item id="adv_05c_02" title="idstor" value="2"/>
@@ -567,17 +567,17 @@
 		  </list>
 		  <list id="adv_05_rchk" 
 				key="/CONFIG/YAMT/adv_rchk_05"
-				title="Check if ...">
-			<list_item id="adv_05_rchk_i" title="NO CHECK" value="0"/>
-			<list_item id="adv_05_rchk_0" title="SD2Vita is present" value="1"/>
-			<list_item id="adv_05_rchk_1" title="Memory Card is present" value="2"/>
-			<list_item id="adv_05_rchk_2" title="Connected to a power source" value="3"/>
+				title="msg_check_if">
+			<list_item id="adv_05_rchk_i" title="msg_no_check" value="0"/>
+			<list_item id="adv_05_rchk_0" title="msg_sd2vita_present" value="1"/>
+			<list_item id="adv_05_rchk_1" title="msg_memory_card_present" value="2"/>
+			<list_item id="adv_05_rchk_2" title="msg_connected_power" value="3"/>
 		  </list>
 		  <list id="adv_05_rcret" 
 				key="/CONFIG/YAMT/adv_rcret_05"
-				title="The check must ...">
-			<list_item id="adv_05_rcret_0" title="Succeed" value="1"/>
-			<list_item id="adv_05_rcret_1" title="Fail" value="0"/>
+				title="msg_check_must">
+			<list_item id="adv_05_rcret_0" title="msg_check_succeed" value="1"/>
+			<list_item id="adv_05_rcret_1" title="msg_check_fail" value="0"/>
 		  </list>
 	    </setting_list>
 		<setting_list id="id_adv_yamt_tmlist"
@@ -585,13 +585,13 @@
 					  style="edit">
 		  <toggle_switch id="adv_mode_06"
 					     key="/CONFIG/YAMT/adv_mode_06"
-					     title="'Swap' redirect mode"
-				         description="Should increase stability."
+					     title="msg_swap_redirect_mode"
+				         description="msg_should_increase_stability"
                          icon="tex_spanner"/>
 		  <list id="adv_06a" 
 				key="/CONFIG/YAMT/adv_dev_060"
-				title="Device:">
-			<list_item id="adv_06a_i" title="NOT SET" value="255"/>
+				title="msg_mount_device">
+			<list_item id="adv_06a_i" title="msg_not_set" value="255"/>
 			<list_item id="adv_06a_0" title="int" value="0"/>
 			<list_item id="adv_06a_1" title="ext" value="1"/>
 			<list_item id="adv_06a_2" title="gcd" value="2"/>
@@ -601,16 +601,16 @@
 		  </list>
 		  <list id="adv_06b" 
 				key="/CONFIG/YAMT/adv_dev_062"
-				title="Partition type:">
-			<list_item id="adv_06b_i" title="NOT SET" value="255"/>
+				title="msg_mount_partition_type">
+			<list_item id="adv_06b_i" title="msg_not_set" value="255"/>
 			<list_item id="adv_06b_0" title="ina" value="0"/>
 			<list_item id="adv_06b_1" title="act" value="1"/>
 			<list_item id="adv_06b_2" title="ign" value="2"/>
 		  </list>
 		  <list id="adv_06c" 
 				key="/CONFIG/YAMT/adv_dev_063"
-				title="Partition:">
-			<list_item id="adv_06c_i" title="NOT SET" value="255"/>
+				title="msg_mount_partition">
+			<list_item id="adv_06c_i" title="msg_not_set" value="255"/>
 			<list_item id="adv_06c_00" title="a" value="0"/>
 			<list_item id="adv_06c_01" title="unused" value="1"/>
 			<list_item id="adv_06c_02" title="idstor" value="2"/>
@@ -631,31 +631,31 @@
 		  </list>
 		  <list id="adv_06_rchk" 
 				key="/CONFIG/YAMT/adv_rchk_06"
-				title="Check if ...">
-			<list_item id="adv_06_rchk_i" title="NO CHECK" value="0"/>
-			<list_item id="adv_06_rchk_0" title="SD2Vita is present" value="1"/>
-			<list_item id="adv_06_rchk_1" title="Memory Card is present" value="2"/>
-			<list_item id="adv_06_rchk_2" title="Connected to a power source" value="3"/>
+				title="msg_check_if">
+			<list_item id="adv_06_rchk_i" title="msg_no_check" value="0"/>
+			<list_item id="adv_06_rchk_0" title="msg_sd2vita_present" value="1"/>
+			<list_item id="adv_06_rchk_1" title="msg_memory_card_present" value="2"/>
+			<list_item id="adv_06_rchk_2" title="msg_connected_power" value="3"/>
 		  </list>
 		  <list id="adv_06_rcret" 
 				key="/CONFIG/YAMT/adv_rcret_06"
-				title="The check must ...">
-			<list_item id="adv_06_rcret_0" title="Succeed" value="1"/>
-			<list_item id="adv_06_rcret_1" title="Fail" value="0"/>
+				title="msg_check_must">
+			<list_item id="adv_06_rcret_0" title="msg_check_succeed" value="1"/>
+			<list_item id="adv_06_rcret_1" title="msg_check_fail" value="0"/>
 		  </list>
 	    </setting_list>
 		<setting_list id="id_adv_yamt_urlist"
-                      title="ur0:"
+                        title="ur0:"
 					  style="edit">
 		  <toggle_switch id="adv_mode_07"
 					     key="/CONFIG/YAMT/adv_mode_07"
-					     title="'Swap' redirect mode"
-				         description="Should increase stability."
+					     title="msg_swap_redirect_mode"
+				         description="msg_should_increase_stability"
                          icon="tex_spanner"/>
 		  <list id="adv_07a" 
 				key="/CONFIG/YAMT/adv_dev_070"
-				title="Device:">
-			<list_item id="adv_07a_i" title="NOT SET" value="255"/>
+				title="msg_mount_device">
+			<list_item id="adv_07a_i" title="msg_not_set" value="255"/>
 			<list_item id="adv_07a_0" title="int" value="0"/>
 			<list_item id="adv_07a_1" title="ext" value="1"/>
 			<list_item id="adv_07a_2" title="gcd" value="2"/>
@@ -665,16 +665,16 @@
 		  </list>
 		  <list id="adv_07b" 
 				key="/CONFIG/YAMT/adv_dev_072"
-				title="Partition type:">
-			<list_item id="adv_07b_i" title="NOT SET" value="255"/>
+				title="msg_mount_partition_type">
+			<list_item id="adv_07b_i" title="msg_not_set" value="255"/>
 			<list_item id="adv_07b_0" title="ina" value="0"/>
 			<list_item id="adv_07b_1" title="act" value="1"/>
 			<list_item id="adv_07b_2" title="ign" value="2"/>
 		  </list>
 		  <list id="adv_07c" 
 				key="/CONFIG/YAMT/adv_dev_073"
-				title="Partition:">
-			<list_item id="adv_07c_i" title="NOT SET" value="255"/>
+				title="msg_mount_partition">
+			<list_item id="adv_07c_i" title="msg_not_set" value="255"/>
 			<list_item id="adv_07c_00" title="a" value="0"/>
 			<list_item id="adv_07c_01" title="unused" value="1"/>
 			<list_item id="adv_07c_02" title="idstor" value="2"/>
@@ -695,17 +695,17 @@
 		  </list>
 		  <list id="adv_07_rchk" 
 				key="/CONFIG/YAMT/adv_rchk_07"
-				title="Check if ...">
-			<list_item id="adv_07_rchk_i" title="NO CHECK" value="0"/>
-			<list_item id="adv_07_rchk_0" title="SD2Vita is present" value="1"/>
-			<list_item id="adv_07_rchk_1" title="Memory Card is present" value="2"/>
-			<list_item id="adv_07_rchk_2" title="Connected to a power source" value="3"/>
+				title="msg_check_if">
+			<list_item id="adv_07_rchk_i" title="msg_no_check" value="0"/>
+			<list_item id="adv_07_rchk_0" title="msg_sd2vita_present" value="1"/>
+			<list_item id="adv_07_rchk_1" title="msg_memory_card_present" value="2"/>
+			<list_item id="adv_07_rchk_2" title="msg_connected_power" value="3"/>
 		  </list>
 		  <list id="adv_07_rcret" 
 				key="/CONFIG/YAMT/adv_rcret_07"
-				title="The check must ...">
-			<list_item id="adv_07_rcret_0" title="Succeed" value="1"/>
-			<list_item id="adv_07_rcret_1" title="Fail" value="0"/>
+				title="msg_check_must">
+			<list_item id="adv_07_rcret_0" title="msg_check_succeed" value="1"/>
+			<list_item id="adv_07_rcret_1" title="msg_check_fail" value="0"/>
 		  </list>
 	    </setting_list>
 		<setting_list id="id_adv_yamt_udlist"
@@ -713,13 +713,13 @@
 					  style="edit">
 		  <toggle_switch id="adv_mode_08"
 					     key="/CONFIG/YAMT/adv_mode_08"
-					     title="'Swap' redirect mode"
-				         description="Should increase stability."
+					     title="msg_swap_redirect_mode"
+				         description="msg_should_increase_stability"
                          icon="tex_spanner"/>
 		  <list id="adv_08a" 
 				key="/CONFIG/YAMT/adv_dev_080"
-				title="Device:">
-			<list_item id="adv_08a_i" title="NOT SET" value="255"/>
+				title="msg_mount_device">
+			<list_item id="adv_08a_i" title="msg_not_set" value="255"/>
 			<list_item id="adv_08a_0" title="int" value="0"/>
 			<list_item id="adv_08a_1" title="ext" value="1"/>
 			<list_item id="adv_08a_2" title="gcd" value="2"/>
@@ -729,16 +729,16 @@
 		  </list>
 		  <list id="adv_08b" 
 				key="/CONFIG/YAMT/adv_dev_082"
-				title="Partition type:">
-			<list_item id="adv_08b_i" title="NOT SET" value="255"/>
+				title="msg_mount_partition_type">
+			<list_item id="adv_08b_i" title="msg_not_set" value="255"/>
 			<list_item id="adv_08b_0" title="ina" value="0"/>
 			<list_item id="adv_08b_1" title="act" value="1"/>
 			<list_item id="adv_08b_2" title="ign" value="2"/>
 		  </list>
 		  <list id="adv_08c" 
 				key="/CONFIG/YAMT/adv_dev_083"
-				title="Partition:">
-			<list_item id="adv_08c_i" title="NOT SET" value="255"/>
+				title="msg_mount_partition">
+			<list_item id="adv_08c_i" title="msg_not_set" value="255"/>
 			<list_item id="adv_08c_00" title="a" value="0"/>
 			<list_item id="adv_08c_01" title="unused" value="1"/>
 			<list_item id="adv_08c_02" title="idstor" value="2"/>
@@ -759,17 +759,17 @@
 		  </list>
 		  <list id="adv_08_rchk" 
 				key="/CONFIG/YAMT/adv_rchk_08"
-				title="Check if ...">
-			<list_item id="adv_08_rchk_i" title="NO CHECK" value="0"/>
-			<list_item id="adv_08_rchk_0" title="SD2Vita is present" value="1"/>
-			<list_item id="adv_08_rchk_1" title="Memory Card is present" value="2"/>
-			<list_item id="adv_08_rchk_2" title="Connected to a power source" value="3"/>
+				title="msg_check_if">
+			<list_item id="adv_08_rchk_i" title="msg_no_check" value="0"/>
+			<list_item id="adv_08_rchk_0" title="msg_sd2vita_present" value="1"/>
+			<list_item id="adv_08_rchk_1" title="msg_memory_card_present" value="2"/>
+			<list_item id="adv_08_rchk_2" title="msg_connected_power" value="3"/>
 		  </list>
 		  <list id="adv_08_rcret" 
 				key="/CONFIG/YAMT/adv_rcret_08"
-				title="The check must ...">
-			<list_item id="adv_08_rcret_0" title="Succeed" value="1"/>
-			<list_item id="adv_08_rcret_1" title="Fail" value="0"/>
+				title="msg_check_must">
+			<list_item id="adv_08_rcret_0" title="msg_check_succeed" value="1"/>
+			<list_item id="adv_08_rcret_1" title="msg_check_fail" value="0"/>
 		  </list>
 	    </setting_list>
 		<setting_list id="id_adv_yamt_grolist"
@@ -777,13 +777,13 @@
 					  style="edit">
 		  <toggle_switch id="adv_mode_09"
 					     key="/CONFIG/YAMT/adv_mode_09"
-					     title="'Swap' redirect mode"
-				         description="Should increase stability."
+					     title="msg_swap_redirect_mode"
+				         description="msg_should_increase_stability"
                          icon="tex_spanner"/>
 		  <list id="adv_09a" 
 				key="/CONFIG/YAMT/adv_dev_090"
-				title="Device:">
-			<list_item id="adv_09a_i" title="NOT SET" value="255"/>
+				title="msg_mount_device">
+			<list_item id="adv_09a_i" title="msg_not_set" value="255"/>
 			<list_item id="adv_09a_0" title="int" value="0"/>
 			<list_item id="adv_09a_1" title="ext" value="1"/>
 			<list_item id="adv_09a_2" title="gcd" value="2"/>
@@ -793,16 +793,16 @@
 		  </list>
 		  <list id="adv_09b" 
 				key="/CONFIG/YAMT/adv_dev_092"
-				title="Partition type:">
-			<list_item id="adv_09b_i" title="NOT SET" value="255"/>
+				title="msg_mount_partition_type">
+			<list_item id="adv_09b_i" title="msg_not_set" value="255"/>
 			<list_item id="adv_09b_0" title="ina" value="0"/>
 			<list_item id="adv_09b_1" title="act" value="1"/>
 			<list_item id="adv_09b_2" title="ign" value="2"/>
 		  </list>
 		  <list id="adv_09c" 
 				key="/CONFIG/YAMT/adv_dev_093"
-				title="Partition:">
-			<list_item id="adv_09c_i" title="NOT SET" value="255"/>
+				title="msg_mount_partition">
+			<list_item id="adv_09c_i" title="msg_not_set" value="255"/>
 			<list_item id="adv_09c_00" title="a" value="0"/>
 			<list_item id="adv_09c_01" title="unused" value="1"/>
 			<list_item id="adv_09c_02" title="idstor" value="2"/>
@@ -823,17 +823,17 @@
 		  </list>
 		  <list id="adv_09_rchk" 
 				key="/CONFIG/YAMT/adv_rchk_09"
-				title="Check if ...">
-			<list_item id="adv_09_rchk_i" title="NO CHECK" value="0"/>
-			<list_item id="adv_09_rchk_0" title="SD2Vita is present" value="1"/>
-			<list_item id="adv_09_rchk_1" title="Memory Card is present" value="2"/>
-			<list_item id="adv_09_rchk_2" title="Connected to a power source" value="3"/>
+				title="msg_check_if">
+			<list_item id="adv_09_rchk_i" title="msg_no_check" value="0"/>
+			<list_item id="adv_09_rchk_0" title="msg_sd2vita_present" value="1"/>
+			<list_item id="adv_09_rchk_1" title="msg_memory_card_present" value="2"/>
+			<list_item id="adv_09_rchk_2" title="msg_connected_power" value="3"/>
 		  </list>
 		  <list id="adv_09_rcret" 
 				key="/CONFIG/YAMT/adv_rcret_09"
-				title="The check must ...">
-			<list_item id="adv_09_rcret_0" title="Succeed" value="1"/>
-			<list_item id="adv_09_rcret_1" title="Fail" value="0"/>
+				title="msg_check_must">
+			<list_item id="adv_09_rcret_0" title="msg_check_succeed" value="1"/>
+			<list_item id="adv_09_rcret_1" title="msg_check_fail" value="0"/>
 		  </list>
 	    </setting_list>
 		<setting_list id="id_adv_yamt_grwlist"
@@ -841,13 +841,13 @@
 					  style="edit">
 		  <toggle_switch id="adv_mode_10"
 					     key="/CONFIG/YAMT/adv_mode_10"
-					     title="'Swap' redirect mode"
-				         description="Should increase stability."
+					     title="msg_swap_redirect_mode"
+				         description="msg_should_increase_stability"
                          icon="tex_spanner"/>
 		  <list id="adv_10a" 
 				key="/CONFIG/YAMT/adv_dev_100"
-				title="Device:">
-			<list_item id="adv_10a_i" title="NOT SET" value="255"/>
+				title="msg_mount_device">
+			<list_item id="adv_10a_i" title="msg_not_set" value="255"/>
 			<list_item id="adv_10a_0" title="int" value="0"/>
 			<list_item id="adv_10a_1" title="ext" value="1"/>
 			<list_item id="adv_10a_2" title="gcd" value="2"/>
@@ -857,16 +857,16 @@
 		  </list>
 		  <list id="adv_10b" 
 				key="/CONFIG/YAMT/adv_dev_102"
-				title="Partition type:">
-			<list_item id="adv_10b_i" title="NOT SET" value="255"/>
+				title="msg_mount_partition_type">
+			<list_item id="adv_10b_i" title="msg_not_set" value="255"/>
 			<list_item id="adv_10b_0" title="ina" value="0"/>
 			<list_item id="adv_10b_1" title="act" value="1"/>
 			<list_item id="adv_10b_2" title="ign" value="2"/>
 		  </list>
 		  <list id="adv_10c" 
 				key="/CONFIG/YAMT/adv_dev_103"
-				title="Partition:">
-			<list_item id="adv_10c_i" title="NOT SET" value="255"/>
+				title="msg_mount_partition">
+			<list_item id="adv_10c_i" title="msg_not_set" value="255"/>
 			<list_item id="adv_10c_00" title="a" value="0"/>
 			<list_item id="adv_10c_01" title="unused" value="1"/>
 			<list_item id="adv_10c_02" title="idstor" value="2"/>
@@ -887,17 +887,17 @@
 		  </list>
 		  <list id="adv_10_rchk" 
 				key="/CONFIG/YAMT/adv_rchk_10"
-				title="Check if ...">
-			<list_item id="adv_10_rchk_i" title="NO CHECK" value="0"/>
-			<list_item id="adv_10_rchk_0" title="SD2Vita is present" value="1"/>
-			<list_item id="adv_10_rchk_1" title="Memory Card is present" value="2"/>
-			<list_item id="adv_10_rchk_2" title="Connected to a power source" value="3"/>
+				title="msg_check_if">
+			<list_item id="adv_10_rchk_i" title="msg_no_check" value="0"/>
+			<list_item id="adv_10_rchk_0" title="msg_sd2vita_present" value="1"/>
+			<list_item id="adv_10_rchk_1" title="msg_memory_card_present" value="2"/>
+			<list_item id="adv_10_rchk_2" title="msg_connected_power" value="3"/>
 		  </list>
 		  <list id="adv_10_rcret" 
 				key="/CONFIG/YAMT/adv_rcret_10"
-				title="The check must ...">
-			<list_item id="adv_10_rcret_0" title="Succeed" value="1"/>
-			<list_item id="adv_10_rcret_1" title="Fail" value="0"/>
+				title="msg_check_must">
+			<list_item id="adv_10_rcret_0" title="msg_check_succeed" value="1"/>
+			<list_item id="adv_10_rcret_1" title="msg_check_fail" value="0"/>
 		  </list>
 	    </setting_list>
 		<setting_list id="id_adv_yamt_salist"
@@ -905,13 +905,13 @@
 					  style="edit">
 		  <toggle_switch id="adv_mode_11"
 					     key="/CONFIG/YAMT/adv_mode_11"
-					     title="'Swap' redirect mode"
-				         description="Should increase stability."
+					     title="msg_swap_redirect_mode"
+				         description="msg_should_increase_stability"
                          icon="tex_spanner"/>
 		  <list id="adv_11a" 
 				key="/CONFIG/YAMT/adv_dev_110"
-				title="Device:">
-			<list_item id="adv_11a_i" title="NOT SET" value="255"/>
+				title="msg_mount_device">
+			<list_item id="adv_11a_i" title="msg_not_set" value="255"/>
 			<list_item id="adv_11a_0" title="int" value="0"/>
 			<list_item id="adv_11a_1" title="ext" value="1"/>
 			<list_item id="adv_11a_2" title="gcd" value="2"/>
@@ -921,16 +921,16 @@
 		  </list>
 		  <list id="adv_11b" 
 				key="/CONFIG/YAMT/adv_dev_112"
-				title="Partition type:">
-			<list_item id="adv_11b_i" title="NOT SET" value="255"/>
+				title="msg_mount_partition_type">
+			<list_item id="adv_11b_i" title="msg_not_set" value="255"/>
 			<list_item id="adv_11b_0" title="ina" value="0"/>
 			<list_item id="adv_11b_1" title="act" value="1"/>
 			<list_item id="adv_11b_2" title="ign" value="2"/>
 		  </list>
 		  <list id="adv_11c" 
 				key="/CONFIG/YAMT/adv_dev_113"
-				title="Partition:">
-			<list_item id="adv_11c_i" title="NOT SET" value="255"/>
+				title="msg_mount_partition">
+			<list_item id="adv_11c_i" title="msg_not_set" value="255"/>
 			<list_item id="adv_11c_00" title="a" value="0"/>
 			<list_item id="adv_11c_01" title="unused" value="1"/>
 			<list_item id="adv_11c_02" title="idstor" value="2"/>
@@ -951,17 +951,17 @@
 		  </list>
 		  <list id="adv_11_rchk" 
 				key="/CONFIG/YAMT/adv_rchk_11"
-				title="Check if ...">
-			<list_item id="adv_11_rchk_i" title="NO CHECK" value="0"/>
-			<list_item id="adv_11_rchk_0" title="SD2Vita is present" value="1"/>
-			<list_item id="adv_11_rchk_1" title="Memory Card is present" value="2"/>
-			<list_item id="adv_11_rchk_2" title="Connected to a power source" value="3"/>
+				title="msg_check_if">
+			<list_item id="adv_11_rchk_i" title="msg_no_check" value="0"/>
+			<list_item id="adv_11_rchk_0" title="msg_sd2vita_present" value="1"/>
+			<list_item id="adv_11_rchk_1" title="msg_memory_card_present" value="2"/>
+			<list_item id="adv_11_rchk_2" title="msg_connected_power" value="3"/>
 		  </list>
 		  <list id="adv_11_rcret" 
 				key="/CONFIG/YAMT/adv_rcret_11"
-				title="The check must ...">
-			<list_item id="adv_11_rcret_0" title="Succeed" value="1"/>
-			<list_item id="adv_11_rcret_1" title="Fail" value="0"/>
+				title="msg_check_must">
+			<list_item id="adv_11_rcret_0" title="msg_check_succeed" value="1"/>
+			<list_item id="adv_11_rcret_1" title="msg_check_fail" value="0"/>
 		  </list>
 	    </setting_list>
 		<setting_list id="id_adv_yamt_pdlist"
@@ -969,13 +969,13 @@
 					  style="edit">
 		  <toggle_switch id="adv_mode_12"
 					     key="/CONFIG/YAMT/adv_mode_12"
-					     title="'Swap' redirect mode"
-				         description="Should increase stability."
+					     title="msg_swap_redirect_mode"
+				         description="msg_should_increase_stability"
                          icon="tex_spanner"/>
 		  <list id="adv_12a" 
 				key="/CONFIG/YAMT/adv_dev_120"
-				title="Device:">
-			<list_item id="adv_12a_i" title="NOT SET" value="255"/>
+				title="msg_mount_device">
+			<list_item id="adv_12a_i" title="msg_not_set" value="255"/>
 			<list_item id="adv_12a_0" title="int" value="0"/>
 			<list_item id="adv_12a_1" title="ext" value="1"/>
 			<list_item id="adv_12a_2" title="gcd" value="2"/>
@@ -985,16 +985,16 @@
 		  </list>
 		  <list id="adv_12b" 
 				key="/CONFIG/YAMT/adv_dev_122"
-				title="Partition type:">
-			<list_item id="adv_12b_i" title="NOT SET" value="255"/>
+				title="msg_mount_partition_type">
+			<list_item id="adv_12b_i" title="msg_not_set" value="255"/>
 			<list_item id="adv_12b_0" title="ina" value="0"/>
 			<list_item id="adv_12b_1" title="act" value="1"/>
 			<list_item id="adv_12b_2" title="ign" value="2"/>
 		  </list>
 		  <list id="adv_12c" 
 				key="/CONFIG/YAMT/adv_dev_123"
-				title="Partition:">
-			<list_item id="adv_12c_i" title="NOT SET" value="255"/>
+				title="msg_mount_partition">
+			<list_item id="adv_12c_i" title="msg_not_set" value="255"/>
 			<list_item id="adv_12c_00" title="a" value="0"/>
 			<list_item id="adv_12c_01" title="unused" value="1"/>
 			<list_item id="adv_12c_02" title="idstor" value="2"/>
@@ -1015,17 +1015,17 @@
 		  </list>
 		  <list id="adv_12_rchk" 
 				key="/CONFIG/YAMT/adv_rchk_12"
-				title="Check if ...">
-			<list_item id="adv_12_rchk_i" title="NO CHECK" value="0"/>
-			<list_item id="adv_12_rchk_0" title="SD2Vita is present" value="1"/>
-			<list_item id="adv_12_rchk_1" title="Memory Card is present" value="2"/>
-			<list_item id="adv_12_rchk_2" title="Connected to a power source" value="3"/>
+				title="msg_check_if">
+			<list_item id="adv_12_rchk_i" title="msg_no_check" value="0"/>
+			<list_item id="adv_12_rchk_0" title="msg_sd2vita_present" value="1"/>
+			<list_item id="adv_12_rchk_1" title="msg_memory_card_present" value="2"/>
+			<list_item id="adv_12_rchk_2" title="msg_connected_power" value="3"/>
 		  </list>
 		  <list id="adv_12_rcret" 
 				key="/CONFIG/YAMT/adv_rcret_12"
-				title="The check must ...">
-			<list_item id="adv_12_rcret_0" title="Succeed" value="1"/>
-			<list_item id="adv_12_rcret_1" title="Fail" value="0"/>
+				title="msg_check_must">
+			<list_item id="adv_12_rcret_0" title="msg_check_succeed" value="1"/>
+			<list_item id="adv_12_rcret_1" title="msg_check_fail" value="0"/>
 		  </list>
 	    </setting_list>
 	  </setting_list>
