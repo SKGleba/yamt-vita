@@ -159,10 +159,10 @@ static wchar_t *scePafToplevelGetText_SceSystemSettingsCore_patched(void *arg, c
     default:                                  language_container = &language_english_us;    break;
   }
   if (msg && sceClibStrncmp(*msg, "msg_", 4) == 0) {
-  #define LANGUAGE_ENTRY(name) \
-  else if (sceClibStrncmp(*msg, #name, sizeof(#name)) == 0) { \
-  return language_container->name; \
-    }
+    #define LANGUAGE_ENTRY(name) \
+      else if (sceClibStrncmp(*msg, #name, sizeof(#name)) == 0) { \
+        return language_container->name; \
+      }
     if (0) {}
     LANGUAGE_ENTRY(msg_storage_devices)
     LANGUAGE_ENTRY(msg_use_yamt)
@@ -173,9 +173,9 @@ static wchar_t *scePafToplevelGetText_SceSystemSettingsCore_patched(void *arg, c
     LANGUAGE_ENTRY(msg_internal_storage)
     LANGUAGE_ENTRY(msg_developer_options)
     LANGUAGE_ENTRY(msg_idle)
-    LANGUAGE_ENTRY(msg_reset_yamt)
-    LANGUAGE_ENTRY(msg_format_gcsd)
-    LANGUAGE_ENTRY(msg_rw_mount_sa0_pd0)
+	LANGUAGE_ENTRY(msg_reset_yamt)
+	LANGUAGE_ENTRY(msg_format_gcsd)
+	LANGUAGE_ENTRY(msg_rw_mount_sa0_pd0)
     #undef LANGUAGE_ENTRY
   }
   return TAI_CONTINUE(wchar_t *, g_scePafToplevelGetText_SceSystemSettingsCore_hook, arg, msg);
@@ -234,7 +234,7 @@ static SceUID sceKernelLoadStartModule_SceSettings_patched(char *path, SceSize a
                                         0xC436F916, // SceRegMgr
                                         0x58421DD1, 
                                         sceRegMgrGetKeysInfo_SceSystemSettingsCore_patched);
-    g_hooks[6] = taiHookFunctionImport(&g_scePafToplevelGetText_SceSystemSettingsCore_hook, 
+	g_hooks[6] = taiHookFunctionImport(&g_scePafToplevelGetText_SceSystemSettingsCore_hook, 
                                         "SceSystemSettingsCore", 
                                         0x4D9A9DD0, // ScePafToplevel
                                         0x19CEFDA7, 
@@ -251,7 +251,7 @@ static int sceKernelStopUnloadModule_SceSettings_patched(SceUID modid, SceSize a
     if (g_hooks[3] >= 0) taiHookRelease(g_hooks[3], g_sceRegMgrGetKeyInt_SceSystemSettingsCore_hook);
     if (g_hooks[4] >= 0) taiHookRelease(g_hooks[4], g_sceRegMgrSetKeyInt_SceSystemSettingsCore_hook);
     if (g_hooks[5] >= 0) taiHookRelease(g_hooks[5], g_sceRegMgrGetKeysInfo_SceSystemSettingsCore_hook);
-    if (g_hooks[6] >= 0) taiHookRelease(g_hooks[6], g_scePafToplevelGetText_SceSystemSettingsCore_hook);
+	if (g_hooks[6] >= 0) taiHookRelease(g_hooks[6], g_scePafToplevelGetText_SceSystemSettingsCore_hook);
   }
   return TAI_CONTINUE(int, g_sceKernelStopUnloadModule_SceSettings_hook, modid, args, argp, flags, option, status);
 }
